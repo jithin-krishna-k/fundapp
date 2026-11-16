@@ -6,5 +6,8 @@ import { defineConfig } from "vite";
 export default defineConfig({
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
   server: { port: 3000 },
+  preview: {
+    allowedHosts: ["fundapp.onrender.com"],
+  },
   plugins: [tanstackStart({ srcDirectory: "src" }), react()],
 });
