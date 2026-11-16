@@ -4,7 +4,13 @@ export default defineConfig({
   // Declare your Neon services here
   preview: {
     // Every origin the browser app runs on (dev server uses 3000, or 3001 if 3000 is taken).
-    realtime: { allowedOrigins: ["http://localhost:3000", "http://localhost:3001"] },
+    realtime: {
+      allowedOrigins: [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://fundapp.onrender.com",
+      ],
+    },
   },
   auth: true,
   // Branch policy: per-branch tuning
