@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 44 41% 95%;
+    --foreground: 0 0% 13%;
+
+    --card: 44 44% 98%;
+    --card-foreground: 0 0% 13%;
+
+    --popover: 44 46% 98%;
+    --popover-foreground: 0 0% 13%;
+
+    --primary: 17 56% 52%;
+    --primary-foreground: 42 50% 97%;
+
+    --secondary: 42 30% 91%;
+    --secondary-foreground: 0 0% 13%;
+
+    --muted: 42 28% 92%;
+    --muted-foreground: 40 6% 40%;
+
+    --accent: 42 32% 90%;
+    --accent-foreground: 0 0% 13%;
+
+    --destructive: 2 60% 44%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 42 24% 86%;
+    --input: 42 24% 84%;
+    --ring: 17 56% 52%;
+
+    --radius: 1.1rem;
+
+    --chart-1: 17 56% 52%;
+    --chart-2: 152 26% 42%;
+    --chart-3: 40 45% 58%;
+    --chart-4: 214 26% 46%;
+    --chart-5: 340 32% 52%;
+
+    --cream: 44 41% 95%;
+    --clay: 17 56% 52%;
+
+    --font-display: "Plus Jakarta Sans", "Manjari", system-ui, -apple-system, sans-serif;
+    --font-body: "Plus Jakarta Sans", "Manjari", system-ui, -apple-system, sans-serif;
+    --font-heading: "Plus Jakarta Sans", "Manjari", system-ui, -apple-system, sans-serif;
+    --font-logo: "Archivo Black", "Plus Jakarta Sans", sans-serif;
+    --font-mal: "Manjari", "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --sidebar-background: 44 46% 97%;
+    --sidebar-foreground: 0 0% 13%;
+    --sidebar-primary: 17 56% 52%;
+    --sidebar-primary-foreground: 42 50% 97%;
+    --sidebar-accent: 42 32% 92%;
+    --sidebar-accent-foreground: 0 0% 13%;
+    --sidebar-border: 42 24% 88%;
+    --sidebar-ring: 17 56% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-weight: 450;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.18);
+  }
+}
+
+@layer utilities {
+  .font-mal {
+    font-family: var(--font-mal);
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .page-enter {
+    animation: pageEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .land-rise {
+    animation: pageEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Warm paper background for the public landing page. */
+  .land-paper {
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(1100px 520px at 82% -8%, hsl(var(--primary) / 0.1), transparent 65%),
+      radial-gradient(760px 420px at -6% 32%, hsl(152 26% 42% / 0.07), transparent 70%);
+  }
+
+  .land-ledger-lines {
+    background-color: hsl(var(--card));
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

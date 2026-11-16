@@ -1,0 +1,944 @@
+
+  [32m[1mVITE[22m v8.3.8[39m  [2mready in [0m[1m3502[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m10:59:45 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m connected.
+[2m11:00:02 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [optimizer] bundling dependencies...
+[2m11:00:03 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mdependencies optimized: [33m@neon/auth, @radix-ui/react-slot, @tanstack/react-query, @tanstack/react-router-ssr-query, class-variance-authority, clsx, lucide-react, next-themes, sonner, tailwind-merge[32m[39m
+[2m11:00:03 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32moptimized dependencies changed. reloading[39m
+[2m11:00:08 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:00:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [optimizer] bundling dependencies...
+[2m11:00:12 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mdependencies optimized: [33m@neon/realtime-react, @neon/realtime/client, @radix-ui/react-dialog[32m[39m
+[2m11:00:12 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32moptimized dependencies changed. reloading[39m
+[2m11:00:17 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:00:20 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReceived `true` for a non-boolean attribute `text-muted-foreground`.
+
+If you want to write it to the DOM, pass a string instead: text-muted-foreground="true" or text-muted-foreground={value.toString()}.
+[2m11:01:46 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mpage.html[22m
+[2m11:01:49 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mpage.html[22m
+[2m11:02:21 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:02:24 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReceived `true` for a non-boolean attribute `text-muted-foreground`.
+
+If you want to write it to the DOM, pass a string instead: text-muted-foreground="true" or text-muted-foreground={value.toString()}.
+[2m11:02:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/lib/LangContext.jsx[22m
+[2m11:02:54 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/lib/LangContext.jsx[22m
+[2m11:02:54 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:02:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/LangContext.jsx[22m Could not Fast Refresh ("useLang" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:02:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/__root.jsx, /src/components/fund/LoadingState.jsx, /src/routes/_authed/index.jsx?tsr-split=component, /src/components/fund/PendingAccess.jsx, /src/components/Layout.jsx, /src/components/fund/Logo.jsx, /src/components/fund/EmptyState.jsx, /src/components/fund/SectionHeading.jsx, /src/components/dashboard/QuickActions.jsx, /src/components/dashboard/ActivityFeed.jsx, /src/components/fund/StatCard.jsx, /src/components/dashboard/WeeklyCard.jsx, /src/components/fund/LangToggle.jsx and 4 more[22m
+[2m11:02:58 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/StatCard.jsx[22m
+[2m11:03:03 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/StatCard.jsx[22m
+[2m11:05:56 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/StatCard.jsx[22m
+[2m11:08:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/lib/FundContext.jsx, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/components/contributions/PendingPayments.jsx, /src/components/contributions/PayDialog.jsx, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 4 more[22m
+[2m11:08:54 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mhmr update [39m[2m/src/lib/server-fns.js?tss-serverfn-split[22m
+[2m11:08:56 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m hot updated: /src/lib/server-fns.js?tss-serverfn-split
+[2m11:08:56 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/FundContext.jsx[22m Could not Fast Refresh ("useFund" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:08:56 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx?tsr-split=component, /src/routes/_authed/index.jsx?tsr-split=component, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 2 more[22m
+[2m11:09:03 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:09:10 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:09:10 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:09:10 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:09:13 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:09:13 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:09:18 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:09:18 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:09:22 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:09:22 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:09:22 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: RemoveMemberDialog is not defined
+    at MembersPage (http://localhost:3000/src/routes/_authed/members.jsx?t=1794850762370&tsr-split=component:355:28)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <MembersPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:09:22 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/members/members
+[2m11:09:25 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:09:25 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:09:25 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: RemoveMemberDialog is not defined
+    at MembersPage (http://localhost:3000/src/routes/_authed/members.jsx?t=1794850762370&tsr-split=component:355:28)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <MembersPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:09:25 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/members/members
+[2m11:09:25 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: RemoveMemberDialog is not defined
+    at MembersPage (http://localhost:3000/src/routes/_authed/members.jsx?t=1794850765556&tsr-split=component:355:28)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <MembersPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:09:25 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/members/members
+[2m11:09:32 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:09:32 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:09:32 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: RemoveMemberDialog is not defined
+    at MembersPage (http://localhost:3000/src/routes/_authed/members.jsx?t=1794850765556&tsr-split=component:355:28)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <MembersPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:09:32 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/members/members
+[2m11:09:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/PendingAccess.jsx[22m
+[2m11:09:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/PendingAccess.jsx[22m
+[2m11:10:08 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/PendingAccess.jsx[22m
+[2m11:10:12 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/fund/PendingAccess.jsx[22m
+[2m11:14:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/contributions/PayDialog.jsx[22m
+[2m11:15:02 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/contributions/PendingPayments.jsx[22m
+[2m11:15:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/contributions/PendingPayments.jsx[22m
+[2m11:15:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/contributions/PendingPayments.jsx[22m
+[2m11:15:15 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/contributions/PendingPayments.jsx[22m
+[2m11:17:25 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx:173:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:17:25 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:17:27 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx:173:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:17:27 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:17:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/emergency/NewEmergencyDialog.jsx[22m
+[2m11:17:59 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx?t=1794851279234:173:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:17:59 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:17:59 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx?t=1794851279234:173:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:17:59 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:18:01 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx?t=1794851279234:173:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:18:01 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:18:03 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx?t=1794851279234:173:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:18:03 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:18:03 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/emergency/NewEmergencyDialog.jsx[22m
+[2m11:18:03 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mReferenceError: set is not defined
+    at NewEmergencyDialog (http://localhost:3000/src/components/emergency/NewEmergencyDialog.jsx?t=1794851283396:172:18)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:14140:12)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:4398:19)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:5773:16)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:6389:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:942:66)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9146:92)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9042:37)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:9026:6)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e130a698:8713:27)
+
+The above error occurred in the <NewEmergencyDialog> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+[2m11:18:03 PM[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mWarning: Error in route match: /_authed/emergency/emergency
+[2m11:18:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/emergency/NewEmergencyDialog.jsx[22m
+[2m11:18:12 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/emergency/NewEmergencyDialog.jsx[22m
+[2m11:18:49 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/withdrawals/NewRequestDialog.jsx[22m
+[2m11:18:53 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/components/withdrawals/NewRequestDialog.jsx[22m
+[2m11:21:55 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+Error: aborted
+    at abortIncoming (node:_http_server:838:17)
+    at socketOnClose (node:_http_server:832:3)
+    at Socket.emit (node:events:531:35)
+    at TCP.<anonymous> (node:net:347:12)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ECONNRESET'
+}
+Error: aborted
+    at abortIncoming (node:_http_server:838:17)
+    at socketOnClose (node:_http_server:832:3)
+    at Socket.emit (node:events:531:35)
+    at TCP.<anonymous> (node:net:347:12)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ECONNRESET'
+}
+[2m11:21:56 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:21:57 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mdependencies optimized: [33m@radix-ui/react-label, @radix-ui/react-popover, cmdk, input-otp[32m[39m
+[2m11:21:57 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32moptimized dependencies changed. reloading[39m
+[2m11:22:01 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:24:01 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:24:20 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+Error: aborted
+    at abortIncoming (node:_http_server:838:17)
+    at socketOnClose (node:_http_server:832:3)
+    at Socket.emit (node:events:531:35)
+    at TCP.<anonymous> (node:net:347:12)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ECONNRESET'
+}
+Error: aborted
+    at abortIncoming (node:_http_server:838:17)
+    at socketOnClose (node:_http_server:832:3)
+    at Socket.emit (node:events:531:35)
+    at TCP.<anonymous> (node:net:347:12)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17) {
+  code: 'ECONNRESET'
+}
+[2m11:24:21 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:24:43 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[server fn error] entityCall error: duplicate key value violates unique constraint "app_records_member_email_uniq"
+    at D:\fund\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async insertMany (D:\fund\src\lib\db.server.js:113:22)
+    at async Object.create (D:\fund\src\lib\db.server.js:135:30)
+    at async options.server (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:927:30)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async eval (D:\fund\src\lib\error-capture.js:15:14)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async executeMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:355:12) {
+  length: 286,
+  severity: 'ERROR',
+  code: '23505',
+  detail: "Key (lower(data ->> 'user_email'::text))=(jithinkrishnadevhouse@gmail.com) already exists.",
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'app_records',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'app_records_member_email_uniq',
+  file: 'nbtinsert.c',
+  line: '667',
+  routine: '_bt_check_unique'
+}
+[server fn error] entityCall error: duplicate key value violates unique constraint "app_records_member_email_uniq"
+    at D:\fund\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async insertMany (D:\fund\src\lib\db.server.js:113:22)
+    at async Object.create (D:\fund\src\lib\db.server.js:135:30)
+    at async options.server (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:927:30)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async eval (D:\fund\src\lib\error-capture.js:15:14)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async executeMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:355:12) {
+  length: 286,
+  severity: 'ERROR',
+  code: '23505',
+  detail: "Key (lower(data ->> 'user_email'::text))=(jithinkrishnadevhouse@gmail.com) already exists.",
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'app_records',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'app_records_member_email_uniq',
+  file: 'nbtinsert.c',
+  line: '667',
+  routine: '_bt_check_unique'
+}
+[server fn error] entityCall error: duplicate key value violates unique constraint "app_records_member_email_uniq"
+    at D:\fund\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async insertMany (D:\fund\src\lib\db.server.js:113:22)
+    at async Object.create (D:\fund\src\lib\db.server.js:135:30)
+    at async options.server (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:927:30)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async eval (D:\fund\src\lib\error-capture.js:15:14)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async executeMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:355:12) {
+  length: 286,
+  severity: 'ERROR',
+  code: '23505',
+  detail: "Key (lower(data ->> 'user_email'::text))=(jithinkrishnadevhouse@gmail.com) already exists.",
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'app_records',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'app_records_member_email_uniq',
+  file: 'nbtinsert.c',
+  line: '667',
+  routine: '_bt_check_unique'
+}
+[server fn error] entityCall error: duplicate key value violates unique constraint "app_records_member_email_uniq"
+    at D:\fund\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async insertMany (D:\fund\src\lib\db.server.js:113:22)
+    at async Object.create (D:\fund\src\lib\db.server.js:135:30)
+    at async options.server (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:927:30)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async eval (D:\fund\src\lib\error-capture.js:15:14)
+    at async callNextMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:313:18)
+    at async executeMiddleware (D:\fund\node_modules\@tanstack\start-client-core\src\createServerFn.ts:355:12) {
+  length: 286,
+  severity: 'ERROR',
+  code: '23505',
+  detail: "Key (lower(data ->> 'user_email'::text))=(jithinkrishnadevhouse@gmail.com) already exists.",
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'app_records',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'app_records_member_email_uniq',
+  file: 'nbtinsert.c',
+  line: '667',
+  routine: '_bt_check_unique'
+}
+[2m11:28:25 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:30:40 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/lib/FundContext.jsx, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/components/contributions/PendingPayments.jsx, /src/components/contributions/PayDialog.jsx, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 6 more[22m
+[2m11:30:40 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mhmr update [39m[2m/src/lib/server-fns.js?tss-serverfn-split[22m
+[2m11:30:41 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m hot updated: /src/lib/server-fns.js?tss-serverfn-split
+[2m11:30:41 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/FundContext.jsx[22m Could not Fast Refresh ("useFund" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:30:41 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx?tsr-split=component, /src/routes/_authed/index.jsx?tsr-split=component, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 4 more[22m
+[2m11:30:46 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/lib/FundContext.jsx, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/components/contributions/PendingPayments.jsx, /src/components/contributions/PayDialog.jsx, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 6 more[22m
+[2m11:30:46 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mhmr update [39m[2m/src/lib/server-fns.js?tss-serverfn-split[22m
+[2m11:30:47 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m hot updated: /src/lib/server-fns.js?tss-serverfn-split
+[2m11:30:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/FundContext.jsx[22m Could not Fast Refresh ("useFund" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:30:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx?tsr-split=component, /src/routes/_authed/index.jsx?tsr-split=component, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 4 more[22m
+[2m11:30:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:30:54 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:30:54 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:31:01 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:31:01 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:31:18 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:31:18 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:31:19 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/lib/FundContext.jsx[22m
+[2m11:31:19 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/FundContext.jsx[22m Could not Fast Refresh ("useFund" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:31:19 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx?tsr-split=component, /src/routes/_authed/index.jsx?tsr-split=component, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 4 more[22m
+[2m11:31:20 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/lib/LangContext.jsx, /src/lib/AuthContext.jsx, /src/lib/FundContext.jsx, /src/components/contributions/PendingPayments.jsx, /src/components/contributions/PayDialog.jsx, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/expenses.jsx?tsr-split=component, /src/routes/_authed/emergency.jsx?tsr-split=component, /src/components/emergency/NewEmergencyDialog.jsx and 9 more[22m
+[2m11:31:20 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/lib/backend-fns.js[22m
+[2m11:31:20 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:31:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/LangContext.jsx[22m Could not Fast Refresh ("useLang" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:31:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/__root.jsx, /src/components/fund/LoadingState.jsx, /src/routes/_authed/index.jsx?tsr-split=component, /src/components/fund/PendingAccess.jsx, /src/components/Layout.jsx, /src/components/fund/Logo.jsx, /src/components/fund/EmptyState.jsx, /src/components/fund/SectionHeading.jsx, /src/components/dashboard/QuickActions.jsx, /src/components/dashboard/ActivityFeed.jsx, /src/components/fund/StatCard.jsx, /src/components/dashboard/WeeklyCard.jsx, /src/components/fund/LangToggle.jsx and 17 more[22m
+[2m11:31:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/AuthContext.jsx[22m Could not Fast Refresh ("authQuery" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:31:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/__root.jsx, /src/components/auth/AuthGate.jsx, /src/components/auth/UserNotRegistered.jsx, /src/components/fund/PendingAccess.jsx, /src/lib/FundContext.jsx, /src/components/Layout.jsx, /src/routes/_authed/settings.jsx?tsr-split=component[22m
+[2m11:31:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/FundContext.jsx[22m Could not Fast Refresh ("useFund" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:31:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx?tsr-split=component, /src/routes/_authed/index.jsx?tsr-split=component, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 4 more[22m
+[2m11:31:23 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/components/auth/AuthGate.jsx[22m Could not Fast Refresh ("requireSignedIn" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:31:23 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx[22m
+[2m11:36:23 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:36:41 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:40:40 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
+                            lang="ml"
+-                           suppresshydrationwarning="true"
+-                           data-qb-installed="true"
+                          >
+
+[2m11:43:01 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:44 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:51 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:52 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:43:58 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:44:45 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:45:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:45:11 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:45:11 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:46:08 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/lib/FundContext.jsx, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/components/contributions/PendingPayments.jsx, /src/components/contributions/PayDialog.jsx, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 6 more[22m
+[2m11:46:08 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mhmr update [39m[2m/src/lib/server-fns.js?tss-serverfn-split[22m
+[2m11:46:09 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m hot updated: /src/lib/server-fns.js?tss-serverfn-split
+[2m11:46:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/FundContext.jsx[22m Could not Fast Refresh ("useFund" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m11:46:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/_authed.jsx?tsr-split=component, /src/routes/_authed/index.jsx?tsr-split=component, /src/routes/_authed/contributions.jsx?tsr-split=component, /src/routes/_authed/members.jsx?tsr-split=component, /src/routes/_authed/reports.jsx?tsr-split=component, /src/routes/_authed/rules.jsx?tsr-split=component, /src/routes/_authed/settings.jsx?tsr-split=component, /src/routes/_authed/transactions.jsx?tsr-split=component, /src/routes/_authed/interest.jsx?tsr-split=component and 5 more[22m
+[2m11:46:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:46:11 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:46:11 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:46:18 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:46:18 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:46:23 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/routes/_authed/members.jsx, /src/routes/_authed/members.jsx?tsr-split=component[22m
+[2m11:46:23 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/members.jsx[22m
+[2m11:48:24 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/routes/_authed/index.jsx, /src/routes/_authed/index.jsx?tsr-split=component[22m
+[2m11:48:24 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/index.jsx[22m
+[2m11:48:24 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:48:24 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/routeTree.gen.ts[22m
+[2m11:48:24 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routeTree.gen.ts[22m
+[2m11:48:24 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/routes/_authed/index.jsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2m11:48:28 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/dashboard.jsx[22m
+[2m11:48:28 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/dashboard.jsx[22m
+[2m11:48:28 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:51:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/_authed/dashboard.jsx[22m
+[2m11:51:11 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routes/_authed/dashboard.jsx[22m
+[2m11:51:11 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:51:28 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/routes/__root.jsx, /src/index.css[22m
+[2m11:51:28 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/index.css[22m
+[2m11:52:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/routeTree.gen.ts[22m
+[2m11:52:47 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/routeTree.gen.ts[22m
+[2m11:52:47 PM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m11:52:49 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m11:52:58 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/components/Layout.jsx[22m
+[2m12:08:22 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css?direct, /src/index.css, /src/lib/LangContext.jsx[22m
+[2m12:08:22 AM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m [32mpage reload [39m[2msrc/lib/LangContext.jsx[22m
+[2m12:08:22 AM[22m [36m[1m[vite][22m[39m [34m[2m(ssr)[22m[39m program reload
+[2m12:08:22 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/lib/LangContext.jsx[22m Could not Fast Refresh ("useLang" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m12:08:22 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/__root.jsx, /src/components/fund/LoadingState.jsx, /src/components/fund/PendingAccess.jsx, /src/components/Layout.jsx, /src/components/fund/Logo.jsx, /src/components/fund/EmptyState.jsx, /src/components/fund/SectionHeading.jsx, /src/components/dashboard/QuickActions.jsx, /src/components/dashboard/ActivityFeed.jsx, /src/components/fund/StatCard.jsx, /src/components/dashboard/WeeklyCard.jsx, /src/components/fund/LangToggle.jsx, /src/routes/_authed/contributions.jsx?tsr-split=component and 18 more[22m
+
+D:\fund>

@@ -1,0 +1,256 @@
+﻿import { useMemo, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { BellRing, ChevronLeft, ChevronRight, RefreshCw, Wallet } from "lucide-react";
+import PageHeader from "@/components/fund/PageHeader";
+import SectionHeading from "@/components/fund/SectionHeading";
+import StatusPill from "@/components/fund/StatusPill";
+import EmptyState from "@/components/fund/EmptyState";
+import PayDialog from "@/components/contributions/PayDialog";
+import PendingPayments from "@/components/contributions/PendingPayments";
+import { useFund } from "@/lib/FundContext";
+import { useLang } from "@/lib/LangContext";
+import { cn } from "@/lib/utils";
+import { addDays, formatDate, inr, isoDate } from "@/lib/format";
+import { lateInterest } from "@/lib/finance";
+import { generateWeek, sendContributionReminders } from "@/lib/server-fns";
+
+export const Route = createFileRoute("/_authed/contributions")({
+  component: ContributionsPage,
+});
+
+function ContributionsPage() {
+  const fund = useFund();
+  const { lang, t } = useLang();
+  const { contributions, settings, myMember, isHandler, transactions, members } = fund;
+  const [weekStart, setWeekStart] = useState(fund.weekStart);
+  const [payTarget, setPayTarget] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  const rows = useMemo(
+    () => contributions.filter((c) => c.week_start === weekStart).sort((a, b) => (a.member_name || "").localeCompare(b.member_name || "")),
+    [contributions, weekStart]
+  );
+
+  const pendingOnline = transactions.filter((t) => t.status === "pending" && t.category === "weekly_contribution");
+  const myHistory = contributions
+    .filter((c) => c.member_email === myMember?.user_email)
+    .slice()
+    .sort((a, b) => (a.week_start < b.week_start ? 1 : -1));
+
+  const paidCount = rows.filter((r) => r.status === "paid").length;
+  const totalDue = rows.reduce((sum, r) => sum + (Number(r.amount_due) - Number(r.amount_paid || 0)), 0);
+
+  const shift = (days) => setWeekStart(isoDate(addDays(new Date(weekStart), days)));
+
+  const generate = async () => {
+    setBusy(true);
+    try {
+      const result = await generateWeek({ data: { week_start: weekStart } });
+      toast.success(
+        result.created
+          ? t(`${result.created} à´…à´‚à´—à´™àµà´™àµ¾à´•àµà´•àµ à´°àµ‡à´– à´¸àµƒà´·àµà´Ÿà´¿à´šàµà´šàµ`, `Created records for ${result.created} members`)
+          : t("This week's records already exist", "à´ˆ à´†à´´àµà´šà´¯àµà´Ÿàµ† à´°àµ‡à´–à´•àµ¾ à´‡à´¤à´¿à´¨à´•à´‚ à´‰à´£àµà´Ÿàµ")
+      );
+      fund.reload();
+    } catch (error) {
+      toast.error(error?.message || "à´¸àµƒà´·àµà´Ÿà´¿à´•àµà´•à´¾à´¨à´¾à´¯à´¿à´²àµà´²");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const remind = async () => {
+    setBusy(true);
+    try {
+      const result = await sendContributionReminders({ data: { week_start: weekStart } });
+      toast.success(t(`${result.sent} à´…à´‚à´—à´™àµà´™àµ¾à´•àµà´•àµ à´“àµ¼à´®àµà´®à´ªàµà´ªàµ†à´Ÿàµà´¤àµà´¤àµ½ à´…à´¯à´šàµà´šàµ`, `Reminders sent to ${result.sent} members`));
+    } catch (error) {
+      toast.error(error?.message || "à´…à´¯à´•àµà´•à´¾à´¨à´¾à´¯à´¿à´²àµà´²");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const statusFor = (row) => {
+    if (row.status === "paid") return "paid";
+    if (row.due_date && new Date(row.due_date) < new Date()) return "overdue";
+    return row.status === "partial" ? "partial" : "pending";
+  };
+
+  return (
+    <div className="page-enter space-y-6">
+      <PageHeader
+        ml="à´†à´´àµà´š à´¸à´‚à´­à´¾à´µà´¨à´•àµ¾"
+        en="Weekly contributions"
+        description={`à´“à´°àµ‹ à´…à´‚à´—à´µàµà´‚ à´†à´´àµà´šà´¯à´¿àµ½ ${inr(settings?.weekly_amount || 250)} à´…à´Ÿà´¯àµà´•àµà´•à´£à´‚. à´…à´Ÿà´šàµà´šà´¤àµà´‚ à´¬à´¾à´•àµà´•à´¿à´¯àµà´³àµà´³à´¤àµà´‚ à´‡à´µà´¿à´Ÿàµ† à´•à´¾à´£à´¾à´‚.`}
+        action={
+          isHandler ? (
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={generate}
+                disabled={busy}
+                className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground disabled:opacity-60"
+              >
+                <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("à´ˆ à´†à´´àµà´š à´¸àµƒà´·àµà´Ÿà´¿à´•àµà´•àµà´•", "Generate this week")}
+              </button>
+              <button
+                onClick={remind}
+                disabled={busy || !rows.length}
+                className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[11.5px] text-foreground/80 disabled:opacity-60"
+              >
+                <BellRing className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("à´“àµ¼à´®àµà´®à´ªàµà´ªàµ†à´Ÿàµà´¤àµà´¤àµ½", "Remind")}
+              </button>
+            </div>
+          ) : null
+        }
+      />
+
+      <section className="rounded-[1.4rem] border border-border bg-card p-4 sm:p-5">
+        <div className="flex items-center justify-between gap-3">
+          <button onClick={() => shift(-7)} className="grid h-8 w-8 place-items-center rounded-full border border-border text-muted-foreground">
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <div className="text-center">
+            <p className="font-mal text-[13px]">
+              {formatDate(weekStart)} â€“ {formatDate(isoDate(addDays(new Date(weekStart), 6)))}
+            </p>
+            <p className={cn("mt-0.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground", lang === "en" ? "font-mal" : "")}>
+              {t("à´¸à´‚à´­à´¾à´µà´¨ à´†à´´àµà´š", "Contribution week")}
+            </p>
+          </div>
+          <button onClick={() => shift(7)} className="grid h-8 w-8 place-items-center rounded-full border border-border text-muted-foreground">
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border/70 pt-4">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{t("à´…à´Ÿà´šàµà´šà´¤àµ", "Paid")}</p>
+            <p className="tnum mt-1 font-display text-[1.1rem]">
+              {paidCount}/{rows.length || members.filter((m) => m.status === "active").length}
+            </p>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{t("à´¬à´¾à´•àµà´•à´¿", "Pending")}</p>
+            <p className="tnum mt-1 font-display text-[1.1rem]">{rows.length - paidCount}</p>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{t("à´¶àµ‡à´–à´°à´¿à´•àµà´•à´¾à´¨àµà´³àµà´³à´¤àµ", "To collect")}</p>
+            <p className="tnum mt-1 font-display text-[1.1rem]">{inr(totalDue)}</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionHeading ml="à´ˆ à´†à´´àµà´šà´¯à´¿à´²àµ† à´…à´‚à´—à´™àµà´™àµ¾" en="Member status" />
+        {rows.length === 0 ? (
+          <EmptyState
+            icon={Wallet}
+            ml="à´ˆ à´†à´´àµà´šà´¯àµà´Ÿàµ† à´°àµ‡à´–à´•àµ¾ à´‡à´²àµà´²"
+            en="No contributions generated for this week"
+            action={
+              isHandler ? (
+                <button onClick={generate} disabled={busy} className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground">
+                  {t("à´°àµ‡à´–à´•àµ¾ à´¸àµƒà´·àµà´Ÿà´¿à´•àµà´•àµà´•", "Generate records")}
+                </button>
+              ) : (
+                <p className="font-mal text-[11.5px] text-muted-foreground">{t("à´•àµà´¯à´¾à´·àµ à´¹à´¾àµ»à´¡àµà´²àµ¼ à´°àµ‡à´–à´•àµ¾ à´¸àµƒà´·àµà´Ÿà´¿à´•àµà´•àµà´‚", "The cash handler will generate the records")}</p>
+              )
+            }
+          />
+        ) : (
+          <div className="overflow-hidden rounded-[1.2rem] border border-border bg-card">
+            {rows.map((row, index) => {
+              const status = statusFor(row);
+              const late = lateInterest({ ...row, status }, settings);
+              const isMine = row.member_email === myMember?.user_email;
+              return (
+                <div
+                  key={row.id}
+                  className={`flex flex-wrap items-center gap-3 px-4 py-3 ${index ? "border-t border-border/70" : ""}`}
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mal text-[12.5px] leading-tight">
+                      {row.member_name}
+                      {isMine && (
+                        <span className="ml-2 text-[10px] uppercase tracking-[0.12em] text-primary">{t("à´¨à´¿à´™àµà´™àµ¾", "you")}</span>
+                      )}
+                    </p>
+                    <p className="mt-1 text-[10.5px] text-muted-foreground">
+                      {inr(row.amount_paid || 0)} / {inr(row.amount_due)}
+                      {row.paid_date ? ` Â· ${formatDate(row.paid_date)}` : ""}
+                      {late.interest > 0 ? ` Â· ${t("à´ªà´²à´¿à´¶", "Interest")} ${inr(late.interest)}` : ""}
+                    </p>
+                  </div>
+                  <StatusPill tone={status}>
+                    {status === "paid"
+                      ? t("à´…à´Ÿà´šàµà´šàµ", "Paid")
+                      : status === "overdue"
+                        ? t("à´•à´¾à´²à´¤à´¾à´®à´¸à´‚", "Overdue")
+                        : status === "partial"
+                          ? t("à´­à´¾à´—à´¿à´•à´‚", "Partial")
+                          : t("à´¬à´¾à´•àµà´•à´¿", "Pending")}
+                  </StatusPill>
+                  {status !== "paid" && (isMine || isHandler) && (
+                    <button
+                      onClick={() => setPayTarget(row)}
+                      className="rounded-full bg-primary/10 px-3 py-1.5 text-[11px] text-primary"
+                    >
+                      {isMine ? t("à´…à´Ÿà´¯àµà´•àµà´•àµà´•", "Pay") : t("à´•àµà´¯à´¾à´·àµ à´°àµ‡à´–à´ªàµà´ªàµ†à´Ÿàµà´¤àµà´¤àµà´•", "Record cash")}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      {isHandler && pendingOnline.length > 0 && (
+        <section>
+          <SectionHeading ml="à´ªà´°à´¿à´¶àµ‹à´§à´¨à´¯àµà´•àµà´•à´¾à´¯à´¿ à´•à´¾à´¤àµà´¤à´¿à´°à´¿à´•àµà´•àµà´¨àµà´¨àµ" en="Awaiting verification" />
+          <PendingPayments items={pendingOnline} onDone={() => fund.reload()} />
+        </section>
+      )}
+
+      <section>
+        <SectionHeading ml="à´Žà´¨àµà´±àµ† à´¸à´‚à´­à´¾à´µà´¨ à´šà´°à´¿à´¤àµà´°à´‚" en="My contribution history" />
+        {myHistory.length === 0 ? (
+          <EmptyState icon={Wallet} ml="à´‡à´¤àµà´µà´°àµ† à´¸à´‚à´­à´¾à´µà´¨ à´°àµ‡à´–à´•àµ¾ à´‡à´²àµà´²" en="No contribution records yet" />
+        ) : (
+          <div className="overflow-hidden rounded-[1.2rem] border border-border bg-card">
+            {myHistory.slice(0, 12).map((row, index) => (
+              <div key={row.id} className={`flex items-center justify-between gap-3 px-4 py-3 ${index ? "border-t border-border/70" : ""}`}>
+                <div>
+                  <p className="text-[12px]">{formatDate(row.week_start)}</p>
+                  <p className="mt-0.5 text-[10.5px] text-muted-foreground">
+                    {row.method === "cash" ? t("à´•àµà´¯à´¾à´·àµ", "Cash") : row.method === "online" ? t("à´“àµºà´²àµˆàµ»", "Online") : "â€”"}
+                  </p>
+                </div>
+                <p className="tnum text-[12.5px]">{inr(row.amount_paid || 0)}</p>
+                <StatusPill tone={row.status === "paid" ? "paid" : row.status === "partial" ? "partial" : "pending"}>
+                  {row.status === "paid"
+                    ? t("à´…à´Ÿà´šàµà´šàµ", "Paid")
+                    : row.status === "partial"
+                      ? t("à´­à´¾à´—à´¿à´•à´‚", "Partial")
+                      : t("à´¬à´¾à´•àµà´•à´¿", "Pending")}
+                </StatusPill>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {payTarget && (
+        <PayDialog
+          contribution={payTarget}
+          allowCash={isHandler}
+          open={!!payTarget}
+          onOpenChange={(next) => !next && setPayTarget(null)}
+          onDone={() => fund.reload()}
+        />
+      )}
+    </div>
+  );
+}
