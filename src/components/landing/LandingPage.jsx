@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -92,15 +92,140 @@ const STEPS = [
   },
 ];
 
-const HERO_ROWS = [
-  { name: "A. Rahman", detail: "Week 24 · contribution", amount: "₹250", state: "Paid" },
-  { name: "Jithin K.", detail: "Week 24 · contribution", amount: "₹250", state: "Paid" },
-  { name: "Niya T.", detail: "Week 24 · contribution", amount: "₹250", state: "Due" },
+// Sample members for the animated preview, in the order they "pay" each week.
+const DEMO_MEMBERS = [
+  "A. Rahman", "Jithin K.", "Niya T.", "Meghu S.", "Arjun P.", "Fathima R.",
+  "Sanjay V.", "Anu M.", "Rahul D.", "Sneha K.", "Vishnu B.", "Ameen H.",
 ];
+const DEMO_WEEKLY = 250;
+const DEMO_START_PAID = 2; // members already paid when the preview starts
+const DEMO_START_BALANCE = 48000;
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(query.matches);
+    update();
+    query.addEventListener?.("change", update);
+    return () => query.removeEventListener?.("change", update);
+  }, []);
+  return reduced;
+}
+
+// Eases a displayed number toward `target`.
+function useAnimatedNumber(target, duration = 700) {
+  const [shown, setShown] = useState(target);
+  const fromRef = useRef(target);
+  useEffect(() => {
+    const from = fromRef.current;
+    if (from === target) return;
+    let frame;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const value = from + (target - from) * (1 - Math.pow(1 - p, 3));
+      setShown(value);
+      fromRef.current = value;
+      if (p < 1) frame = requestAnimationFrame(tick);
+      else fromRef.current = target;
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [target, duration]);
+  return shown;
+}
+
+const rupees = (value) => `₹${Math.round(value).toLocaleString("en-IN")}`;
+
+/**
+ * The live ledger story: the "due" member's payment is verified and marked paid, the totals
+ * tick up, then the next member arrives as due. After all 12 pay, a new week begins.
+ */
+function useLedgerStory(running) {
+  const [story, setStory] = useState(() => ({
+    week: 24,
+    paid: DEMO_START_PAID,
+    balance: DEMO_START_BALANCE + DEMO_START_PAID * DEMO_WEEKLY,
+    // rows: last few events, newest last; the last row is the one in progress
+    rows: [
+      { id: "24-0", name: DEMO_MEMBERS[0], state: "paid" },
+      { id: "24-1", name: DEMO_MEMBERS[1], state: "paid" },
+      { id: "24-2", name: DEMO_MEMBERS[2], state: "due" },
+    ],
+    flash: null,
+  }));
+
+  useEffect(() => {
+    if (!running) return;
+    const timers = [];
+    const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+    const cycle = () => {
+      // 1. Payment arrives → verifying
+      later(1400, () =>
+        setStory((s) => ({ ...s, rows: s.rows.map((r, i) => (i === s.rows.length - 1 ? { ...r, state: "verifying" } : r)) }))
+      );
+      // 2. Verified → paid, totals tick up
+      later(2600, () =>
+        setStory((s) => {
+          const last = s.rows[s.rows.length - 1];
+          return {
+            ...s,
+            paid: s.paid + 1,
+            balance: s.balance + DEMO_WEEKLY,
+            rows: s.rows.map((r) => (r.id === last.id ? { ...r, state: "paid" } : r)),
+            flash: last.id,
+          };
+        })
+      );
+      // 3. Next member arrives as due (or a new week starts)
+      later(4600, () =>
+        setStory((s) => {
+          if (s.paid >= DEMO_MEMBERS.length) {
+            const week = s.week + 1;
+            return {
+              ...s,
+              week,
+              paid: 0,
+              flash: null,
+              rows: [{ id: `${week}-0`, name: DEMO_MEMBERS[0], state: "due" }],
+            };
+          }
+          const next = { id: `${s.week}-${s.paid}`, name: DEMO_MEMBERS[s.paid], state: "due" };
+          return { ...s, flash: null, rows: [...s.rows, next].slice(-3) };
+        })
+      );
+      later(4700, cycle);
+    };
+    cycle();
+    return () => timers.forEach(clearTimeout);
+  }, [running]);
+
+  return story;
+}
 
 function LedgerPanel() {
+  const ref = useRef(null);
+  const reduced = usePrefersReducedMotion();
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.3 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const story = useLedgerStory(inView && !reduced);
+  const balance = useAnimatedNumber(story.balance);
+  const thisWeek = useAnimatedNumber(story.paid * DEMO_WEEKLY);
+  const allPaid = story.paid >= DEMO_MEMBERS.length;
+
   return (
-    <div className="relative mx-auto w-full max-w-2xl">
+    <div ref={ref} className="relative mx-auto w-full max-w-2xl">
       <div className="overflow-hidden rounded-[1.75rem] border border-border bg-card/95 shadow-[0_40px_90px_-55px_rgba(15,40,35,0.55)] backdrop-blur-sm">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">
           <div className="flex items-center gap-3">
@@ -113,11 +238,14 @@ function LedgerPanel() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-border bg-background px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">
-              ₹750 this week
+            <span className="tnum rounded-full border border-border bg-background px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">
+              {rupees(thisWeek)} this week
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              <span className="relative flex h-1.5 w-1.5">
+                {!reduced && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />}
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+              </span>
               Live
             </span>
           </div>
@@ -125,43 +253,61 @@ function LedgerPanel() {
 
         <div className="grid grid-cols-3 gap-px border-b border-border bg-border/70">
           {[
-            { label: "Balance", value: "₹48,250" },
-            { label: "Members", value: "12" },
-            { label: "Weekly", value: "₹250" },
+            { label: "Balance", value: rupees(balance), live: true },
+            { label: "Members", value: String(DEMO_MEMBERS.length) },
+            { label: "Weekly", value: rupees(DEMO_WEEKLY) },
           ].map((item) => (
             <div key={item.label} className="bg-card px-4 py-3 text-center sm:px-5">
               <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{item.label}</p>
-              <p className="tnum mt-1 text-[16px] font-semibold">{item.value}</p>
+              <p className={`tnum mt-1 text-[16px] font-semibold transition-colors duration-500 ${item.live && story.flash ? "text-emerald-700" : ""}`}>
+                {item.value}
+              </p>
             </div>
           ))}
         </div>
 
-        <ul className="divide-y divide-border/70 px-5 sm:px-6">
-          {HERO_ROWS.map((row) => (
-            <li key={row.name} className="flex items-center gap-3 py-4 text-left">
-              <div
-                className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-semibold ${row.state === "Paid"
-                  ? "bg-emerald-700/10 text-emerald-800"
-                  : "bg-primary/10 text-primary"
-                  }`}
+        {/* Fixed height for three rows so the card doesn't jump as rows come and go. */}
+        <ul className="h-[13.5rem] divide-y divide-border/70 overflow-hidden px-5 sm:px-6" aria-live="off">
+          {story.rows.map((row) => {
+            const paid = row.state === "paid";
+            const verifying = row.state === "verifying";
+            return (
+              <li
+                key={row.id}
+                className={`ledger-row flex h-[4.5rem] items-center gap-3 text-left transition-colors duration-700 ${
+                  story.flash === row.id ? "bg-emerald-50/80" : ""
+                }`}
               >
-                {row.state === "Paid" ? <Check className="h-4 w-4" strokeWidth={2} /> : "•"}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[14.5px] font-medium">{row.name}</p>
-                <p className="mt-0.5 text-[12.5px] text-muted-foreground">{row.detail}</p>
-              </div>
-              <div className="text-right">
-                <p className="tnum text-[14.5px] font-semibold">{row.amount}</p>
-                <p
-                  className={`mt-0.5 text-[11.5px] uppercase tracking-[0.14em] ${row.state === "Paid" ? "text-emerald-700" : "text-primary"
-                    }`}
+                <div
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-semibold transition-colors duration-300 ${
+                    paid ? "bg-emerald-700/10 text-emerald-800" : verifying ? "bg-amber-100 text-amber-700" : "bg-primary/10 text-primary"
+                  }`}
                 >
-                  {row.state}
-                </p>
-              </div>
-            </li>
-          ))}
+                  {paid ? (
+                    <Check key="check" className="ledger-pop h-4 w-4" strokeWidth={2.2} />
+                  ) : verifying ? (
+                    <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-amber-600 border-t-transparent" />
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[14.5px] font-medium">{row.name}</p>
+                  <p className="mt-0.5 text-[12.5px] text-muted-foreground">Week {story.week} · contribution</p>
+                </div>
+                <div className="text-right">
+                  <p className="tnum text-[14.5px] font-semibold">{rupees(DEMO_WEEKLY)}</p>
+                  <p
+                    className={`mt-0.5 text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-300 ${
+                      paid ? "text-emerald-700" : verifying ? "text-amber-700" : "text-primary"
+                    }`}
+                  >
+                    {paid ? "Paid" : verifying ? "Verifying…" : "Due"}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-card/70 px-5 py-3.5 text-[12.5px] text-muted-foreground sm:px-6">
@@ -169,7 +315,16 @@ function LedgerPanel() {
             <ShieldCheck className="h-3.5 w-3.5 text-primary" strokeWidth={1.7} />
             Every entry visible to every member
           </span>
-          <span className="uppercase tracking-[0.14em]">3 of 4 paid · Rule 9 protected</span>
+          <span className="tnum uppercase tracking-[0.14em]">
+            {allPaid ? (
+              <span className="text-emerald-700">All {DEMO_MEMBERS.length} paid ✓</span>
+            ) : (
+              <>
+                {story.paid} of {DEMO_MEMBERS.length} paid
+              </>
+            )}{" "}
+            · Rule 9 protected
+          </span>
         </div>
       </div>
     </div>
