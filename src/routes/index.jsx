@@ -4,7 +4,7 @@ import LandingPage from "@/components/landing/LandingPage";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FUND — കൂട്ടായ്മയുടെ പണം, വ്യക്തമായ കണക്കിൽ · Members Only" },
+      { title: "FUND — Group savings, clearly accounted · Members Only" },
       {
         name: "description",
         content:

@@ -415,10 +415,56 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-border/70">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-5 py-6 text-[12px] uppercase tracking-[0.16em] text-muted-foreground sm:flex-row sm:items-center sm:px-8">
-          <span className="font-display text-[0.8rem] tracking-[0.24em] text-foreground/70">FUND</span>
-      <span className="flex flex-col gap-1 sm:items-end sm:text-right"><span>Members only · Private fund group</span><span className="normal-case tracking-[0.08em]">Created by Jithin Krishna</span></span>
+      <footer className="border-t border-border bg-card">
+        <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8 sm:pb-10">
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+            <div className="max-w-sm">
+              <span
+                style={{ fontFamily: '"Archivo Black", "Plus Jakarta Sans", sans-serif' }}
+                className="text-[1.4rem] leading-none text-foreground"
+              >
+                FUND
+              </span>
+              <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
+                A private savings group for friends. Weekly contributions, fair loans and an open ledger every member can see.
+              </p>
+            </div>
+
+            <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 text-[14.5px]">
+              {user ? (
+                <Link to="/dashboard" className="font-medium text-foreground/80 transition-colors hover:text-primary">
+                  Go to dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login" className="font-medium text-foreground/80 transition-colors hover:text-primary">
+                    Log in
+                  </Link>
+                  <Link to="/register" className="font-medium text-foreground/80 transition-colors hover:text-primary">
+                    Register
+                  </Link>
+                </>
+              )}
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 font-medium text-foreground/80 transition-colors hover:text-primary"
+              >
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+                WhatsApp group
+              </a>
+            </nav>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6 text-[13.5px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              © {new Date().getFullYear()} FUND · Members only
+            </p>
+            <p>
+              Created by <span className="font-medium text-foreground/80">Jithin Krishna</span>
+            </p>
+          </div>
         </div>
       </footer>
 

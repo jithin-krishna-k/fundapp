@@ -12,7 +12,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FUND Â· à´«à´£àµà´Ÿàµ à´—àµà´°àµ‚à´ªàµà´ªàµ â€” Members Only" },
+      { title: "FUND · Fund Group — Members Only" },
       { name: "description", content: "Private weekly savings and lending management for the FUND group." },
       { name: "theme-color", content: "#F7F9FC" },
     ],
