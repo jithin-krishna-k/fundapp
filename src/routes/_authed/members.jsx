@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Check, Loader2, ShieldCheck, ShieldOff, UserMinus, UserPlus, Users, X } from "lucide-react";
@@ -22,8 +22,8 @@ export const Route = createFileRoute("/_authed/members")({
 });
 
 const ROLE_LABEL = {
-  super_admin: { ml: "അഡ്മിൻ", en: "Admin" },
-  cash_handler: { ml: "ക്യാഷ് ഹാൻഡ്ലർ", en: "Cash handler" },
+  super_admin: { ml: "അഡ്‌മിൻ", en: "Admin" },
+  cash_handler: { ml: "കാഷ് ഹാൻഡ്ലർ", en: "Cash handler" },
   member: { ml: "അംഗം", en: "Member" },
 };
 
@@ -59,18 +59,18 @@ function MembersPage() {
         description={t(`${active.length} സജീവ അംഗങ്ങൾ`, `${active.length} active members`)}
         action={
           isAdmin ? (
-            <div className="flex gap-2">
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
               <button
                 onClick={() => setInviteOpen(true)}
-                className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
+                className="flex w-full items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground sm:w-auto"
               >
                 <UserPlus className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("അംഗത്തെ ക്ഷണിക്കുക", "Invite member")}
               </button>
               <button
                 onClick={() => setHandoverOpen(true)}
-                className="rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80"
+                className="w-full rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80 sm:w-auto"
               >
-                {t("ക്യാഷ് ഹാൻഡ്ലർ മാറ്റുക", "Change cash handler")}
+                {t("കാഷ് ഹാൻഡ്ലർ മാറ്റുക", "Change cash handler")}
               </button>
             </div>
           ) : null
@@ -84,7 +84,7 @@ function MembersPage() {
       <section>
         <SectionHeading ml="ഗ്രൂപ്പ് അംഗങ്ങൾ" en="Group members" />
         {active.length === 0 ? (
-          <EmptyState icon={Users} ml="അംഗങ്ങൾ ഇല്ല" en="No active members yet" />
+          <EmptyState icon={Users} ml="സജീവ അംഗങ്ങൾ ഇല്ല" en="No active members yet" />
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {active.map((member) => {
@@ -94,28 +94,33 @@ function MembersPage() {
               return (
                 <article
                   key={member.id}
-                  className={`flex flex-col rounded-2xl border bg-card p-5 transition-shadow hover:shadow-md ${
+                  className={`flex flex-col rounded-2xl border bg-card p-4 transition-shadow hover:shadow-md sm:p-5 ${
                     isMe ? "border-primary/40 ring-1 ring-primary/15" : "border-border"
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary/10 text-[17px] font-semibold text-primary">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary/10 text-[16px] font-semibold text-primary sm:h-12 sm:w-12 sm:text-[17px]">
                       {initial}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="truncate font-mal text-[15.5px] font-semibold">{member.full_name}</p>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <p className="min-w-0 break-words font-mal text-[15px] font-semibold sm:text-[15.5px]">{member.full_name}</p>
                         {isMe && (
                           <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[11px] font-medium text-primary-foreground">
                             {t("നിങ്ങൾ", "You")}
                           </span>
                         )}
                       </div>
-                      <p className="mt-0.5 truncate text-[12.5px] text-muted-foreground" title={member.user_email}>
+                      <p className="mt-0.5 break-all text-[12.5px] text-muted-foreground sm:truncate" title={member.user_email}>
                         {member.user_email}
                       </p>
+                      <div className="mt-2 sm:hidden">
+                        <StatusPill tone={member.fund_role === "super_admin" ? "accent" : member.fund_role === "cash_handler" ? "partial" : "neutral"}>
+                          {t(ROLE_LABEL[member.fund_role]?.ml, ROLE_LABEL[member.fund_role]?.en)}
+                        </StatusPill>
+                      </div>
                     </div>
-                    <div className="shrink-0">
+                    <div className="hidden shrink-0 sm:block">
                       <StatusPill tone={member.fund_role === "super_admin" ? "accent" : member.fund_role === "cash_handler" ? "partial" : "neutral"}>
                         {t(ROLE_LABEL[member.fund_role]?.ml, ROLE_LABEL[member.fund_role]?.en)}
                       </StatusPill>
@@ -124,17 +129,17 @@ function MembersPage() {
 
                   <dl className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
                     <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
-                      <dt className="font-mal text-[12px] text-muted-foreground">{t("സംഭാവന", "Contributed")}</dt>
+                      <dt className="font-mal text-[12px] text-muted-foreground">{t("വരവ്", "Contributed")}</dt>
                       <dd className="tnum mt-1 text-[15px] font-semibold text-emerald-700">{inr(contributedBy(member.id))}</dd>
                     </div>
                     <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
-                      <dt className="font-mal text-[12px] text-muted-foreground">{t("ബാക്കി", "Outstanding")}</dt>
+                      <dt className="font-mal text-[12px] text-muted-foreground">{t("ബാക്കിയുള്ളത്", "Outstanding")}</dt>
                       <dd className={`tnum mt-1 text-[15px] font-semibold ${outstanding > 0 ? "text-red-600" : "text-foreground"}`}>
                         {inr(outstanding)}
                       </dd>
                     </div>
                     <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
-                      <dt className="font-mal text-[12px] text-muted-foreground">{t("ചേർന്നത്", "Joined")}</dt>
+                      <dt className="font-mal text-[12px] text-muted-foreground">{t("ചേർന്ന തീയതി", "Joined")}</dt>
                       <dd className="mt-1 text-[13.5px] font-medium">{member.join_date ? formatDate(member.join_date) : "—"}</dd>
                     </div>
                   </dl>
@@ -143,10 +148,10 @@ function MembersPage() {
                     <div className="mt-4 flex items-start gap-3 rounded-xl border border-primary/15 bg-accent/60 px-3.5 py-3">
                       <ShieldCheck className="mt-0.5 h-[18px] w-[18px] shrink-0 text-primary" strokeWidth={1.9} />
                       <div className="min-w-0">
-                        <p className="text-[13.5px] font-semibold text-primary">{t("പൂർണ്ണ അധികാരം", "Full access")}</p>
+                        <p className="text-[13.5px] font-semibold text-primary">{t("പൂർണ്ണ അനുമതികൾ", "Full access")}</p>
                         <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">
                           {t(
-                            "അംഗങ്ങളെ ചേർക്കാനും ഒഴിവാക്കാനും, പേയ്‌മെന്റുകളും ഫണ്ട് അഭ്യർത്ഥനകളും അംഗീകരിക്കാനും, ഫണ്ട് ക്രമീകരണങ്ങളും സൈക്കിളും നിയന്ത്രിക്കാനും കഴിയും.",
+                            "അംഗങ്ങളെ ചേർക്കാനും നീക്കം ചെയ്യാനും, പേയ്‌മെന്റുകളും അഭ്യർത്ഥനകളും അംഗീകരിക്കാനും ഫണ്ട് ക്രമീകരണങ്ങൾ കൈകാര്യം ചെയ്യാനും കഴിയും.",
                             "Can add and remove members, approve payments and fund requests, and manage fund settings and cycles."
                           )}
                         </p>
@@ -154,33 +159,32 @@ function MembersPage() {
                     </div>
                   )}
 
-                  {/* Spacer: keeps the action row pinned to the card's bottom when row heights differ. */}
                   {isAdmin && !isMe && <div aria-hidden="true" className="min-h-[1rem] flex-1" />}
                   {isAdmin && !isMe && (
-                    <div className="flex flex-wrap gap-2 border-t border-border/70 pt-4">
+                    <div className="flex flex-col gap-2 border-t border-border/70 pt-4 sm:flex-row sm:flex-wrap">
                       {member.fund_role === "super_admin" ? (
                         <button
                           onClick={() => changeRole(member, "member")}
-                          className="flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-[12.5px] text-foreground/80 transition-colors hover:bg-secondary"
+                          className="flex w-full items-center justify-center gap-1.5 rounded-full border border-border px-3.5 py-2 text-[12.5px] text-foreground/80 transition-colors hover:bg-secondary sm:w-auto"
                         >
                           <ShieldOff className="h-3.5 w-3.5" strokeWidth={1.8} />
-                          {t("അഡ്മിൻ പദവി ഒഴിവാക്കുക", "Remove admin")}
+                          {t("അഡ്‌മിൻ നീക്കം ചെയ്യുക", "Remove admin")}
                         </button>
                       ) : (
                         <button
                           onClick={() => changeRole(member, "super_admin")}
-                          className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3.5 py-1.5 text-[12.5px] text-primary transition-colors hover:bg-primary/10"
+                          className="flex w-full items-center justify-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3.5 py-2 text-[12.5px] text-primary transition-colors hover:bg-primary/10 sm:w-auto"
                         >
                           <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.8} />
-                          {t("അഡ്മിൻ ആക്കുക", "Make admin")}
+                          {t("അഡ്‌മിൻ ആക്കുക", "Make admin")}
                         </button>
                       )}
                       <button
                         onClick={() => setRemoveTarget(member)}
-                        className="ml-auto flex items-center gap-1.5 rounded-full border border-destructive/25 px-3.5 py-1.5 text-[12.5px] text-destructive transition-colors hover:bg-destructive/10"
+                        className="flex w-full items-center justify-center gap-1.5 rounded-full border border-destructive/25 px-3.5 py-2 text-[12.5px] text-destructive transition-colors hover:bg-destructive/10 sm:ml-auto sm:w-auto"
                       >
                         <UserMinus className="h-3.5 w-3.5" strokeWidth={1.8} />
-                        {t("അംഗത്തെ ഒഴിവാക്കുക", "Remove member")}
+                        {t("അംഗത്തെ നീക്കം ചെയ്യുക", "Remove member")}
                       </button>
                     </div>
                   )}
@@ -226,19 +230,18 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
     const name = form.full_name.trim();
     const existing = members.find((m) => String(m.user_email || "").trim().toLowerCase() === email);
     if (existing?.status === "active") {
-      return toast.error(t("ഈ ഇമെയിൽ ഇതിനകം ഒരു അംഗമാണ്", "This email is already a member"));
+      return toast.error(t("ഈ ഇമെയിൽ ഇതിനകം അംഗമാണ്", "This email is already a member"));
     }
     setBusy(true);
     try {
       await base44.users.inviteUser(email, "user");
-      // Creates (or re-opens) the pending request; every active member is asked to vote.
       await inviteMember({ data: { email, full_name: name } });
-      toast.success(t("ക്ഷണം അയച്ചു — എല്ലാ അംഗങ്ങളും അനുമതി നൽകിയാൽ പ്രവേശനം", "Invite sent — every member will be asked to approve"));
+      toast.success(t("ക്ഷണം അയച്ചു — എല്ലാ അംഗങ്ങളോടും അംഗീകാരം ചോദിക്കും", "Invite sent — every member will be asked to approve"));
       setForm({ email: "", full_name: "" });
       onOpenChange(false);
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || t("ക്ഷണം അയക്കാനായില്ല", "Couldn't send the invite"));
+      toast.error(error?.message || t("ക്ഷണം അയയ്ക്കാനായില്ല", "Couldn't send the invite"));
     } finally {
       setBusy(false);
     }
@@ -246,13 +249,13 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.4rem] border-border bg-background sm:max-w-sm">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.4rem] border-border bg-background sm:max-w-sm">
         <DialogHeader>
           <DialogTitle className="font-mal text-[1.05rem] font-normal">{t("അംഗത്തെ ക്ഷണിക്കുക", "Invite a member")}</DialogTitle>
         </DialogHeader>
         <div className="space-y-3.5">
           <p className="rounded-xl border border-dashed border-primary/25 bg-primary/[0.04] px-3 py-2.5 font-mal text-[12.5px] leading-relaxed text-primary/90">
-            {t("നിയമം 9 — പുതിയ അംഗത്തെ ഉൾപ്പെടുത്താൻ എല്ലാ അംഗങ്ങളുടെയും അനുവാദം ആവശ്യമാണ്. അനുമതി വരെ പ്രവേശനം ഉണ്ടാകില്ല.", "Rule 9 — adding a new member needs every member's approval. No access until then.")}
+            {t("നിയമം 9 — പുതിയ അംഗത്തെ ചേർക്കാൻ എല്ലാ അംഗങ്ങളുടെയും അംഗീകാരം വേണം.", "Rule 9 — adding a new member needs every member's approval. No access until then.")}
           </p>
           <Field label={t("പേര്", "Name")}>
             <Input value={form.full_name} onChange={(event) => setForm((p) => ({ ...p, full_name: event.target.value }))} />
@@ -261,7 +264,7 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
             <Input type="email" value={form.email} onChange={(event) => setForm((p) => ({ ...p, email: event.target.value }))} />
           </Field>
           <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ക്ഷണം അയക്കുക", "Send invite")}
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ക്ഷണം അയയ്ക്കുക", "Send invite")}
           </Button>
         </div>
       </DialogContent>
@@ -280,7 +283,7 @@ function RoleChangeDialog({ target, open, onOpenChange, onDone }) {
     setBusy(true);
     try {
       await setMemberRole({ data: { member_id: member.id, fund_role: target.role } });
-      toast.success(promote ? t("അഡ്മിൻ ആക്കി", "Made admin") : t("അഡ്മിൻ പദവി ഒഴിവാക്കി", "Admin role removed"));
+      toast.success(promote ? t("അഡ്‌മിൻ ആക്കി", "Made admin") : t("അഡ്‌മിൻ നീക്കം ചെയ്തു", "Admin role removed"));
       onOpenChange(false);
       onDone?.();
     } catch (error) {
@@ -292,10 +295,10 @@ function RoleChangeDialog({ target, open, onOpenChange, onDone }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.4rem] border-border bg-background sm:max-w-sm">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.4rem] border-border bg-background sm:max-w-sm">
         <DialogHeader>
           <DialogTitle className="font-mal text-[1.05rem] font-normal">
-            {promote ? t("അഡ്മിൻ ആക്കുക", "Make admin") : t("അഡ്മിൻ പദവി ഒഴിവാക്കുക", "Remove admin")}
+            {promote ? t("അഡ്‌മിൻ ആക്കുക", "Make admin") : t("അഡ്‌മിൻ നീക്കം ചെയ്യുക", "Remove admin")}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-3.5">
@@ -306,26 +309,26 @@ function RoleChangeDialog({ target, open, onOpenChange, onDone }) {
           >
             {promote
               ? t(
-                  "ഈ അംഗത്തിന് അഡ്മിൻ അധികാരങ്ങൾ ലഭിക്കും — പേയ്‌മെന്റുകൾ സ്ഥിരീകരിക്കാനും അഭ്യർത്ഥനകൾ അനുവദിക്കാനും അംഗങ്ങളെ നിയന്ത്രിക്കാനും കഴിയും.",
+                  "ഈ അംഗത്തിന് അഡ്‌മിൻ അനുമതികൾ ലഭിക്കും — പേയ്‌മെന്റുകളും അഭ്യർത്ഥനകളും പരിശോധിക്കാനും അംഗങ്ങളെ കൈകാര്യം ചെയ്യാനും കഴിയും.",
                   "This member will get admin rights — they can verify payments, approve requests and manage members."
                 )
               : t(
-                  "ഈ അംഗത്തിന്റെ അഡ്മിൻ അധികാരങ്ങൾ ഒഴിവാക്കും. അവർ സാധാരണ അംഗമായി തുടരും.",
+                  "ഈ അംഗത്തിന്റെ അഡ്‌മിൻ അനുമതികൾ നീക്കം ചെയ്യും; സാധാരണ അംഗമായി തുടരും.",
                   "This member will lose admin rights and stay on as a regular member."
                 )}
           </p>
           {member && (
             <div className="rounded-xl border border-border bg-card px-3 py-2.5">
-              <p className="truncate font-mal text-[14px]">{member.full_name}</p>
-              <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{member.user_email}</p>
+              <p className="break-words font-mal text-[14px]">{member.full_name}</p>
+              <p className="mt-0.5 break-all text-[12px] text-muted-foreground">{member.user_email}</p>
             </div>
           )}
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy} className="w-full rounded-full py-5 text-[14px]">
               {t("റദ്ദാക്കുക", "Cancel")}
             </Button>
             <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : promote ? t("അഡ്മിൻ ആക്കുക", "Make admin") : t("ഒഴിവാക്കുക", "Remove")}
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : promote ? t("അഡ്‌മിൻ ആക്കുക", "Make admin") : t("നീക്കം ചെയ്യുക", "Remove")}
             </Button>
           </div>
         </div>
@@ -343,11 +346,11 @@ function RemoveMemberDialog({ member, open, onOpenChange, onDone }) {
     setBusy(true);
     try {
       await removeMember({ data: { member_id: member.id } });
-      toast.success(t("അംഗത്തെ ഒഴിവാക്കി", "Member removed"));
+      toast.success(t("അംഗത്തെ നീക്കം ചെയ്തു", "Member removed"));
       onOpenChange(false);
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || t("ഒഴിവാക്കാനായില്ല", "Could not remove member"));
+      toast.error(error?.message || t("അംഗത്തെ നീക്കം ചെയ്യാനായില്ല", "Could not remove member"));
     } finally {
       setBusy(false);
     }
@@ -355,31 +358,31 @@ function RemoveMemberDialog({ member, open, onOpenChange, onDone }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.4rem] border-border bg-background sm:max-w-sm">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.4rem] border-border bg-background sm:max-w-sm">
         <DialogHeader>
           <DialogTitle className="font-mal text-[1.05rem] font-normal">
-            {t("അംഗത്തെ ഒഴിവാക്കുക", "Remove member")}
+            {t("അംഗത്തെ നീക്കം ചെയ്യുക", "Remove member")}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-3.5">
           <p className="rounded-xl border border-destructive/25 bg-destructive/[0.05] px-3 py-2.5 font-mal text-[12.5px] leading-relaxed text-destructive">
             {t(
-              "ഈ അംഗത്തെ ഗ്രൂപ്പിൽ നിന്ന് ഒഴിവാക്കാൻ പോകുന്നു. അവരുടെ സംഭാവനയും വായ്പാ ചരിത്രവും നിലനിൽക്കും; ഇനി പുതിയ രേഖകൾ ഉണ്ടാകില്ല.",
+              "ഈ അംഗത്തെ ഗ്രൂപ്പിൽ നിന്ന് നീക്കം ചെയ്യും. പഴയ രേഖകൾ നിലനിൽക്കും.",
               "This member will be removed from the group. Their contribution and loan history stays intact; no new records will be created."
             )}
           </p>
           {member && (
             <div className="rounded-xl border border-border bg-card px-3 py-2.5">
-              <p className="truncate font-mal text-[14px]">{member.full_name}</p>
-              <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{member.user_email}</p>
+              <p className="break-words font-mal text-[14px]">{member.full_name}</p>
+              <p className="mt-0.5 break-all text-[12px] text-muted-foreground">{member.user_email}</p>
             </div>
           )}
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy} className="w-full rounded-full py-5 text-[14px]">
               {t("റദ്ദാക്കുക", "Cancel")}
             </Button>
             <Button variant="destructive" onClick={submit} disabled={busy} className="w-full rounded-full py-5 text-[14px]">
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ഒഴിവാക്കുക", "Remove")}
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("നീക്കം ചെയ്യുക", "Remove")}
             </Button>
           </div>
         </div>
@@ -396,13 +399,13 @@ function HandoverDialog({ open, onOpenChange, members, cashBalance, onDone }) {
   const [busy, setBusy] = useState(false);
 
   const submit = async () => {
-    if (!target) return toast.error(t("പുതിയ ക്യാഷ് ഹാൻഡ്ലറെ തിരഞ്ഞെടുക്കുക", "Choose the new cash handler"));
+    if (!target) return toast.error(t("പുതിയ കാഷ് ഹാൻഡ്ലറെ തിരഞ്ഞെടുക്കുക", "Choose the new cash handler"));
     setBusy(true);
     try {
       await recordHandover({
         data: { to_member_id: target, cash_balance: Number(balance) || 0, notes: notes || undefined },
       });
-      toast.success(t("ക്യാഷ് ഹാൻഡ്ലർ മാറ്റി", "Cash handler changed"));
+      toast.success(t("കാഷ് ഹാൻഡ്ലർ മാറ്റി", "Cash handler changed"));
       onOpenChange(false);
       setTarget("");
       setBalance("");
@@ -417,12 +420,12 @@ function HandoverDialog({ open, onOpenChange, members, cashBalance, onDone }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[88vh] overflow-y-auto rounded-[1.4rem] border-border bg-background sm:max-w-sm">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.4rem] border-border bg-background sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle className="font-mal text-[1.05rem] font-normal">{t("ക്യാഷ് ഹാൻഡ്ലർ മാറ്റം", "Cash handler handover")}</DialogTitle>
+          <DialogTitle className="font-mal text-[1.05rem] font-normal">{t("കാഷ് ഹാൻഡ്ലർ മാറ്റം", "Cash handler handover")}</DialogTitle>
         </DialogHeader>
         <div className="space-y-3.5">
-          <Field label={t("പുതിയ ക്യാഷ് ഹാൻഡ്ലർ", "New cash handler")}>
+          <Field label={t("പുതിയ കാഷ് ഹാൻഡ്ലർ", "New cash handler")}>
             <select
               value={target}
               onChange={(event) => setTarget(event.target.value)}
@@ -437,23 +440,23 @@ function HandoverDialog({ open, onOpenChange, members, cashBalance, onDone }) {
             </select>
           </Field>
           <Field
-            label={t("കൈമാറുന്ന ക്യാഷ് ബാലൻസ് (₹)", "Cash balance handed over (₹)")}
-            hint={`${t("നിലവിലെ ക്യാഷ് ബാലൻസ്", "Current cash balance")} ${inr(cashBalance)}`}
+            label={t("കൈമാറുന്ന കാഷ് ബാലൻസ് (₹)", "Cash balance handed over (₹)")}
+            hint={`${t("ഇപ്പോഴുള്ള കാഷ് ബാലൻസ്", "Current cash balance")} ${inr(cashBalance)}`}
           >
             <Input type="number" value={balance} onChange={(event) => setBalance(event.target.value)} placeholder={String(Math.round(cashBalance || 0))} />
           </Field>
           <Field label={t("കുറിപ്പ്", "Note")}>
-            <Input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={t("ഹാൻഡ്ഓവർ വിവരം", "Handover details")} />
+            <Input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={t("ഹാൻഡോവർ വിശദാംശങ്ങൾ", "Handover details")} />
           </Field>
           <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ഹാൻഡ്ഓവർ രേഖപ്പെടുത്തുക", "Record handover")}
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ഹാൻഡോവർ രേഖപ്പെടുത്തുക", "Record handover")}
           </Button>
         </div>
       </DialogContent>
     </Dialog>
   );
 }
-// Rule 9: every active member approves a new member; a single rejection declines the request.
+
 function MembershipRequests({ requests, voters, me, onDone }) {
   const { t, lang } = useLang();
   const [busy, setBusy] = useState(null);
@@ -468,12 +471,12 @@ function MembershipRequests({ requests, voters, me, onDone }) {
         result.rejected
           ? t("അഭ്യർത്ഥന നിരസിച്ചു", "Request declined")
           : result.approved
-            ? t("എല്ലാവരും അനുമതി നൽകി — പുതിയ അംഗം ചേർന്നു", "Everyone approved — the new member has joined")
-            : t("നിങ്ങളുടെ അനുമതി രേഖപ്പെടുത്തി", "Your approval is recorded")
+            ? t("എല്ലാവരും അംഗീകരിച്ചു — പുതിയ അംഗം ചേർന്നു", "Everyone approved — the new member has joined")
+            : t("നിങ്ങളുടെ അംഗീകാരം രേഖപ്പെടുത്തി", "Your approval is recorded")
       );
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || t("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
+      toast.error(error?.message || t("പ്രവർത്തനം പരാജയപ്പെട്ടു", "Action failed"));
     } finally {
       setBusy(null);
     }
@@ -482,9 +485,9 @@ function MembershipRequests({ requests, voters, me, onDone }) {
   return (
     <section>
       <SectionHeading ml="അംഗത്വ അഭ്യർത്ഥനകൾ" en="Membership requests" />
-      <p className={`-mt-2 mb-4 text-[13.5px] text-muted-foreground ${lang === "en" ? "" : "font-mal"}`}>
+      <p className={`-mt-2 mb-4 text-[13.5px] leading-relaxed text-muted-foreground ${lang === "en" ? "" : "font-mal"}`}>
         {t(
-          "നിയമം 9 — എല്ലാ അംഗങ്ങളും അനുമതി നൽകിയാൽ മാത്രം പുതിയ അംഗം ചേരും. ഒരാൾ നിരസിച്ചാൽ അഭ്യർത്ഥന റദ്ദാകും.",
+          "നിയമം 9 — എല്ലാ അംഗങ്ങളും അംഗീകരിച്ചാൽ മാത്രമേ പുതിയ അംഗം ചേരൂ. ഒരാൾ നിരസിച്ചാൽ അഭ്യർത്ഥന റദ്ദാകും.",
           "Rule 9 — a new member joins only when every member approves. One rejection declines the request."
         )}
       </p>
@@ -496,25 +499,27 @@ function MembershipRequests({ requests, voters, me, onDone }) {
           const waitingFor = voters.filter((m) => !votes.some((v) => v.member_id === m.id));
           const pct = voters.length ? Math.round((approvedBy.length / voters.length) * 100) : 0;
           return (
-            <article key={member.id} className="card-soft rounded-2xl border border-amber-200 bg-card p-5">
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="truncate text-[15.5px] font-semibold">{member.full_name}</p>
-                  <p className="truncate text-[13px] text-muted-foreground">{member.user_email}</p>
+            <article key={member.id} className="card-soft rounded-2xl border border-amber-200 bg-card p-4 sm:p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0 flex-1">
+                  <p className="break-words text-[15.5px] font-semibold">{member.full_name}</p>
+                  <p className="break-all text-[13px] text-muted-foreground sm:truncate">{member.user_email}</p>
                   <p className="mt-1 text-[12.5px] text-muted-foreground">
                     {member.requested_by && member.requested_by !== "Self"
                       ? t(`ക്ഷണിച്ചത്: ${member.requested_by}`, `Invited by ${member.requested_by}`)
-                      : t("സ്വയം അപേക്ഷിച്ചു", "Asked to join")}
+                      : t("ചേരാൻ അഭ്യർത്ഥിച്ചു", "Asked to join")}
                     {member.requested_date ? ` · ${formatDate(member.requested_date)}` : ""}
                   </p>
                 </div>
-                <StatusPill tone="partial">{t("വോട്ടെടുപ്പിൽ", "Voting")}</StatusPill>
+                <div className="shrink-0 self-start">
+                  <StatusPill tone="partial">{t("വോട്ടിംഗ്", "Voting")}</StatusPill>
+                </div>
               </div>
 
               <div className="mt-4">
-                <div className="flex items-center justify-between text-[13px]">
+                <div className="flex items-center justify-between gap-2 text-[13px]">
                   <span className="font-medium">
-                    {t(`${approvedBy.length} / ${voters.length} അനുമതി`, `${approvedBy.length} of ${voters.length} approved`)}
+                    {t(`${approvedBy.length} / ${voters.length} അംഗീകാരം`, `${approvedBy.length} of ${voters.length} approved`)}
                   </span>
                   <span className="text-muted-foreground">{pct}%</span>
                 </div>
@@ -522,35 +527,35 @@ function MembershipRequests({ requests, voters, me, onDone }) {
                   <div className="h-full rounded-full bg-emerald-500 transition-[width] duration-500" style={{ width: `${pct}%` }} />
                 </div>
                 {approvedBy.length > 0 && (
-                  <p className="mt-2 text-[12.5px] text-muted-foreground">
-                    {t("അനുമതി നൽകിയവർ", "Approved by")}: {approvedBy.map((v) => v.member_name).join(", ")}
+                  <p className="mt-2 break-words text-[12.5px] text-muted-foreground">
+                    {t("അംഗീകരിച്ചത്", "Approved by")}: {approvedBy.map((v) => v.member_name).join(", ")}
                   </p>
                 )}
                 {waitingFor.length > 0 && (
-                  <p className="mt-1 text-[12.5px] text-muted-foreground">
-                    {t("കാത്തിരിക്കുന്നു", "Waiting for")}: {waitingFor.map((m) => m.full_name).join(", ")}
+                  <p className="mt-1 break-words text-[12.5px] text-muted-foreground">
+                    {t("കാത്തിരിക്കുന്നത്", "Waiting for")}: {waitingFor.map((m) => m.full_name).join(", ")}
                   </p>
                 )}
               </div>
 
               {canVote && (
-                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/70 pt-4">
+                <div className="mt-4 flex flex-col gap-2 border-t border-border/70 pt-4 sm:flex-row sm:flex-wrap sm:items-center">
                   {mine ? (
-                    <span className="text-[13px] text-muted-foreground">{t("നിങ്ങൾ അനുമതി നൽകി ✓", "You approved ✓")}</span>
+                    <span className="text-[13px] text-muted-foreground">{t("നിങ്ങൾ അംഗീകരിച്ചു ✓", "You approved ✓")}</span>
                   ) : (
                     <>
                       <button
                         onClick={() => vote(member, "approve")}
                         disabled={!!busy}
-                        className="flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-60"
+                        className="flex w-full items-center justify-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-60 sm:w-auto"
                       >
                         {busy === member.id + "approve" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" strokeWidth={2.2} />}
-                        {t("അനുമതി നൽകുക", "Approve")}
+                        {t("അംഗീകരിക്കുക", "Approve")}
                       </button>
                       <button
                         onClick={() => vote(member, "reject")}
                         disabled={!!busy}
-                        className="flex items-center gap-1.5 rounded-full border border-destructive/30 px-4 py-2 text-[13px] font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                        className="flex w-full items-center justify-center gap-1.5 rounded-full border border-destructive/30 px-4 py-2 text-[13px] font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60 sm:w-auto"
                       >
                         {busy === member.id + "reject" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <X className="h-3.5 w-3.5" strokeWidth={2.2} />}
                         {t("നിരസിക്കുക", "Reject")}

@@ -1,4 +1,4 @@
-import { useLang } from "@/lib/LangContext";
+﻿import { useLang } from "@/lib/LangContext";
 import { cn } from "@/lib/utils";
 
 const OPTIONS = [
@@ -9,10 +9,10 @@ const OPTIONS = [
 export default function LangToggle({ className, compact = false, iconOnly = false }) {
   const { lang, setLang } = useLang();
 
-  // Narrow rail (collapsed sidebar): one square button that flips the language.
   if (iconOnly) {
     const next = lang === "en" ? "ml" : "en";
-    const label = lang === "en" ? "Switch to Malayalam" : "ഇംഗ്ലീഷിലേക്ക് മാറുക";
+    const label = lang === "en" ? "Switch to Malayalam" : "Switch to English";
+    const isEn = lang === "en";
     return (
       <button
         type="button"
@@ -20,15 +20,13 @@ export default function LangToggle({ className, compact = false, iconOnly = fals
         aria-label={label}
         title={label}
         className={cn(
-          "grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-foreground/80 transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground/80 transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           className
         )}
       >
-        {lang === "en" ? (
-          <span className="text-[13px] font-semibold leading-none tracking-wide">EN</span>
-        ) : (
-          <span className="font-mal text-[17px] leading-none">മ</span>
-        )}
+        <span className={cn("leading-none", isEn ? "text-[11px] font-semibold tracking-wide" : "font-mal text-[15px]")}>
+          {isEn ? "EN" : "മ"}
+        </span>
       </button>
     );
   }
@@ -37,7 +35,7 @@ export default function LangToggle({ className, compact = false, iconOnly = fals
     <div
       role="radiogroup"
       aria-label="Language"
-      className={cn("inline-flex items-center rounded-full border border-border bg-muted p-0.5", className)}
+      className={cn("inline-flex shrink-0 items-center rounded-full border border-border bg-muted p-0.5", className)}
     >
       {OPTIONS.map((option) => {
         const selected = option.code === lang;
@@ -49,8 +47,8 @@ export default function LangToggle({ className, compact = false, iconOnly = fals
             aria-checked={selected}
             onClick={() => setLang(option.code)}
             className={cn(
-              "rounded-full px-2.5 py-1 text-[13px] leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              option.code === "ml" && (compact ? "font-mal text-[15px]" : "font-mal"),
+              "inline-flex min-h-[32px] min-w-[36px] items-center justify-center rounded-full px-2.5 py-1 text-[13px] leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-0 sm:min-w-0",
+              option.code === "ml" && "font-mal",
               selected ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             )}
           >

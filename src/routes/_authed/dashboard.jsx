@@ -35,24 +35,22 @@ const ACTIVITY_TYPE = {
 };
 
 const ACTIVITY_LABEL = {
-  weekly_contribution: { ml: "ആഴ്ച സംഭാവന", en: "Weekly contribution" },
-  fund_withdrawal: { ml: "ഫണ്ട് നൽകിയ വായ്പ", en: "Fund lent out" },
+  weekly_contribution: { ml: "ആഴ്ച വരവ്", en: "Weekly contribution" },
+  fund_withdrawal: { ml: "ഫണ്ട് വായ്പ", en: "Fund lent out" },
   loan_repayment: { ml: "വായ്പ തിരിച്ചടവ്", en: "Loan repayment" },
-  late_interest: { ml: "കാലതാമസ പലിശ", en: "Late interest" },
+  late_interest: { ml: "വൈകിയ പലിശ", en: "Late interest" },
   borrowing_interest: { ml: "വായ്പ പലിശ", en: "Borrowing interest" },
-  fund_expense: { ml: "ഫണ്ട് ചെലവുകൾ", en: "Fund expense" },
+  fund_expense: { ml: "ഫണ്ട് ചെലവ്", en: "Fund expense" },
   interest_distribution: { ml: "പലിശ വിതരണം", en: "Interest distribution" },
   other: { ml: "മറ്റ് ഇടപാട്", en: "Other transaction" },
 };
 
-// Local calendar day as YYYY-MM-DD (toISOString would shift it to UTC).
 function localKey(date) {
   const d = new Date(date);
   const pad = (n) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-// A transaction's day: date-only strings are already local days; timestamps are converted.
 function txnDayKey(row) {
   const raw = row.txn_date || row.created_date;
   if (!raw) return "";
@@ -71,12 +69,11 @@ function DashboardPage() {
   const locale = lang === "en" ? "en-IN" : "ml-IN";
   const monday = startOfWeek(now || new Date(), settings?.week_start_day ?? 1);
   const sunday = addDays(monday, 6);
-  const range = `${formatDate(monday, locale)} – ${formatDate(sunday, locale)}`;
+  const range = `${formatDate(monday, locale)} - ${formatDate(sunday, locale)}`;
   const paid = weekContributions.filter((c) => c.status === "paid");
   const firstName = (myMember?.full_name || "").split(" ")[0];
   const weekCollected = weekContributions.reduce((sum, c) => sum + Number(c.amount_paid || 0), 0);
 
-  // Contributions received on each day of this week (rejected ones excluded).
   const todayKey = localKey(now || new Date());
   const days = Array.from({ length: 7 }, (_, i) => {
     const date = addDays(monday, i);
@@ -99,11 +96,11 @@ function DashboardPage() {
   const activities = transactions.slice(0, 5).map((row) => {
     const label = ACTIVITY_LABEL[row.category];
     const status =
-      row.status === "verified" ? t("പരിശോധിച്ചു", "Verified") : row.status === "pending" ? t("പരിശോധനയിൽ", "Pending") : t("നിരസിച്ചു", "Rejected");
+      row.status === "verified" ? t("പരിശോധിച്ചു", "Verified") : row.status === "pending" ? t("തീർച്ചപ്പെടുത്താനുണ്ട്", "Pending") : t("നിരസിച്ചു", "Rejected");
     return {
       type: ACTIVITY_TYPE[row.category] || "request",
-      title: `${row.member_name || "FUND"} – ${label ? t(label.ml, label.en) : t("മറ്റ് ഇടപാട്", "Other transaction")}`,
-      meta: `${row.method === "cash" ? t("ക്യാഷ്", "Cash") : t("ഓൺലൈൻ", "Online")} · ${status}`,
+      title: `${row.member_name || "FUND"} - ${label ? t(label.ml, label.en) : t("മറ്റ് ഇടപാട്", "Other transaction")}`,
+      meta: `${row.method === "cash" ? t("പണം", "Cash") : t("ഓൺലൈൻ", "Online")} · ${status}`,
       amount: Number(row.amount) || 0,
       when: formatDateTime(row.created_date || row.txn_date),
     };
@@ -113,57 +110,53 @@ function DashboardPage() {
 
   return (
     <div className="page-enter space-y-6">
-      {/* Greeting */}
-      <header className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <div className="min-w-0">
-          <p className="text-[14.5px] text-foreground/80">{now ? formatDate(now, locale) : "�"}</p>
-          <h1 className={cn("mt-1 break-words text-[1.6rem] font-bold leading-tight tracking-tight sm:text-[2.2rem]", leadFont)}>
-            {t("????????", "Welcome")}
+      <header className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="text-[14.5px] text-foreground/80">{now ? formatDate(now, locale) : "—"}</p>
+          <h1 className={cn("mt-1 max-w-full break-words text-[1.6rem] font-bold leading-snug tracking-tight sm:text-[2.2rem] sm:leading-tight", leadFont)}>
+            {t("സ്വാഗതം", "Welcome")}
             {firstName ? `, ${firstName}` : ""}
           </h1>
-          <p className={cn("mt-1 break-words text-[14px] text-muted-foreground sm:text-[15px]", leadFont)}>
-            {t("? ???????? ????? ????????", "Here's your fund summary for this week")}
+          <p className={cn("mt-1 max-w-full break-words text-[14px] leading-relaxed text-muted-foreground sm:text-[15px]", leadFont)}>
+            {t("ഈ ആഴ്ചയിലെ ഫണ്ട് സംഗ്രഹം", "Here's your fund summary for this week")}
           </p>
         </div>
-        <span className="card-soft inline-flex w-full max-w-full items-center gap-2.5 self-start rounded-xl border border-border bg-card px-4 py-2.5 text-[14px] font-medium sm:w-auto">
+        <span className="card-soft inline-flex w-full max-w-full items-center gap-2.5 self-start rounded-xl border border-border bg-card px-4 py-2.5 text-[14px] font-medium sm:w-auto sm:max-w-none sm:shrink-0">
           <CalendarDays className="h-[18px] w-[18px] shrink-0 text-muted-foreground" strokeWidth={1.8} />
           <span className="tnum min-w-0 break-words">{range}</span>
         </span>
       </header>
 
-      {/* Headline figures */}
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.35fr_1fr_1fr]">
         <StatCard
-         
-          labelMl="ആകെ ഫണ്ട് ബാലൻസ്"
+          labelMl="മൊത്തം ഫണ്ട് ബാലൻസ്"
           labelEn="Total fund balance"
           value={summary.balance}
           className="md:col-span-2 xl:col-span-1"
           details={[
-            { label: t("ക്യാഷ്", "Cash"), value: inr(summary.cashBalance) },
+            { label: t("പണം", "Cash"), value: inr(summary.cashBalance) },
             { label: t("അംഗങ്ങൾ", "Members"), value: String(summary.members) },
           ]}
         />
-        <StatCard labelMl="ആകെ സംഭാവന" labelEn="Total contributions" value={summary.contributionsTotal} />
-        <StatCard labelMl="നൽകിയ വായ്പ" labelEn="Total money lent" value={summary.lent} />
+        <StatCard labelMl="മൊത്തം വരവ്" labelEn="Total contributions" value={summary.contributionsTotal} />
+        <StatCard labelMl="വായ്പ നൽകിയ തുക" labelEn="Total money lent" value={summary.lent} />
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard size="sm" labelMl="ബാക്കി തുക" labelEn="Total outstanding" value={summary.outstanding} />
+        <StatCard size="sm" labelMl="ബാക്കിയുള്ള തുക" labelEn="Total outstanding" value={summary.outstanding} />
         <StatCard size="sm" labelMl="ലഭിച്ച പലിശ" labelEn="Interest collected" value={summary.interestCollected} />
-        <StatCard size="sm" labelMl="ഈ ആഴ്ചയിലെ ശേഖരണം" labelEn="Collected this week" value={weekCollected} />
-        <StatCard size="sm" labelMl="ആകെ അംഗങ്ങൾ" labelEn="Total members" value={summary.members} prefix="" />
+        <StatCard size="sm" labelMl="ഈ ആഴ്ചയിലെ വരവ്" labelEn="Collected this week" value={weekCollected} />
+        <StatCard size="sm" labelMl="മൊത്തം അംഗങ്ങൾ" labelEn="Total members" value={summary.members} prefix="" />
       </section>
 
-      {/* Items needing a handler's attention */}
       {(pendingVerification > 0 || pendingRequests > 0) && (fund.isHandler || fund.isAdmin) && (
         <section className="grid gap-4 sm:grid-cols-2">
           {pendingVerification > 0 && (
             <AttentionLink
               to="/transactions"
               icon={ClipboardCheck}
-              title={t("പരിശോധിക്കാനുള്ള പേയ്‌മെന്റുകൾ", "Payments to verify")}
-              detail={`${pendingVerification} ${t("പരിശോധനയിൽ", "pending verification")}`}
+              title={t("പരിശോധിക്കേണ്ട പേയ്‌മെന്റുകൾ", "Payments to verify")}
+              detail={`${pendingVerification} ${t("പരിശോധന കാത്തിരിക്കുന്നു", "pending verification")}`}
               font={leadFont}
               tone="amber"
             />
@@ -172,8 +165,8 @@ function DashboardPage() {
             <AttentionLink
               to="/request-fund"
               icon={HandCoins}
-              title={t("അനുമതിക്കായുള്ള ഫണ്ട് അഭ്യർത്ഥനകൾ", "Fund requests awaiting approval")}
-              detail={`${pendingRequests} ${t("തീരുമാനത്തിനായി കാത്തിരിക്കുന്നു", "awaiting decision")}`}
+              title={t("അംഗീകാരത്തിനായുള്ള ഫണ്ട് അഭ്യർത്ഥനകൾ", "Fund requests awaiting approval")}
+              detail={`${pendingRequests} ${t("തീരുമാനം കാത്തിരിക്കുന്നു", "awaiting decision")}`}
               font={leadFont}
               tone="blue"
             />
@@ -181,17 +174,16 @@ function DashboardPage() {
         </section>
       )}
 
-      {/* This week + quick actions */}
       <section className="grid items-stretch gap-4 xl:grid-cols-[1.75fr_1fr]">
         {weekContributions.length === 0 ? (
           <div className="card-soft h-full rounded-2xl border border-border bg-card p-6">
             <EmptyState
               icon={HandCoins}
-              ml="ഈ ആഴ്ചയുടെ സംഭാവന രേഖകൾ ഇല്ല"
+              ml="ഈ ആഴ്ചയിലെ വരവ് ഇതുവരെ സൃഷ്ടിച്ചിട്ടില്ല"
               en="This week's contributions are not generated yet"
               action={
                 <Link to="/contributions" className="rounded-lg bg-primary px-4 py-2 text-[14px] font-medium text-primary-foreground">
-                  {t("സംഭാവന വിഭാഗത്തിലേക്ക്", "Go to contributions")}
+                  {t("വരവുകളിലേക്ക് പോകുക", "Go to contributions")}
                 </Link>
               }
             />
@@ -211,17 +203,16 @@ function DashboardPage() {
         <QuickActions />
       </section>
 
-      {/* Recent activity + trust note */}
       <section className="grid items-stretch gap-4 xl:grid-cols-[1.75fr_1fr]">
         {activities.length === 0 ? (
           <div className="card-soft rounded-2xl border border-border bg-card p-6">
             <EmptyState
               icon={Siren}
-              ml="ഇടപാടുകൾ ഒന്നും രേഖപ്പെടുത്തിയിട്ടില്ല"
+              ml="ഇതുവരെ ഇടപാടുകൾ രേഖപ്പെടുത്തിയിട്ടില്ല"
               en="No transactions recorded yet"
               action={
                 <Link to="/contributions" className="rounded-lg bg-primary px-4 py-2 text-[14px] font-medium text-primary-foreground">
-                  {t("ആദ്യ സംഭാവന രേഖപ്പെടുത്തുക", "Record the first contribution")}
+                  {t("ആദ്യ വരവ് രേഖപ്പെടുത്തുക", "Record the first contribution")}
                 </Link>
               }
             />
@@ -237,7 +228,7 @@ function DashboardPage() {
           <h2 className={cn("mt-5 text-[18px] font-semibold", leadFont)}>{t("നിങ്ങളുടെ ഫണ്ട് സുരക്ഷിതമാണ്", "Your fund is secure")}</h2>
           <p className={cn("mt-1.5 text-[14.5px] text-muted-foreground", leadFont)}>
             {t(
-              "എല്ലാ ഇടപാടുകളും പരിശോധിച്ച് സ്ഥിരമായി രേഖപ്പെടുത്തുന്നു.",
+              "ഓരോ ഇടപാടും പരിശോധിക്കുകയും സ്ഥിരമായി രേഖപ്പെടുത്തുകയും ചെയ്യുന്നു.",
               "Every transaction is verified and permanently recorded."
             )}
           </p>
@@ -270,10 +261,10 @@ function AttentionLink({ to, icon: Icon, title, detail, font, tone }) {
         <Icon className="h-5 w-5" strokeWidth={1.9} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className={cn("block text-[15px] font-medium", font)}>{title}</span>
-        <span className={cn("block text-[13px] text-muted-foreground", font)}>{detail}</span>
+        <span className={cn("block text-[15px] font-medium break-words", font)}>{title}</span>
+        <span className={cn("block text-[13px] text-muted-foreground break-words", font)}>{detail}</span>
       </span>
-      <ArrowUpRight className="h-5 w-5 text-muted-foreground" strokeWidth={1.8} />
+      <ArrowUpRight className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.8} />
     </Link>
   );
 }
