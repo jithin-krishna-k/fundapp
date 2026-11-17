@@ -59,10 +59,10 @@ export default function NewRequestDialog({ open, onOpenChange, availableBalance,
 
         <div className="space-y-3.5">
           <div className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3">
-            <span className={lang === "en" ? "text-[11.5px] text-muted-foreground" : "font-mal text-[11.5px] text-muted-foreground"}>
+            <span className={lang === "en" ? "text-[13px] text-muted-foreground" : "font-mal text-[13px] text-muted-foreground"}>
               {t("ലഭ്യമായ ബാലൻസ്", "Available balance")}
             </span>
-            <span className="tnum text-[13px] font-medium">{inr(availableBalance)}</span>
+            <span className="tnum text-[14.5px] font-medium">{inr(availableBalance)}</span>
           </div>
 
           <Field label={t("ആവശ്യമായ തുക (₹)", "Amount needed (₹)")}>
@@ -78,14 +78,14 @@ export default function NewRequestDialog({ open, onOpenChange, availableBalance,
             <Textarea rows={3} value={form.explanation} onChange={set("explanation")} />
           </Field>
 
-          <p className={lang === "en" ? "px-3 py-2.5 text-[11px] leading-relaxed text-primary/90" : "px-3 py-2.5 font-mal text-[11px] leading-relaxed text-primary/90"}>
+          <p className={lang === "en" ? "px-3 py-2.5 text-[12.5px] leading-relaxed text-primary/90" : "px-3 py-2.5 font-mal text-[12.5px] leading-relaxed text-primary/90"}>
             {t(
               "നിയമം 5 — അതേ ആഴ്ചയിൽ തിരിച്ചടച്ചാൽ പലിശയില്ല. രണ്ടാമത്തെ ആഴ്ച മുതൽ പലിശ ബാധകമാകും.",
               "Rule 5 — no interest if repaid in the same week. Interest applies from the second week."
             )}
           </p>
 
-          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground">
+          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("അഭ്യർത്ഥന സമർപ്പിക്കുക", "Submit request")}
           </Button>
         </div>

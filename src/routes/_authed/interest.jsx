@@ -76,7 +76,7 @@ function InterestPage() {
             <button
               onClick={() => setOpen(true)}
               disabled={available <= 0}
-              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground disabled:opacity-40"
+              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground disabled:opacity-40"
             >
               <Split className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("പലിശ വിതരണം", "Distribute interest")}
             </button>
@@ -86,15 +86,15 @@ function InterestPage() {
 
       <div className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Collected</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Collected</p>
           <p className="tnum mt-1 font-display text-[1.35rem] leading-none">{inr(summary.interestCollected)}</p>
         </div>
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Distributed</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Distributed</p>
           <p className="tnum mt-1 font-display text-[1.35rem] leading-none">{inr(summary.distributed)}</p>
         </div>
         <div className="rounded-[1.2rem] border border-primary/20 bg-primary/[0.06] px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-primary/80">Available · per member</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-primary/80">Available · per member</p>
           <p className="tnum mt-1 font-display text-[1.35rem] leading-none text-primary">
             {inr(available)} · {inr(Math.floor(available / activeCount))}
           </p>
@@ -110,17 +110,17 @@ function InterestPage() {
             {lateRows.map((row, index) => (
               <div key={row.name + index} className={`flex items-center justify-between px-4 py-3 ${index ? "border-t border-border/70" : ""}`}>
                 <div>
-                  <p className="font-mal text-[12.5px]">{row.name}</p>
-                  <p className="mt-0.5 text-[10.5px] text-muted-foreground">
+                  <p className="font-mal text-[14px]">{row.name}</p>
+                  <p className="mt-0.5 text-[12px] text-muted-foreground">
                     {row.weeks} {t("ആഴ്ച കാലതാമസം", "weeks late")}
                   </p>
                 </div>
-                <p className="tnum text-[12.5px] text-red-700">{inr(row.amount)}</p>
+                <p className="tnum text-[14px] text-red-700">{inr(row.amount)}</p>
               </div>
             ))}
           </div>
         )}
-        <p className="mt-2 font-mal text-[10.5px] leading-relaxed text-muted-foreground">
+        <p className="mt-2 font-mal text-[12px] leading-relaxed text-muted-foreground">
           {t("നിയമം 4 — ആദ്യ 2 ആഴ്ച പലിശയില്ല. മൂന്നാമത്തെ ആഴ്ച മുതൽ ആഴ്ചയിൽ", "Rule 4 — no interest for the first 2 weeks. From the third week it is")} ₹
           {settings?.late_interest_per_week || 10}.
         </p>
@@ -136,15 +136,15 @@ function InterestPage() {
               <article key={item.id} className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <p className="font-mal text-[12.5px]">{formatDate(item.distributed_date)}</p>
-                    <p className="mt-0.5 text-[10.5px] text-muted-foreground">
+                    <p className="font-mal text-[14px]">{formatDate(item.distributed_date)}</p>
+                    <p className="mt-0.5 text-[12px] text-muted-foreground">
                       {item.member_count} {t("അംഗങ്ങൾ", "members")} · {inr(item.per_member)}{" "}
                       {t("വീതം", "each")} · {item.initiated_by}
                     </p>
                   </div>
                   <p className="tnum font-display text-[1.15rem] leading-none">{inr(item.total_amount)}</p>
                 </div>
-                {item.notes && <p className="mt-2 font-mal text-[11px] text-muted-foreground">{item.notes}</p>}
+                {item.notes && <p className="mt-2 font-mal text-[12.5px] text-muted-foreground">{item.notes}</p>}
               </article>
             ))}
           </div>
@@ -158,9 +158,9 @@ function InterestPage() {
           </DialogHeader>
           <div className="space-y-3.5">
             <div className="rounded-xl border border-border bg-card px-4 py-3">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Per member</p>
+              <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">Per member</p>
               <p className="tnum mt-1 font-display text-[1.4rem] leading-none">{inr(Math.floor(available / activeCount))}</p>
-              <p className="mt-1 font-mal text-[11px] text-muted-foreground">
+              <p className="mt-1 font-mal text-[12.5px] text-muted-foreground">
                 {t("ആകെ", "Total")} {inr(Math.floor(available / activeCount) * activeCount)} · {activeCount}{" "}
                 {t("അംഗങ്ങൾ", "members")}
               </p>
@@ -168,7 +168,7 @@ function InterestPage() {
             <Field label={t("കുറിപ്പ്", "Note")}>
               <Input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={t("ഓപ്ഷണൽ", "Optional")} />
             </Field>
-            <Button onClick={distribute} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground">
+            <Button onClick={distribute} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("വിതരണം സ്ഥിരീകരിക്കുക", "Confirm distribution")}
             </Button>
           </div>

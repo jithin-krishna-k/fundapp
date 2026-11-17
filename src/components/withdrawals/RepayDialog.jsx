@@ -72,7 +72,7 @@ export default function RepayDialog({ loan, remaining, open, onOpenChange, onDon
             <p
               className={
                 isEnglish
-                  ? "text-[10px] uppercase tracking-[0.14em] text-muted-foreground"
+                  ? "text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground"
                   : ""
               }
             >
@@ -87,7 +87,7 @@ export default function RepayDialog({ loan, remaining, open, onOpenChange, onDon
               className={
                 isEnglish
                   ? "mt-1"
-                  : "mt-1 font-mal text-[11px] text-muted-foreground"
+                  : "mt-1 font-mal text-[12.5px] text-muted-foreground"
               }
             >
               {loan?.member_name}
@@ -126,7 +126,7 @@ export default function RepayDialog({ loan, remaining, open, onOpenChange, onDon
           <Button
             onClick={submit}
             disabled={busy}
-            className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground"
+            className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground"
           >
             {busy ? (
               <Loader2 className="h-4 w-4 animate-spin" />

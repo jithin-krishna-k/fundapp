@@ -56,7 +56,7 @@ function RulesPage() {
         action={
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+            className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
           >
             <Scale className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("നിയമ മാറ്റം നിർദ്ദേശിക്കുക", "Propose a rule change")}
           </button>
@@ -74,13 +74,13 @@ function RulesPage() {
               return (
                 <article key={proposal.id} className="rounded-[1.3rem] border border-primary/20 bg-primary/[0.04] p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <p className="font-mal text-[12.5px]">{t("നിയമം", "Rule")} {proposal.rule_number}</p>
-                    <span className="font-mal text-[11px] text-muted-foreground">
+                    <p className="font-mal text-[14px]">{t("നിയമം", "Rule")} {proposal.rule_number}</p>
+                    <span className="font-mal text-[12.5px] text-muted-foreground">
                       {approvals}/{required} {t("അനുമതി", "approvals")} · {proposal.proposed_by}
                     </span>
                   </div>
-                  <p className="mt-2 font-mal text-[12px] leading-relaxed">{proposal.proposed_text}</p>
-                  <p className="mt-2 font-mal text-[11px] leading-relaxed text-muted-foreground">
+                  <p className="mt-2 font-mal text-[13.5px] leading-relaxed">{proposal.proposed_text}</p>
+                  <p className="mt-2 font-mal text-[12.5px] leading-relaxed text-muted-foreground">
                     {t("കാരണം", "Reason")}: {proposal.reason}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -89,20 +89,20 @@ function RulesPage() {
                         <button
                           onClick={() => vote(proposal.id, "approve")}
                           disabled={busy === proposal.id + "approve"}
-                          className="flex items-center gap-1 rounded-full bg-emerald-600/12 px-3 py-1.5 text-[11px] text-emerald-800"
+                          className="flex items-center gap-1 rounded-full bg-emerald-600/12 px-3 py-1.5 text-[12.5px] text-emerald-800"
                         >
                           <Check className="h-3.5 w-3.5" strokeWidth={2} /> {t("അനുമതി", "Approve")}
                         </button>
                         <button
                           onClick={() => vote(proposal.id, "reject")}
                           disabled={busy === proposal.id + "reject"}
-                          className="flex items-center gap-1 rounded-full bg-red-600/10 px-3 py-1.5 text-[11px] text-red-800"
+                          className="flex items-center gap-1 rounded-full bg-red-600/10 px-3 py-1.5 text-[12.5px] text-red-800"
                         >
                           <X className="h-3.5 w-3.5" strokeWidth={2} /> {t("വേണ്ട", "Reject")}
                         </button>
                       </>
                     ) : (
-                      <span className="font-mal text-[10.5px] text-muted-foreground">
+                      <span className="font-mal text-[12px] text-muted-foreground">
                         {t("നിങ്ങളുടെ തീരുമാനം", "Your decision")}:{" "}
                         {mine.decision === "approve" ? t("അനുമതി", "Approved") : t("വേണ്ട", "Rejected")}
                       </span>
@@ -118,7 +118,7 @@ function RulesPage() {
       <section>
         <SectionHeading ml="നിലവിലുള്ള നിയമങ്ങൾ" en="Current rules" />
         {activeRules.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border bg-card px-4 py-8 text-center font-mal text-[12px] text-muted-foreground">
+          <p className="rounded-2xl border border-dashed border-border bg-card px-4 py-8 text-center font-mal text-[13.5px] text-muted-foreground">
             {t("നിയമങ്ങൾ ലോഡ് ചെയ്യുന്നു…", "Loading rules…")}
           </p>
         ) : (
@@ -126,13 +126,13 @@ function RulesPage() {
             {activeRules.map((rule) => (
               <article key={rule.id} className="rounded-[1.2rem] border border-border bg-card p-4">
                 <div className="flex items-center gap-2">
-                  <span className="grid h-6 w-6 place-items-center rounded-full bg-primary/10 text-[11px] text-primary">
+                  <span className="grid h-6 w-6 place-items-center rounded-full bg-primary/10 text-[12.5px] text-primary">
                     {rule.number}
                   </span>
-                  <span className="text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground">Rule {rule.number}</span>
+                  <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Rule {rule.number}</span>
                 </div>
-                <p className="mt-2.5 font-mal text-[12.5px] leading-relaxed">{rule.text_ml}</p>
-                {rule.text_en && <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">{rule.text_en}</p>}
+                <p className="mt-2.5 font-mal text-[14px] leading-relaxed">{rule.text_ml}</p>
+                {rule.text_en && <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">{rule.text_en}</p>}
               </article>
             ))}
           </div>
@@ -146,13 +146,13 @@ function RulesPage() {
             {closedProposals.map((proposal) => (
               <div key={proposal.id} className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3">
                 <div className="min-w-0 flex-1">
-                  <p className="font-mal text-[12px]">{t("നിയമം", "Rule")} {proposal.rule_number}</p>
-                  <p className="mt-0.5 truncate font-mal text-[10.5px] text-muted-foreground">{proposal.proposed_text}</p>
+                  <p className="font-mal text-[13.5px]">{t("നിയമം", "Rule")} {proposal.rule_number}</p>
+                  <p className="mt-0.5 truncate font-mal text-[12px] text-muted-foreground">{proposal.proposed_text}</p>
                 </div>
                 <StatusPill tone={proposal.status === "approved" ? "paid" : "overdue"}>
                   {proposal.status === "approved" ? t("അംഗീകരിച്ചു", "Approved") : t("നിരസിച്ചു", "Rejected")}
                 </StatusPill>
-                <span className="text-[10px] text-muted-foreground">{formatDate(proposal.decided_date)}</span>
+                <span className="text-[11.5px] text-muted-foreground">{formatDate(proposal.decided_date)}</span>
               </div>
             ))}
           </div>
@@ -167,11 +167,11 @@ function RulesPage() {
               <div key={rule.id} className="rounded-2xl border border-border/70 bg-card/60 px-4 py-3">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <History className="h-3.5 w-3.5" strokeWidth={1.8} />
-                  <p className="font-mal text-[11.5px]">
+                  <p className="font-mal text-[13px]">
                     {t("നിയമം", "Rule")} {rule.number} · {t("പതിപ്പ്", "version")} {rule.version}
                   </p>
                 </div>
-                <p className="mt-1.5 font-mal text-[11.5px] leading-relaxed text-muted-foreground">{rule.text_ml}</p>
+                <p className="mt-1.5 font-mal text-[13px] leading-relaxed text-muted-foreground">{rule.text_ml}</p>
               </div>
             ))}
           </div>
@@ -220,7 +220,7 @@ function ProposeDialog({ open, onOpenChange, rules, onDone }) {
             <select
               value={number}
               onChange={(event) => setNumber(event.target.value)}
-              className="w-full rounded-xl border border-input bg-card px-3 py-2 font-mal text-[12.5px]"
+              className="w-full rounded-xl border border-input bg-card px-3 py-2 font-mal text-[14px]"
             >
               {rules.map((rule) => (
                 <option key={rule.id} value={rule.number}>
@@ -231,8 +231,8 @@ function ProposeDialog({ open, onOpenChange, rules, onDone }) {
           </Field>
           {current && (
             <div className="rounded-xl border border-border bg-card px-3 py-2.5">
-              <p className="text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground">Current</p>
-              <p className="mt-1 font-mal text-[11.5px] leading-relaxed">{current.text_ml}</p>
+              <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Current</p>
+              <p className="mt-1 font-mal text-[13px] leading-relaxed">{current.text_ml}</p>
             </div>
           )}
           <Field label={t("പുതിയ നിയമം", "New rule text")}>
@@ -241,7 +241,7 @@ function ProposeDialog({ open, onOpenChange, rules, onDone }) {
           <Field label={t("മാറ്റത്തിന്റെ കാരണം", "Reason for the change")}>
             <Input value={reason} onChange={(event) => setReason(event.target.value)} />
           </Field>
-          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground">
+          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("നിർദ്ദേശം സമർപ്പിക്കുക", "Submit proposal")}
           </Button>
         </div>

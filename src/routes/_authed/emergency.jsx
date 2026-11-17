@@ -54,7 +54,7 @@ function EmergencyPage() {
         action={
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+            className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
           >
             <Siren className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("പുതിയ അഭ്യർത്ഥന", "New request")}
           </button>
@@ -67,7 +67,7 @@ function EmergencyPage() {
           ml="അടിയന്തിര അഭ്യർത്ഥനകൾ ഇല്ല"
           en="No emergency requests"
           action={
-            <button onClick={() => setOpen(true)} className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground">
+            <button onClick={() => setOpen(true)} className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground">
               {t("അഭ്യർത്ഥന സമർപ്പിക്കുക", "Submit a request")}
             </button>
           }
@@ -84,16 +84,16 @@ function EmergencyPage() {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="font-mal text-[13.5px]">{item.member_name}</p>
+                      <p className="font-mal text-[15px]">{item.member_name}</p>
                       <StatusPill tone="accent">
                       {t(CASE_LABEL[item.case_type]?.ml, CASE_LABEL[item.case_type]?.en)}
                     </StatusPill>
                     </div>
-                    <p className="mt-1.5 font-mal text-[11.5px] leading-relaxed text-muted-foreground">{item.description}</p>
+                    <p className="mt-1.5 font-mal text-[13px] leading-relaxed text-muted-foreground">{item.description}</p>
                   </div>
                   <div className="text-right">
                     <p className="tnum font-display text-[1.25rem] leading-none">{inr(item.amount)}</p>
-                    <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                    <p className="mt-1 text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">
                       {formatDate(item.created_date)}
                     </p>
                   </div>
@@ -107,13 +107,13 @@ function EmergencyPage() {
                         ? t("നിരസിച്ചു", "Rejected")
                         : t("തീരുമാനം ബാക്കി", "Decision pending")}
                   </StatusPill>
-                  <span className="font-mal text-[11px] text-muted-foreground">
+                  <span className="font-mal text-[12.5px] text-muted-foreground">
                     {approvals}/{required} {t("അനുമതി", "approvals")}
                   </span>
                   {item.document_url && (
                     <button
                       onClick={() => openPrivate(item.document_url)}
-                      className="flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10.5px] text-muted-foreground"
+                      className="flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[12px] text-muted-foreground"
                     >
                       <ExternalLink className="h-3 w-3" strokeWidth={1.8} /> {t("രേഖ", "Document")}
                     </button>
@@ -124,21 +124,21 @@ function EmergencyPage() {
                         <button
                           onClick={() => vote(item.id, "approve")}
                           disabled={busy === item.id + "approve"}
-                          className="flex items-center gap-1 rounded-full bg-emerald-600/12 px-3 py-1.5 text-[11px] text-emerald-800"
+                          className="flex items-center gap-1 rounded-full bg-emerald-600/12 px-3 py-1.5 text-[12.5px] text-emerald-800"
                         >
                           <Check className="h-3.5 w-3.5" strokeWidth={2} /> {t("അനുമതി", "Approve")}
                         </button>
                         <button
                           onClick={() => vote(item.id, "reject")}
                           disabled={busy === item.id + "reject"}
-                          className="flex items-center gap-1 rounded-full bg-red-600/10 px-3 py-1.5 text-[11px] text-red-800"
+                          className="flex items-center gap-1 rounded-full bg-red-600/10 px-3 py-1.5 text-[12.5px] text-red-800"
                         >
                           <X className="h-3.5 w-3.5" strokeWidth={2} /> {t("വേണ്ട", "Reject")}
                         </button>
                       </>
                     )}
                     {item.status === "open" && mine && (
-                      <span className="font-mal text-[10.5px] text-muted-foreground">
+                      <span className="font-mal text-[12px] text-muted-foreground">
                         {t("നിങ്ങളുടെ തീരുമാനം", "Your decision")}:{" "}
                         {mine.decision === "approve" ? t("അനുമതി", "Approved") : t("വേണ്ട", "Rejected")}
                       </span>

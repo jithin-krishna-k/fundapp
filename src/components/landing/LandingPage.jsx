@@ -101,22 +101,22 @@ const HERO_ROWS = [
 function LedgerPanel() {
   return (
     <div className="relative mx-auto w-full max-w-2xl">
-      <div className="overflow-hidden rounded-[1.75rem] border border-border bg-card/95 shadow-[0_40px_90px_-55px_rgba(60,35,20,0.55)] backdrop-blur-sm">
+      <div className="overflow-hidden rounded-[1.75rem] border border-border bg-card/95 shadow-[0_40px_90px_-55px_rgba(15,40,35,0.55)] backdrop-blur-sm">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-[12px] font-semibold text-primary-foreground">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-[13.5px] font-semibold text-primary-foreground">
               ₹
             </span>
             <div className="text-left">
-              <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Shared ledger</p>
-              <p className="text-[14px] font-semibold">FUND cycle 2026</p>
+              <p className="text-[12.5px] uppercase tracking-[0.18em] text-muted-foreground">Shared ledger</p>
+              <p className="text-[15px] font-semibold">FUND cycle 2026</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-border bg-background px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            <span className="rounded-full border border-border bg-background px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">
               ₹750 this week
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-primary">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-primary">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               Live
             </span>
@@ -130,8 +130,8 @@ function LedgerPanel() {
             { label: "Weekly", value: "₹250" },
           ].map((item) => (
             <div key={item.label} className="bg-card px-4 py-3 text-center sm:px-5">
-              <p className="text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">{item.label}</p>
-              <p className="tnum mt-1 text-[15px] font-semibold">{item.value}</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{item.label}</p>
+              <p className="tnum mt-1 text-[16px] font-semibold">{item.value}</p>
             </div>
           ))}
         </div>
@@ -140,7 +140,7 @@ function LedgerPanel() {
           {HERO_ROWS.map((row) => (
             <li key={row.name} className="flex items-center gap-3 py-4 text-left">
               <div
-                className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[11px] font-semibold ${row.state === "Paid"
+                className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-semibold ${row.state === "Paid"
                   ? "bg-emerald-700/10 text-emerald-800"
                   : "bg-primary/10 text-primary"
                   }`}
@@ -148,13 +148,13 @@ function LedgerPanel() {
                 {row.state === "Paid" ? <Check className="h-4 w-4" strokeWidth={2} /> : "•"}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[13px] font-medium">{row.name}</p>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">{row.detail}</p>
+                <p className="truncate text-[14.5px] font-medium">{row.name}</p>
+                <p className="mt-0.5 text-[12.5px] text-muted-foreground">{row.detail}</p>
               </div>
               <div className="text-right">
-                <p className="tnum text-[13px] font-semibold">{row.amount}</p>
+                <p className="tnum text-[14.5px] font-semibold">{row.amount}</p>
                 <p
-                  className={`mt-0.5 text-[10px] uppercase tracking-[0.14em] ${row.state === "Paid" ? "text-emerald-700" : "text-primary"
+                  className={`mt-0.5 text-[11.5px] uppercase tracking-[0.14em] ${row.state === "Paid" ? "text-emerald-700" : "text-primary"
                     }`}
                 >
                   {row.state}
@@ -164,7 +164,7 @@ function LedgerPanel() {
           ))}
         </ul>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-card/70 px-5 py-3.5 text-[11px] text-muted-foreground sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border bg-card/70 px-5 py-3.5 text-[12.5px] text-muted-foreground sm:px-6">
           <span className="inline-flex items-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" strokeWidth={1.7} />
             Every entry visible to every member
@@ -199,14 +199,14 @@ export default function LandingPage() {
             {!user && (
               <Link
                 to="/register"
-                className="hidden rounded-full px-3 py-2 text-[12px] text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+                className="hidden rounded-full px-3 py-2 text-[13.5px] text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
               >
                 Request access
               </Link>
             )}
             <Link
               to={primaryTo}
-              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               {primaryLabel}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
@@ -230,10 +230,10 @@ export default function LandingPage() {
           <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-10 lg:py-12">
             <div className="land-rise mx-auto max-w-3xl text-center">
               <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-2 py-1.5 pr-4 backdrop-blur-sm">
-                <span className="rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
+                <span className="rounded-full bg-primary px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
                   Members only
                 </span>
-                <span className="text-[11px] text-muted-foreground">Private weekly fund, fully tracked</span>
+                <span className="text-[12.5px] text-muted-foreground">Private weekly fund, fully tracked</span>
               </div>
 
               <h1 className="mt-4 font-display text-[2.8rem] leading-[0.98] tracking-[-0.03em] sm:text-[4rem] lg:mt-5 lg:text-[5rem]">
@@ -242,7 +242,7 @@ export default function LandingPage() {
                 <span>counted clearly.</span>
               </h1>
 
-              <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-foreground/70 sm:mt-5 sm:text-[17px]">
+              <p className="mx-auto mt-4 max-w-2xl text-[16px] leading-relaxed text-foreground/70 sm:mt-5 sm:text-[17px]">
                 FUND keeps weekly contributions, loans, interest and repayments in one shared ledger — so every
                 member sees the same truth, every week.
               </p>
@@ -250,7 +250,7 @@ export default function LandingPage() {
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   to={primaryTo}
-                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-[13px] font-medium text-primary-foreground shadow-[0_14px_30px_-18px_hsl(var(--primary))] transition-transform hover:-translate-y-0.5 sm:w-auto"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-[14.5px] font-medium text-primary-foreground shadow-[0_14px_30px_-18px_hsl(var(--primary))] transition-transform hover:-translate-y-0.5 sm:w-auto"
                 >
                   {primaryLabel}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={1.8} />
@@ -258,7 +258,7 @@ export default function LandingPage() {
                 {!user && (
                   <Link
                     to="/register"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card/70 px-6 py-3 text-[13px] font-medium text-foreground/85 transition-colors hover:border-primary/30 hover:text-foreground sm:w-auto"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card/70 px-6 py-3 text-[14.5px] font-medium text-foreground/85 transition-colors hover:border-primary/30 hover:text-foreground sm:w-auto"
                   >
                     Request membership
                   </Link>
@@ -273,7 +273,7 @@ export default function LandingPage() {
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <p className="tnum font-display text-[1.35rem] leading-none sm:text-[1.6rem]">{stat.value}</p>
-                    <p className="mt-1.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    <p className="mt-1.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
                       {stat.label}
                     </p>
                   </div>
@@ -289,7 +289,7 @@ export default function LandingPage() {
 
         {/* ticker */}
         <section className="border-y border-border/70 bg-card/60">
-          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-8 gap-y-2 px-5 py-4 text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:px-8">
+          <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-8 gap-y-2 px-5 py-4 text-[11.5px] uppercase tracking-[0.2em] text-muted-foreground sm:px-8">
             <span>₹250 weekly</span>
             <span className="hidden h-1 w-1 rounded-full bg-primary/40 sm:block" />
             <span>One shared ledger</span>
@@ -304,9 +304,9 @@ export default function LandingPage() {
             {PRINCIPLES.map((item, index) => (
               <article key={item.title} className="relative pl-6">
                 <span className="absolute left-0 top-1 h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-primary/60 via-border to-transparent" />
-                <p className="text-[10px] uppercase tracking-[0.22em] text-primary/80">0{index + 1}</p>
+                <p className="text-[11.5px] uppercase tracking-[0.22em] text-primary/80">0{index + 1}</p>
                 <h2 className="mt-3 font-display text-[1.35rem] leading-tight">{item.title}</h2>
-                <p className="mt-2.5 text-[13px] leading-relaxed text-foreground/65">{item.body}</p>
+                <p className="mt-2.5 text-[14.5px] leading-relaxed text-foreground/65">{item.body}</p>
               </article>
             ))}
           </div>
@@ -316,7 +316,7 @@ export default function LandingPage() {
         <section className="border-t border-border/70 bg-card/40">
           <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
             <div className="max-w-xl">
-              <p className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <p className="flex items-center gap-3 text-[11.5px] uppercase tracking-[0.22em] text-muted-foreground">
                 <span className="h-px w-8 bg-primary/50" />
                 What is inside
               </p>
@@ -333,13 +333,13 @@ export default function LandingPage() {
                 return (
                   <article
                     key={feature.title}
-                    className="group rounded-[1.4rem] border border-border bg-background/70 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_20px_40px_-34px_rgba(60,35,20,0.5)]"
+                    className="group rounded-[1.4rem] border border-border bg-background/70 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_20px_40px_-34px_rgba(15,40,35,0.5)]"
                   >
                     <span className="grid h-9 w-9 place-items-center rounded-full border border-primary/20 bg-primary/[0.06] text-primary">
                       <Icon className="h-4 w-4" strokeWidth={1.7} />
                     </span>
-                    <h3 className="mt-4 text-[15px] font-medium leading-tight">{feature.title}</h3>
-                    <p className="mt-2 text-[13px] leading-relaxed text-foreground/65">{feature.body}</p>
+                    <h3 className="mt-4 text-[16px] font-medium leading-tight">{feature.title}</h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">{feature.body}</p>
                   </article>
                 );
               })}
@@ -351,12 +351,12 @@ export default function LandingPage() {
         <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             <div>
-              <p className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <p className="flex items-center gap-3 text-[11.5px] uppercase tracking-[0.22em] text-muted-foreground">
                 <span className="h-px w-8 bg-primary/50" />
                 How it works
               </p>
               <h2 className="mt-4 font-display text-[2rem] leading-tight sm:text-[2.4rem]">Three steps.</h2>
-              <p className="mt-3 max-w-sm text-[13px] leading-relaxed text-foreground/65">
+              <p className="mt-3 max-w-sm text-[14.5px] leading-relaxed text-foreground/65">
                 From the first week to the closing balance, without a single loose end.
               </p>
             </div>
@@ -366,8 +366,8 @@ export default function LandingPage() {
                 <li key={step.title} className="flex gap-5 border-t border-border/70 py-6 first:border-t-0 first:pt-0">
                   <span className="font-display text-[2.2rem] leading-none text-primary/35">0{index + 1}</span>
                   <div>
-                    <h3 className="text-[15px] font-medium leading-tight">{step.title}</h3>
-                    <p className="mt-2 text-[13px] leading-relaxed text-foreground/65">{step.body}</p>
+                    <h3 className="text-[16px] font-medium leading-tight">{step.title}</h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">{step.body}</p>
                   </div>
                 </li>
               ))}
@@ -381,23 +381,23 @@ export default function LandingPage() {
             <p className="font-display text-[1.5rem] leading-snug sm:text-[1.9rem]">
               “No new member without everyone&apos;s consent.”
             </p>
-            <p className="mt-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">FUND rule 9</p>
+            <p className="mt-4 text-[12.5px] uppercase tracking-[0.18em] text-muted-foreground">FUND rule 9</p>
           </div>
         </section>
 
         {/* final CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <div className="land-rise flex flex-col items-start justify-between gap-6 rounded-[1.6rem] border border-primary/20 bg-card p-6 shadow-[0_30px_60px_-50px_rgba(60,35,20,0.6)] sm:flex-row sm:items-center sm:p-8">
+          <div className="land-rise flex flex-col items-start justify-between gap-6 rounded-[1.6rem] border border-primary/20 bg-card p-6 shadow-[0_30px_60px_-50px_rgba(15,40,35,0.6)] sm:flex-row sm:items-center sm:p-8">
             <div>
               <h2 className="font-display text-[1.6rem] leading-tight sm:text-[1.9rem]">Already part of the circle?</h2>
-              <p className="mt-2 text-[13px] leading-relaxed text-foreground/65">
+              <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">
                 Sign in with your email. The rest of the ledger will be waiting.
               </p>
             </div>
             <div className="flex w-full gap-2 sm:w-auto">
               <Link
                 to={primaryTo}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-[12.5px] font-medium text-primary-foreground sm:flex-none"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-[14px] font-medium text-primary-foreground sm:flex-none"
               >
                 {primaryLabel}
                 <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
@@ -405,7 +405,7 @@ export default function LandingPage() {
               {!user && (
                 <Link
                   to="/register"
-                  className="flex flex-1 items-center justify-center rounded-full border border-border bg-background px-5 py-2.5 text-[12.5px] font-medium text-foreground/80 sm:flex-none"
+                  className="flex flex-1 items-center justify-center rounded-full border border-border bg-background px-5 py-2.5 text-[14px] font-medium text-foreground/80 sm:flex-none"
                 >
                   Register
                 </Link>
@@ -416,7 +416,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="border-t border-border/70">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-5 py-6 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground sm:flex-row sm:items-center sm:px-8">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-5 py-6 text-[12px] uppercase tracking-[0.16em] text-muted-foreground sm:flex-row sm:items-center sm:px-8">
           <span className="font-display text-[0.8rem] tracking-[0.24em] text-foreground/70">FUND</span>
       <span className="flex flex-col gap-1 sm:items-end sm:text-right"><span>Members only · Private fund group</span><span className="normal-case tracking-[0.08em]">Created by Jithin Krishna</span></span>
         </div>

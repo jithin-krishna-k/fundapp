@@ -14,7 +14,7 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "FUND Â· à´«à´£àµà´Ÿàµ à´—àµà´°àµ‚à´ªàµà´ªàµ â€” Members Only" },
       { name: "description", content: "Private weekly savings and lending management for the FUND group." },
-      { name: "theme-color", content: "#F7F4EC" },
+      { name: "theme-color", content: "#F6F8F7" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -22,7 +22,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,450;0,500;0,600;0,700;1,400;1,500&family=Manjari:wght@400;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,450;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap",
       },
     ],
   }),

@@ -12,18 +12,40 @@ export function LanguageProvider({ children }) {
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const [lang, setLangState] = useState("ml");
 
-  // The signed-in user's choice lives in Neon (app_user_prefs); signed out, the default (ml) applies.
+  const remember = (value) => {
+    try {
+      localStorage.setItem("fund.lang", value);
+    } catch {}
+  };
+
+  // Apply the locally remembered choice right away so the UI doesn't flash the default.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("fund.lang");
+      if (saved === "ml" || saved === "en") setLangState(saved);
+    } catch {}
+  }, []);
+
+  // The signed-in user's choice lives in Neon (app_user_prefs) and wins once loaded.
   useEffect(() => {
     if (isLoadingAuth) return;
     getMyPrefs()
       .then((prefs) => {
-        if (prefs?.lang === "ml" || prefs?.lang === "en") setLangState(prefs.lang);
+        if (prefs?.lang === "ml" || prefs?.lang === "en") {
+          setLangState(prefs.lang);
+          remember(prefs.lang);
+        }
       })
       .catch(() => {});
   }, [isLoadingAuth]);
 
+  useEffect(() => {
+    if (typeof document !== "undefined") document.documentElement.lang = lang;
+  }, [lang]);
+
   const setLang = (next) => {
     setLangState(next);
+    remember(next);
     if (isAuthenticated) saveMyLang({ data: { lang: next } }).catch(() => {});
   };
 

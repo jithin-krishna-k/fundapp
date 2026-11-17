@@ -49,13 +49,13 @@ function ReportsPage() {
           <div className="flex gap-2">
             <button
               onClick={exportCsv}
-              className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[11.5px] text-foreground/80"
+              className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80"
             >
               <Download className="h-3.5 w-3.5" strokeWidth={1.8} /> CSV
             </button>
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
             >
               <Printer className="h-3.5 w-3.5" strokeWidth={1.8} /> PDF
             </button>
@@ -69,7 +69,7 @@ function ReportsPage() {
             key={key}
             onClick={() => setActive(key)}
             className={cn(
-              "rounded-full border px-3 py-1.5 font-mal text-[11px] transition-colors",
+              "rounded-full border px-3 py-1.5 font-mal text-[12.5px] transition-colors",
               active === key ? "border-primary/30 bg-primary/10 text-primary" : "border-border bg-card text-foreground/70"
             )}
           >
@@ -81,16 +81,16 @@ function ReportsPage() {
       <section className="overflow-hidden rounded-[1.2rem] border border-border bg-card">
         <div className="flex items-end justify-between gap-3 border-b border-border/70 px-4 py-3">
           <div>
-            <h2 className="font-mal text-[13.5px]">{lang === "en" ? report.en : report.title}</h2>
-            <p className="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            <h2 className="font-mal text-[15px]">{lang === "en" ? report.en : report.title}</h2>
+            <p className="mt-0.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
               {lang === "en" ? report.title : report.en}
             </p>
           </div>
-          <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{report.rows.length} rows</p>
+          <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{report.rows.length} rows</p>
         </div>
 
         {report.rows.length === 0 ? (
-          <p className="px-4 py-10 text-center font-mal text-[12px] text-muted-foreground">
+          <p className="px-4 py-10 text-center font-mal text-[13.5px] text-muted-foreground">
             {tr("ഡാറ്റ ലഭ്യമല്ല", "No data available")}
           </p>
         ) : (
@@ -101,7 +101,7 @@ function ReportsPage() {
                   {report.columns.map((column) => (
                     <th
                       key={column}
-                      className="whitespace-nowrap px-4 py-2 text-[9.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
+                      className="whitespace-nowrap px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
                     >
                       {column}
                     </th>
@@ -112,7 +112,7 @@ function ReportsPage() {
                 {report.rows.map((row, rowIndex) => (
                   <tr key={rowIndex} className="border-b border-border/50 last:border-0">
                     {row.map((cell, cellIndex) => (
-                      <td key={cellIndex} className="tnum whitespace-nowrap px-4 py-2.5 text-[11.5px]">
+                      <td key={cellIndex} className="tnum whitespace-nowrap px-4 py-2.5 text-[13px]">
                         {cell}
                       </td>
                     ))}

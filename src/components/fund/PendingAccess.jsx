@@ -13,7 +13,7 @@ export default function PendingAccess({ member }) {
 
   return (
     <div className="grid min-h-screen place-items-center bg-background px-6">
-      <div className="w-full max-w-md rounded-[1.6rem] border border-border bg-card p-7 text-center shadow-[0_24px_60px_-40px_rgba(0,0,0,0.4)]">
+      <div className="w-full max-w-md rounded-[1.6rem] border border-border bg-card p-7 text-center">
         <div className="flex justify-center">
           <Logo />
         </div>
@@ -26,7 +26,7 @@ export default function PendingAccess({ member }) {
             ? t("അംഗത്വം ഒഴിവാക്കി", "Membership removed")
             : t("അംഗത്വം അനുമതിക്കായി കാത്തിരിക്കുന്നു", "Membership awaiting approval")}
         </h1>
-        <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground font-mal text-[13px] leading-relaxed">
+        <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground font-mal text-[14.5px] leading-relaxed">
           {removed
             ? t(
                 "സൂപ്പർ അഡ്മിൻ നിങ്ങളെ ഈ ഫണ്ട് ഗ്രൂപ്പിൽ നിന്ന് ഒഴിവാക്കി. വീണ്ടും അംഗമാകാൻ ഗ്രൂപ്പ് അഡ്മിനെ സമീപിക്കുക.",
@@ -40,18 +40,18 @@ export default function PendingAccess({ member }) {
         {removed ? (
           <button
             onClick={logout}
-            className="mt-6 rounded-full border border-border bg-background px-4 py-2 text-[11.5px] text-foreground/80"
+            className="mt-6 rounded-full border border-border bg-background px-4 py-2 text-[13px] text-foreground/80"
           >
             {t("സൈൻ ഔട്ട്", "Sign out")}
           </button>
         ) : (
           <div className="mt-5 rounded-xl border border-border bg-background/70 px-4 py-3 text-left">
-            <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Requested by</p>
-            <p className="mt-1 text-[13px] font-mal text-[13px]">{member?.full_name}</p>
-            <p className="text-[11.5px] text-muted-foreground">{member?.user_email}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Requested by</p>
+            <p className="mt-1 text-[14.5px] font-mal text-[14.5px]">{member?.full_name}</p>
+            <p className="text-[13px] text-muted-foreground">{member?.user_email}</p>
           </div>
         )}
-        <div className="mt-6 flex items-center justify-center gap-1.5 text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground">
+        <div className="mt-6 flex items-center justify-center gap-1.5 text-[12px] uppercase tracking-[0.14em] text-muted-foreground">
           <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.7} /> Members only
         </div>
       </div>

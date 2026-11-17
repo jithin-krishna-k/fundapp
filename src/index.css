@@ -4,60 +4,60 @@
 
 @layer base {
   :root {
-    --background: 44 41% 95%;
-    --foreground: 0 0% 13%;
+    --background: 150 12% 97%;
+    --foreground: 165 18% 12%;
 
-    --card: 44 44% 98%;
-    --card-foreground: 0 0% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 165 18% 12%;
 
-    --popover: 44 46% 98%;
-    --popover-foreground: 0 0% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 165 18% 12%;
 
-    --primary: 17 56% 52%;
-    --primary-foreground: 42 50% 97%;
+    --primary: 164 58% 26%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 30% 91%;
-    --secondary-foreground: 0 0% 13%;
+    --secondary: 155 14% 93%;
+    --secondary-foreground: 165 18% 12%;
 
-    --muted: 42 28% 92%;
-    --muted-foreground: 40 6% 40%;
+    --muted: 155 12% 94%;
+    --muted-foreground: 165 6% 40%;
 
-    --accent: 42 32% 90%;
-    --accent-foreground: 0 0% 13%;
+    --accent: 158 22% 92%;
+    --accent-foreground: 165 18% 12%;
 
     --destructive: 2 60% 44%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 42 24% 86%;
-    --input: 42 24% 84%;
-    --ring: 17 56% 52%;
+    --border: 155 10% 89%;
+    --input: 155 10% 85%;
+    --ring: 164 58% 26%;
 
-    --radius: 1.1rem;
+    --radius: 0.875rem;
 
-    --chart-1: 17 56% 52%;
-    --chart-2: 152 26% 42%;
+    --chart-1: 164 58% 26%;
+    --chart-2: 205 40% 45%;
     --chart-3: 40 45% 58%;
     --chart-4: 214 26% 46%;
     --chart-5: 340 32% 52%;
 
-    --cream: 44 41% 95%;
-    --clay: 17 56% 52%;
+    --cream: 150 12% 97%;
+    --clay: 164 58% 26%;
 
-    --font-display: "Plus Jakarta Sans", "Manjari", system-ui, -apple-system, sans-serif;
-    --font-body: "Plus Jakarta Sans", "Manjari", system-ui, -apple-system, sans-serif;
-    --font-heading: "Plus Jakarta Sans", "Manjari", system-ui, -apple-system, sans-serif;
+    --font-display: "Plus Jakarta Sans", "Noto Sans Malayalam", system-ui, -apple-system, sans-serif;
+    --font-body: "Plus Jakarta Sans", "Noto Sans Malayalam", system-ui, -apple-system, sans-serif;
+    --font-heading: "Plus Jakarta Sans", "Noto Sans Malayalam", system-ui, -apple-system, sans-serif;
     --font-logo: "Archivo Black", "Plus Jakarta Sans", sans-serif;
-    --font-mal: "Manjari", "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mal: "Noto Sans Malayalam", "Plus Jakarta Sans", system-ui, sans-serif;
     --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    --sidebar-background: 44 46% 97%;
-    --sidebar-foreground: 0 0% 13%;
-    --sidebar-primary: 17 56% 52%;
-    --sidebar-primary-foreground: 42 50% 97%;
-    --sidebar-accent: 42 32% 92%;
-    --sidebar-accent-foreground: 0 0% 13%;
-    --sidebar-border: 42 24% 88%;
-    --sidebar-ring: 17 56% 52%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 165 18% 12%;
+    --sidebar-primary: 164 58% 26%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 158 22% 94%;
+    --sidebar-accent-foreground: 165 18% 12%;
+    --sidebar-border: 155 10% 90%;
+    --sidebar-ring: 164 58% 26%;
   }
 }
 
@@ -97,6 +97,12 @@
     font-family: var(--font-mal);
   }
 
+  /* Letter-spacing breaks Malayalam conjuncts, so drop it for Malayalam text. */
+  .font-mal,
+  html[lang="ml"] [class*="tracking-"] {
+    letter-spacing: normal !important;
+  }
+
   .tnum {
     font-variant-numeric: tabular-nums lining-nums;
     font-feature-settings: "tnum" 1, "lnum" 1;
@@ -119,12 +125,12 @@
     animation: pageEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* Warm paper background for the public landing page. */
+  /* Soft background for the public landing page. */
   .land-paper {
     background-color: hsl(var(--background));
     background-image:
       radial-gradient(1100px 520px at 82% -8%, hsl(var(--primary) / 0.1), transparent 65%),
-      radial-gradient(760px 420px at -6% 32%, hsl(152 26% 42% / 0.07), transparent 70%);
+      radial-gradient(760px 420px at -6% 32%, hsl(205 40% 45% / 0.06), transparent 70%);
   }
 
   .land-ledger-lines {

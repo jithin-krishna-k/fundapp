@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, LogOut, MoreHorizontal } from "lucide-react";
+import { Bell, LogOut, MoreHorizontal, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { cn } from "@/lib/utils";
 import Logo from "@/components/fund/Logo";
 import LangToggle from "@/components/fund/LangToggle";
 import { useLang } from "@/lib/LangContext";
@@ -31,7 +32,24 @@ export default function AppLayout({ children }) {
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      setCollapsed(localStorage.getItem("fund.sidebarCollapsed") === "1");
+    } catch {}
+  }, []);
+
+  const toggleCollapsed = () => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("fund.sidebarCollapsed", next ? "1" : "0");
+      } catch {}
+      return next;
+    });
+  };
 
   const primary = NAV.filter((item) => MOBILE_NAV.includes(item.to));
   const rest = NAV.filter((item) => !MOBILE_NAV.includes(item.to));
@@ -41,50 +59,89 @@ export default function AppLayout({ children }) {
   return (
     <div className="min-h-screen bg-background">
       {/* ── desktop sidebar ── */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[16rem] flex-col border-r border-sidebar-border bg-sidebar lg:flex">
-        <div className="px-6 pb-6 pt-7">
-          <Link to="/dashboard">
-            <Logo />
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-30 hidden flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200 lg:flex",
+          collapsed ? "w-[4.75rem]" : "w-[16rem]"
+        )}
+      >
+        <div className={cn("flex items-start justify-between gap-2 pb-5 pt-6", collapsed ? "flex-col items-center px-3" : "px-5")}>
+          <Link to="/dashboard" className={cn(collapsed && "grid h-10 w-10 place-items-center")}>
+            {collapsed ? (
+              <span
+                style={{ fontFamily: '"Archivo Black", "Plus Jakarta Sans", sans-serif' }}
+                className="text-[1.25rem] leading-none text-foreground"
+              >
+                F
+              </span>
+            ) : (
+              <Logo />
+            )}
           </Link>
-          <LangToggle showIcon={false} />
+          <button
+            type="button"
+            onClick={toggleCollapsed}
+            aria-label={collapsed ? t("സൈഡ്ബാർ തുറക്കുക", "Expand sidebar") : t("സൈഡ്ബാർ അടയ്ക്കുക", "Collapse sidebar")}
+            title={collapsed ? t("സൈഡ്ബാർ തുറക്കുക", "Expand sidebar") : t("സൈഡ്ബാർ അടയ്ക്കുക", "Collapse sidebar")}
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {collapsed ? (
+              <PanelLeftOpen className="h-[17px] w-[17px]" strokeWidth={1.7} />
+            ) : (
+              <PanelLeftClose className="h-[17px] w-[17px]" strokeWidth={1.7} />
+            )}
+          </button>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4">
+        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4" aria-label="Main">
           {NAV.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.to);
+            const label = lang === "en" ? item.en : item.ml;
             return (
               <Link
                 key={item.to}
                 to={item.to}
-                className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors
-                  active:bg-primary/10 active:text-primary
-                  hover:bg-secondary/70 hover:text-foreground">
-                <Icon className="h-[17px] w-[17px] shrink-0
-                  active:text-primary
-                  text-muted-foreground" strokeWidth={1.7} />
-                <span className="text-[13.5px] leading-none
-                  font-mal">
-                  {lang === "en" ? item.en : item.ml}
-                </span>
+                title={collapsed ? label : undefined}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex items-center gap-3 rounded-xl py-2.5 transition-colors",
+                  collapsed ? "justify-center px-0" : "px-3",
+                  active
+                    ? "bg-primary/10 font-medium text-primary"
+                    : "text-foreground/80 hover:bg-secondary hover:text-foreground"
+                )}
+              >
+                <Icon
+                  className={cn("h-[17px] w-[17px] shrink-0", active ? "text-primary" : "text-muted-foreground")}
+                  strokeWidth={active ? 2 : 1.7}
+                />
+                {!collapsed && (
+                  <span className={cn("truncate text-[15px] leading-none", lang === "en" ? "" : "font-mal")}>{label}</span>
+                )}
               </Link>
             );
           })}
         </nav>
         <div className="border-t border-sidebar-border p-3">
-          <div className="flex items-center gap-3 rounded-xl px-2 py-2">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-secondary font-mal text-sm text-foreground">
+          <div className={cn("flex items-center gap-3 rounded-xl py-2", collapsed ? "flex-col px-0" : "px-2")}>
+            <span
+              title={collapsed ? (mounted ? user?.full_name || "Member" : "Member") : undefined}
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-secondary font-mal text-sm text-foreground"
+            >
               {initial}
             </span>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-[12.5px] font-medium">{mounted ? user?.full_name || "Member" : "Member"}</p>
-              <p className="truncate text-[10px] uppercase tracking-[0.14em] text-muted-foreground
-                font-mal">
-                {t(role.ml, role.en)}
-              </p>
-            </div>
+            {!collapsed && (
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[14px] font-medium">{mounted ? user?.full_name || "Member" : "Member"}</p>
+                <p className={cn("truncate text-[12.5px] text-muted-foreground", lang === "en" ? "" : "font-mal")}>
+                  {t(role.ml, role.en)}
+                </p>
+              </div>
+            )}
             <button
               onClick={() => setLogoutOpen(true)}
               aria-label="Sign out"
+              title="Sign out"
               className="grid h-8 w-8 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
             >
               <LogOut className="h-4 w-4" strokeWidth={1.7} />
@@ -106,16 +163,16 @@ export default function AppLayout({ children }) {
           >
             <Bell className="h-[17px] w-[17px]" strokeWidth={1.7} />
           </Link>
-          <LangToggle showIcon={false} />
-          <Link to="/settings" className="grid h-9 w-9 place-items-center rounded-full bg-secondary text-[13px]
-            font-mal text-[13px]">
+          <LangToggle compact />
+          <Link to="/settings" className="grid h-9 w-9 place-items-center rounded-full bg-secondary text-[14.5px]
+            font-mal text-[14.5px]">
             {initial}
           </Link>
         </div>
       </header>
 
-      <main className="lg:pl-[16rem]">
-        <div className="mx-auto w-full max-w-[74rem] px-4 pb-28 pt-5 sm:px-6 lg:px-10 lg:pb-14 lg:pt-9">{children}</div>
+      <main className={cn("transition-[padding] duration-200", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[16rem]")}>
+        <div className="w-full max-w-[120rem] px-4 pb-28 pt-5 sm:px-6 lg:px-10 xl:px-12 lg:pb-14 lg:pt-9">{children}</div>
       </main>
 
       {/* ── mobile bottom nav ── */}
@@ -125,13 +182,14 @@ export default function AppLayout({ children }) {
             const Icon = item.icon;
             const active = isActive(item.to);
             return (
-              <Link key={item.to} to={item.to} className="flex flex-col items-center gap-1 py-2.5">
-                <Icon className="h-[19px] w-[19px]
-                  active:text-primary
-                  text-muted-foreground" strokeWidth={1.8} />
-                <span
-                  className="text-[10px] leading-none
-                    font-mal">
+              <Link
+                key={item.to}
+                to={item.to}
+                aria-current={active ? "page" : undefined}
+                className={cn("flex flex-col items-center gap-1 py-2.5", active ? "text-primary" : "text-muted-foreground")}
+              >
+                <Icon className="h-[19px] w-[19px]" strokeWidth={active ? 2.1 : 1.8} />
+                <span className={cn("text-[11.5px] leading-none", active && "font-medium", lang === "en" ? "" : "font-mal")}>
                   {lang === "en" ? item.en : item.ml}
                 </span>
               </Link>
@@ -140,16 +198,16 @@ export default function AppLayout({ children }) {
           <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
             <SheetTrigger className="flex flex-col items-center gap-1 py-2.5">
               <MoreHorizontal className="h-[19px] w-[19px] text-muted-foreground" strokeWidth={1.8} />
-              <span className="text-[10px] leading-none
+              <span className="text-[11.5px] leading-none
                 font-mal">
-                {t("കൂട Gutiérrez larger", "More")}
+                {t("കൂടുതൽ", "More")}
               </span>
             </SheetTrigger>
             <SheetContent side="bottom" className="rounded-t-3xl border-border bg-background">
               <SheetHeader>
                 <SheetTitle className="text-left text-base font-normal
                   font-mal">
-                  {t("കൂട Gutiérrez larger", "More sections")}
+                  {t("കൂടുതൽ വിഭാഗങ്ങൾ", "More sections")}
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-4 grid grid-cols-3 gap-2 pb-6">
@@ -161,12 +219,17 @@ export default function AppLayout({ children }) {
                       key={item.to}
                       to={item.to}
                       onClick={() => setMoreOpen(false)}
-                      className="flex flex-col items-center gap-2 rounded-2xl border px-2 py-3 text-center
-                        active:border-primary/25 active:bg-primary/10 active:text-primary
-                        hover:bg-card hover:text-foreground/80">
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex flex-col items-center gap-2 rounded-2xl border px-2 py-3 text-center",
+                        active
+                          ? "border-primary/25 bg-primary/10 text-primary"
+                          : "border-border bg-card text-foreground/80 hover:border-primary/25"
+                      )}
+                    >
                       <Icon className="h-[18px] w-[18px]" strokeWidth={1.7} />
                       <span
-                        className="text-[11px] leading-tight
+                        className="text-[12.5px] leading-tight
                           font-mal">
                         {lang === "en" ? item.en : item.ml}
                       </span>
@@ -178,7 +241,7 @@ export default function AppLayout({ children }) {
                   className="flex flex-col items-center gap-2 rounded-2xl border border-border bg-card px-2 py-3 text-center text-foreground/70"
                 >
                   <LogOut className="h-[18px] w-[18px]" strokeWidth={1.7} />
-                  <span className="text-[11px] leading-tight
+                  <span className="text-[12.5px] leading-tight
                     font-mal">
                     {t("പുറത്ത്", "Sign out")}
                   </span>
@@ -197,7 +260,7 @@ export default function AppLayout({ children }) {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3.5">
-            <p className="font-mal text-[12px] leading-relaxed text-muted-foreground">
+            <p className="font-mal text-[13.5px] leading-relaxed text-muted-foreground">
               {t(
                 "നിങ്ങൾക്ക് ഉറപ്പാണോ? വീണ്ടും പ്രവേശിക്കാൻ ഇമെയിൽ വഴി സൈൻ ഇൻ ചെയ്യേണ്ടി വരും.",
                 "Are you sure? You will need to sign in again with your email."
@@ -207,7 +270,7 @@ export default function AppLayout({ children }) {
               <Button
                 variant="outline"
                 onClick={() => setLogoutOpen(false)}
-                className="w-full rounded-full py-5 text-[12.5px]"
+                className="w-full rounded-full py-5 text-[14px]"
               >
                 {t("റദ്ദാക്കുക", "Cancel")}
               </Button>
@@ -216,7 +279,7 @@ export default function AppLayout({ children }) {
                   setLogoutOpen(false);
                   logout();
                 }}
-                className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground"
+                className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground"
               >
                 {t("സൈൻ ഔട്ട്", "Sign out")}
               </Button>

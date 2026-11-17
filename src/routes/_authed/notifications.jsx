@@ -42,7 +42,7 @@ function NotificationsPage() {
           notifications.some((n) => !n.read) ? (
             <button
               onClick={markAll}
-              className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[11.5px] text-foreground/80"
+              className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80"
             >
               <CheckCheck className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("എല്ലാം വായിച്ചു", "Mark all read")}
             </button>
@@ -67,9 +67,9 @@ function NotificationsPage() {
               <div className="flex items-start gap-2">
                 {!item.read && <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />}
                 <div className="min-w-0">
-                  <p className="font-mal text-[12.5px] leading-tight">{item.title}</p>
-                  <p className="mt-1 font-mal text-[11.5px] leading-relaxed text-muted-foreground">{item.body}</p>
-                  <p className="mt-1 text-[10px] text-muted-foreground/80">{formatDateTime(item.created_date)}</p>
+                  <p className="font-mal text-[14px] leading-tight">{item.title}</p>
+                  <p className="mt-1 font-mal text-[13px] leading-relaxed text-muted-foreground">{item.body}</p>
+                  <p className="mt-1 text-[11.5px] text-muted-foreground/80">{formatDateTime(item.created_date)}</p>
                 </div>
               </div>
             </button>

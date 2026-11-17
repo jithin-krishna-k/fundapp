@@ -65,7 +65,7 @@ function ExpensesPage() {
           isHandler ? (
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
             >
               <Plus className="h-3.5 w-3.5" strokeWidth={2} /> {t("ചെലവ് ചേർക്കുക", "Add expense")}
             </button>
@@ -75,11 +75,11 @@ function ExpensesPage() {
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Approved expenses</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Approved expenses</p>
           <p className="tnum mt-1 font-display text-[1.35rem] leading-none">{inr(total)}</p>
         </div>
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Awaiting approval</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Awaiting approval</p>
           <p className="tnum mt-1 font-display text-[1.35rem] leading-none">{expenses.filter((e) => e.status === "pending").length}</p>
         </div>
       </div>
@@ -91,8 +91,8 @@ function ExpensesPage() {
           {expenses.map((item) => (
             <article key={item.id} className="flex flex-wrap items-center gap-3 rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
               <div className="min-w-0 flex-1">
-                <p className="font-mal text-[12.5px] leading-tight">{item.description}</p>
-                <p className="mt-1 text-[10.5px] text-muted-foreground">
+                <p className="font-mal text-[14px] leading-tight">{item.description}</p>
+                <p className="mt-1 text-[12px] text-muted-foreground">
                   {t(
                     CATEGORIES.find((c) => c.value === item.category)?.label,
                     CATEGORIES.find((c) => c.value === item.category)?.en
@@ -100,7 +100,7 @@ function ExpensesPage() {
                   · {formatDate(item.expense_date)} · {item.recorded_by}
                 </p>
               </div>
-              <p className="tnum text-[12.5px] font-medium">{inr(item.amount)}</p>
+              <p className="tnum text-[14px] font-medium">{inr(item.amount)}</p>
               <StatusPill tone={item.status === "approved" ? "paid" : item.status === "rejected" ? "overdue" : "pending"}>
                 {item.status === "approved"
                   ? t("അനുമതി", "Approved")
@@ -113,14 +113,14 @@ function ExpensesPage() {
                   <button
                     onClick={() => decide(item.id, "approve")}
                     disabled={busy === item.id + "approve"}
-                    className="rounded-full bg-emerald-600/12 px-3 py-1.5 text-[11px] text-emerald-800"
+                    className="rounded-full bg-emerald-600/12 px-3 py-1.5 text-[12.5px] text-emerald-800"
                   >
                     {t("അനുമതി", "Approve")}
                   </button>
                   <button
                     onClick={() => decide(item.id, "reject")}
                     disabled={busy === item.id + "reject"}
-                    className="rounded-full bg-red-600/10 px-3 py-1.5 text-[11px] text-red-800"
+                    className="rounded-full bg-red-600/10 px-3 py-1.5 text-[12.5px] text-red-800"
                   >
                     {t("നിരസിക്കുക", "Reject")}
                   </button>
@@ -177,7 +177,7 @@ function AddExpenseDialog({ open, onOpenChange, onDone }) {
                 type="button"
                 onClick={() => setForm((prev) => ({ ...prev, category: item.value }))}
                 className={cn(
-                  "rounded-xl border px-2 py-2 font-mal text-[11px]",
+                  "rounded-xl border px-2 py-2 font-mal text-[12.5px]",
                   form.category === item.value
                     ? "border-primary/40 bg-primary/10 text-primary"
                     : "border-border bg-card text-foreground/70"
@@ -197,13 +197,13 @@ function AddExpenseDialog({ open, onOpenChange, onDone }) {
             <Textarea rows={2} value={form.description} onChange={(event) => setForm((p) => ({ ...p, description: event.target.value }))} />
           </Field>
           <Field label={t("രസീത്", "Receipt")} hint={t("ഓപ്ഷണൽ · സ്വകാര്യമായി സൂക്ഷിക്കുന്നു", "Optional · stored privately")}>
-            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[12px] text-muted-foreground">
+            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[13.5px] text-muted-foreground">
               <Upload className="h-4 w-4" strokeWidth={1.7} />
               <span className="truncate">{file ? file.name : t("രസീത് അപ്‌ലോഡ് ചെയ്യുക", "Upload receipt")}</span>
               <input type="file" accept="image/*,application/pdf" className="hidden" onChange={(event) => setFile(event.target.files?.[0] || null)} />
             </label>
           </Field>
-          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground">
+          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("രേഖപ്പെടുത്തുക", "Record")}
           </Button>
         </div>

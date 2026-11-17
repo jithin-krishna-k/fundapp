@@ -5,6 +5,7 @@ import StatCard from "@/components/fund/StatCard";
 import SectionHeading from "@/components/fund/SectionHeading";
 import WeeklyCard from "@/components/dashboard/WeeklyCard";
 import QuickActions from "@/components/dashboard/QuickActions";
+import LangToggle from "@/components/fund/LangToggle";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
 import EmptyState from "@/components/fund/EmptyState";
 import { useFund } from "@/lib/FundContext";
@@ -69,33 +70,36 @@ function DashboardPage() {
   });
 
   return (
-    <div className="page-enter space-y-7">
+    <div className="page-enter space-y-8">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-mal text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{today || "\u00a0"}</p>
+          <p className="font-mal text-[12.5px] uppercase tracking-[0.2em] text-muted-foreground">{today || "\u00a0"}</p>
           <h1 className={cn("mt-2 text-[1.6rem] leading-tight sm:text-[1.9rem]", lang === "en" ? "" : "font-mal")}>
             {t("നമസ്കാരം", "Welcome")}
             {firstName ? `, ${firstName}` : ""}
           </h1>
           <p
             className={cn(
-              "mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground",
+              "mt-1 text-[12.5px] uppercase tracking-[0.18em] text-muted-foreground",
               lang === "en" ? "font-mal" : ""
             )}
           >
             {fund.cycle?.name || "Fund group"} · {t("അംഗങ്ങൾക്ക് മാത്രം", "members only")}
           </p>
         </div>
+        <div className="hidden items-center gap-2 lg:flex">
+        <LangToggle />
         <Link
           to="/notifications"
           aria-label="Notifications"
-          className="relative hidden h-10 w-10 place-items-center rounded-full border border-border bg-card text-foreground/75 transition-colors hover:border-primary/30 hover:text-primary sm:grid"
+          className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-card text-foreground/75 transition-colors hover:border-primary/30 hover:text-primary"
         >
           <Bell className="h-[18px] w-[18px]" strokeWidth={1.7} />
           {fund.notifications.some((n) => !n.read) && (
             <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-primary" />
           )}
         </Link>
+        </div>
       </header>
 
       <section>
@@ -103,20 +107,20 @@ function DashboardPage() {
           ml="സാമ്പത്തിക സ്ഥിതി"
           en="Financial summary"
           action={
-            <Link to="/reports" className="text-[11px] uppercase tracking-[0.14em] text-primary hover:underline">
+            <Link to="/reports" className="text-[12.5px] uppercase tracking-[0.14em] text-primary hover:underline">
               Reports
             </Link>
           }
         />
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard
             featured
             labelMl="ആകെ ഫണ്ട് ബാലൻസ്"
             labelEn="Total fund balance"
             value={summary.balance}
             details={[
-              { label: "ക്യാഷ്", value: inr(summary.cashBalance) },
-              { label: "അംഗങ്ങൾ", value: String(summary.members) },
+              { label: t("ക്യാഷ്", "Cash"), value: inr(summary.cashBalance) },
+              { label: t("അംഗങ്ങൾ", "Members"), value: String(summary.members) },
             ]}
           />
           <StatCard
@@ -146,22 +150,22 @@ function DashboardPage() {
       </section>
 
       {(pendingVerification > 0 || pendingRequests > 0) && (fund.isHandler || fund.isAdmin) && (
-        <section className="grid gap-3 sm:grid-cols-2">
+        <section className="grid gap-4 sm:grid-cols-2">
           {pendingVerification > 0 && (
             <Link
               to="/transactions"
-              className="flex items-center gap-3 rounded-[1.2rem] border border-primary/20 bg-primary/[0.06] px-4 py-3.5"
+              className="flex items-center gap-4 rounded-2xl border border-primary/20 bg-primary/[0.06] px-5 py-4"
             >
               <span className="grid h-9 w-9 place-items-center rounded-full bg-primary/12 text-primary">
                 <ClipboardCheck className="h-4 w-4" strokeWidth={1.8} />
               </span>
               <span className="min-w-0 flex-1">
-                <span className={cn("block text-[12.5px]", lang === "en" ? "" : "font-mal")}>
+                <span className={cn("block text-[14px]", lang === "en" ? "" : "font-mal")}>
                   {t("പരിശോധിക്കാനുള്ള പേയ്‌മെന്റുകൾ", "Payments to verify")}
                 </span>
                 <span
                   className={cn(
-                    "block text-[10px] uppercase tracking-[0.14em] text-muted-foreground",
+                    "block text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground",
                     lang === "en" ? "font-mal" : ""
                   )}
                 >
@@ -174,18 +178,18 @@ function DashboardPage() {
           {pendingRequests > 0 && (
             <Link
               to="/request-fund"
-              className="flex items-center gap-3 rounded-[1.2rem] border border-border bg-card px-4 py-3.5"
+              className="flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4"
             >
               <span className="grid h-9 w-9 place-items-center rounded-full bg-secondary text-foreground/70">
                 <HandCoins className="h-4 w-4" strokeWidth={1.8} />
               </span>
               <span className="min-w-0 flex-1">
-                <span className={cn("block text-[12.5px]", lang === "en" ? "" : "font-mal")}>
+                <span className={cn("block text-[14px]", lang === "en" ? "" : "font-mal")}>
                   {t("അനുമതിക്കായുള്ള ഫണ്ട് അഭ്യർത്ഥനകൾ", "Fund requests awaiting approval")}
                 </span>
                 <span
                   className={cn(
-                    "block text-[10px] uppercase tracking-[0.14em] text-muted-foreground",
+                    "block text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground",
                     lang === "en" ? "font-mal" : ""
                   )}
                 >
@@ -198,10 +202,10 @@ function DashboardPage() {
         </section>
       )}
 
-      <section className="grid gap-4 lg:grid-cols-3">
+      <section className="grid items-stretch gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2">
           {weekContributions.length === 0 ? (
-            <div className="rounded-[1.4rem] border border-border bg-card p-5 sm:p-6">
+            <div className="h-full rounded-2xl border border-border bg-card p-5 sm:p-6">
               <EmptyState
                 icon={HandCoins}
                 ml="ഈ ആഴ്ചയുടെ സംഭാവന രേഖകൾ ഇല്ല"
@@ -209,7 +213,7 @@ function DashboardPage() {
                 action={
                   <Link
                     to="/contributions"
-                    className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+                    className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
                   >
                     {t("സംഭാവന വിഭാഗത്തിലേക്ക്", "Go to contributions")}
                   </Link>
@@ -244,7 +248,7 @@ function DashboardPage() {
             action={
               <Link
                 to="/contributions"
-                className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+                className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
               >
                 {t("ആദ്യ സംഭാവന രേഖപ്പെടുത്തുക", "Record the first contribution")}
               </Link>
@@ -255,7 +259,7 @@ function DashboardPage() {
         <ActivityFeed items={activities} />
       )}
 
-      <p className="pb-2 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground/70">
+      <p className="pt-2 text-center text-[11.5px] uppercase tracking-[0.2em] text-muted-foreground/70">
         Transparency · Trust · Friendship · Accountability
       </p>
     </div>

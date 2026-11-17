@@ -41,7 +41,7 @@ function useCountUp(target, run) {
 
 export default function StatCard({ labelMl, labelEn, value, prefix = "₹", details = [], featured = false }) {
   const ref = useRef(null);
-  const { lang, primary, caption, leadFont, captionFont } = useLangPair();
+  const { lang, primary, leadFont } = useLangPair();
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
@@ -69,33 +69,16 @@ export default function StatCard({ labelMl, labelEn, value, prefix = "₹", deta
     <article
       ref={ref}
       className={cn(
-        "group relative flex flex-col justify-between overflow-hidden rounded-[1.5rem] transition-all duration-500",
+        "group relative flex flex-col justify-between overflow-hidden rounded-2xl transition-all duration-500",
         featured
-          ? "col-span-2 border border-primary/15 p-5 shadow-[0_26px_55px_-40px_rgba(84,42,20,0.6)] sm:p-6"
-          : "border border-border bg-card p-5 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_18px_36px_-30px_rgba(0,0,0,0.5)] sm:p-6"
+          ? "col-span-2 border border-primary/20 bg-accent p-5 sm:p-6"
+          : "border border-border bg-card p-5 hover:border-primary/30 sm:p-6"
       )}
-      style={
-        featured
-          ? {
-              backgroundImage:
-                "radial-gradient(125% 125% at 100% 0%, rgba(201,103,64,0.26) 0%, rgba(201,103,64,0.10) 34%, rgba(247,244,236,0) 66%), linear-gradient(160deg, #FBF1E8 0%, #F5F1E6 100%)",
-            }
-          : undefined
-      }
     >
       <div className="relative flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className={cn("text-[12.5px] font-medium leading-snug text-foreground/85", leadFont)}>
+          <p className={cn("text-[14px] font-medium leading-snug text-foreground/85", leadFont)}>
             {primary(labelMl, labelEn)}
-          </p>
-          <p
-            className={cn(
-              "mt-1 text-[10px] leading-snug text-muted-foreground/80",
-              captionFont,
-              lang === "ml" ? "uppercase tracking-[0.16em]" : "tracking-normal"
-            )}
-          >
-            {caption(labelMl, labelEn)}
           </p>
         </div>
         {featured && (
@@ -127,9 +110,9 @@ export default function StatCard({ labelMl, labelEn, value, prefix = "₹", deta
         {details.length > 0 && (
           <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-primary/10 bg-primary/[0.07]">
             {details.map((detail) => (
-              <div key={detail.label} className="bg-white/55 px-3.5 py-2.5">
-                <dt className="font-mal text-[10.5px] leading-none text-muted-foreground">{detail.label}</dt>
-                <dd className="tnum mt-1 text-[13px] font-medium text-foreground">{detail.value}</dd>
+              <div key={detail.label} className="bg-card px-3.5 py-2.5">
+                <dt className={cn("text-[12.5px] leading-none text-muted-foreground", leadFont)}>{detail.label}</dt>
+                <dd className="tnum mt-1 text-[14.5px] font-medium text-foreground">{detail.value}</dd>
               </div>
             ))}
           </dl>

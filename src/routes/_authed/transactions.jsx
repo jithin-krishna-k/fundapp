@@ -79,7 +79,7 @@ function TransactionsPage() {
         action={
           <button
             onClick={exportCsv}
-            className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[11.5px] text-foreground/80"
+            className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80"
           >
             <Download className="h-3.5 w-3.5" strokeWidth={1.8} /> CSV
           </button>
@@ -90,7 +90,7 @@ function TransactionsPage() {
         <select
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-          className="rounded-full border border-border bg-card px-3 py-2 font-mal text-[11.5px] text-foreground/80"
+          className="rounded-full border border-border bg-card px-3 py-2 font-mal text-[13px] text-foreground/80"
         >
           <option value="all">{tr("എല്ലാ വിഭാഗങ്ങളും", "All categories")}</option>
           {Object.entries(CATEGORY).map(([key, value]) => (
@@ -102,7 +102,7 @@ function TransactionsPage() {
         <select
           value={status}
           onChange={(event) => setStatus(event.target.value)}
-          className="rounded-full border border-border bg-card px-3 py-2 font-mal text-[11.5px] text-foreground/80"
+          className="rounded-full border border-border bg-card px-3 py-2 font-mal text-[13px] text-foreground/80"
         >
           <option value="all">{tr("എല്ലാ നിലകളും", "All statuses")}</option>
           <option value="verified">{tr("സ്ഥിരീകരിച്ചു", "Verified")}</option>
@@ -118,16 +118,16 @@ function TransactionsPage() {
           {rows.map((t, index) => (
             <div key={t.id} className={`flex flex-wrap items-center gap-3 px-4 py-3 ${index ? "border-t border-border/70" : ""}`}>
               <div className="min-w-0 flex-1">
-                <p className="font-mal text-[12.5px] leading-tight">
+                <p className="font-mal text-[14px] leading-tight">
                   {CATEGORY[t.category]?.ml || t.category} · {t.member_name || "ഫണ്ട്"}
                 </p>
-                <p className="mt-1 text-[10.5px] text-muted-foreground">
+                <p className="mt-1 text-[12px] text-muted-foreground">
                   {t.ref} · {formatDate(t.txn_date || t.created_date)} ·{" "}
                   {t.method === "cash" ? tr("ക്യാഷ്", "Cash") : tr("ഓൺലൈൻ", "Online")}
                   {t.recorded_by ? ` · ${t.recorded_by}` : ""}
                 </p>
               </div>
-              <p className={`tnum text-[12.5px] font-medium ${t.direction === "out" ? "text-red-700" : "text-emerald-800"}`}>
+              <p className={`tnum text-[14px] font-medium ${t.direction === "out" ? "text-red-700" : "text-emerald-800"}`}>
                 {t.direction === "out" ? "−" : "+"}
                 {inr(t.amount)}
               </p>

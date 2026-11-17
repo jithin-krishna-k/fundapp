@@ -18,11 +18,10 @@ export default function Logo({ compact = false, className }) {
         <p
           className={cn(
             "mt-1.5 leading-none text-muted-foreground",
-            lang === "en" ? "text-[10.5px]" : "font-mal text-[10.5px]",
+            lang === "en" ? "text-[12px]" : "font-mal text-[12px]",
           )}
         >
-          ഫണ്ട് ഗ്രൂപ്പ് <span className="mx-1 text-border">|</span>
-          <span className="text-[9px] uppercase tracking-[0.14em]">Members only</span>
+          {lang === "en" ? "Fund group · Members only" : "ഫണ്ട് ഗ്രൂപ്പ് · അംഗങ്ങൾക്ക് മാത്രം"}
         </p>
       )}
     </div>

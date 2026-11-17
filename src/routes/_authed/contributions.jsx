@@ -94,14 +94,14 @@ function ContributionsPage() {
               <button
                 onClick={generate}
                 disabled={busy}
-                className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground disabled:opacity-60"
+                className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground disabled:opacity-60"
               >
                 <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("ഈ ആഴ്ച സൃഷ്ടിക്കുക", "Generate this week")}
               </button>
               <button
                 onClick={remind}
                 disabled={busy || !rows.length}
-                className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[11.5px] text-foreground/80 disabled:opacity-60"
+                className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80 disabled:opacity-60"
               >
                 <BellRing className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("ഓർമ്മപ്പെടുത്തൽ", "Remind")}
               </button>
@@ -117,10 +117,10 @@ function ContributionsPage() {
             <ChevronLeft className="h-4 w-4" />
           </button>
           <div className="text-center">
-            <p className="font-mal text-[13px]">
+            <p className="font-mal text-[14.5px]">
               {formatDate(weekStart)} – {formatDate(isoDate(addDays(new Date(weekStart), 6)))}
             </p>
-            <p className={cn("mt-0.5 text-[10px] uppercase tracking-[0.16em] text-muted-foreground", lang === "en" ? "font-mal" : "")}>
+            <p className={cn("mt-0.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground", lang === "en" ? "font-mal" : "")}>
               {t("സംഭാവന ആഴ്ച", "Contribution week")}
             </p>
           </div>
@@ -131,17 +131,17 @@ function ContributionsPage() {
 
         <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border/70 pt-4">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{t("അടച്ചത്", "Paid")}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("അടച്ചത്", "Paid")}</p>
             <p className="tnum mt-1 font-display text-[1.1rem]">
               {paidCount}/{rows.length || members.filter((m) => m.status === "active").length}
             </p>
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{t("ബാക്കി", "Pending")}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("ബാക്കി", "Pending")}</p>
             <p className="tnum mt-1 font-display text-[1.1rem]">{rows.length - paidCount}</p>
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{t("ശേഖരിക്കാനുള്ളത്", "To collect")}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("ശേഖരിക്കാനുള്ളത്", "To collect")}</p>
             <p className="tnum mt-1 font-display text-[1.1rem]">{inr(totalDue)}</p>
           </div>
         </div>
@@ -156,11 +156,11 @@ function ContributionsPage() {
               en="No contributions generated for this week"
               action={
                 isHandler ? (
-                  <button onClick={generate} disabled={busy} className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground">
+                  <button onClick={generate} disabled={busy} className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground">
                     {t("രേഖകൾ സൃഷ്ടിക്കുക", "Generate records")}
                   </button>
                 ) : (
-                  <p className="font-mal text-[11.5px] text-muted-foreground">{t("ക്യാഷ് ഹാൻഡ്ലർ രേഖകൾ സൃഷ്ടിക്കും", "The cash handler will generate the records")}</p>
+                  <p className="font-mal text-[13px] text-muted-foreground">{t("ക്യാഷ് ഹാൻഡ്ലർ രേഖകൾ സൃഷ്ടിക്കും", "The cash handler will generate the records")}</p>
                 )
               }
             />
@@ -176,13 +176,13 @@ function ContributionsPage() {
                     className={`flex flex-wrap items-center gap-3 px-4 py-3 ${index ? "border-t border-border/70" : ""}`}
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="font-mal text-[12.5px] leading-tight">
+                      <p className="font-mal text-[14px] leading-tight">
                         {row.member_name}
                         {isMine && (
-                          <span className="ml-2 text-[10px] uppercase tracking-[0.12em] text-primary">{t("നിങ്ങൾ", "you")}</span>
+                          <span className="ml-2 text-[11.5px] uppercase tracking-[0.12em] text-primary">{t("നിങ്ങൾ", "you")}</span>
                         )}
                       </p>
-                      <p className="mt-1 text-[10.5px] text-muted-foreground">
+                      <p className="mt-1 text-[12px] text-muted-foreground">
                         {inr(row.amount_paid || 0)} / {inr(row.amount_due)}
                         {row.paid_date ? ` · ${formatDate(row.paid_date)}` : ""}
                         {late.interest > 0 ? ` · ${t("പലിശ", "Interest")} ${inr(late.interest)}` : ""}
@@ -200,7 +200,7 @@ function ContributionsPage() {
                     {status !== "paid" && (isMine || isHandler) && (
                       <button
                         onClick={() => setPayTarget(row)}
-                        className="rounded-full bg-primary/10 px-3 py-1.5 text-[11px] text-primary"
+                        className="rounded-full bg-primary/10 px-3 py-1.5 text-[12.5px] text-primary"
                       >
                         {isMine ? t("അടയ്ക്കുക", "Pay") : t("ക്യാഷ് രേഖപ്പെടുത്തുക", "Record cash")}
                       </button>
@@ -228,12 +228,12 @@ function ContributionsPage() {
               {myHistory.slice(0, 12).map((row, index) => (
                 <div key={row.id} className={`flex items-center justify-between gap-3 px-4 py-3 ${index ? "border-t border-border/70" : ""}`}>
                   <div>
-                    <p className="text-[12px]">{formatDate(row.week_start)}</p>
-                    <p className="mt-0.5 text-[10.5px] text-muted-foreground">
+                    <p className="text-[13.5px]">{formatDate(row.week_start)}</p>
+                    <p className="mt-0.5 text-[12px] text-muted-foreground">
                       {row.method === "cash" ? t("ക്യാഷ്", "Cash") : row.method === "online" ? t("ഓൺലൈൻ", "Online") : "—"}
                     </p>
                   </div>
-                  <p className="tnum text-[12.5px]">{inr(row.amount_paid || 0)}</p>
+                  <p className="tnum text-[14px]">{inr(row.amount_paid || 0)}</p>
                   <StatusPill tone={row.status === "paid" ? "paid" : row.status === "partial" ? "partial" : "pending"}>
                     {row.status === "paid"
                       ? t("അടച്ചു", "Paid")

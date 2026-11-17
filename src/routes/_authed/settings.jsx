@@ -93,7 +93,7 @@ function SettingsPage() {
       <section className="rounded-[1.4rem] border border-border bg-card p-5">
         <SectionHeading ml="ഫണ്ട് ക്രമീകരണങ്ങൾ" en="Fund settings" />
         {!form ? (
-          <p className="font-mal text-[12px] text-muted-foreground">{t("ലോഡ് ചെയ്യുന്നു…", "Loading…")}</p>
+          <p className="font-mal text-[13.5px] text-muted-foreground">{t("ലോഡ് ചെയ്യുന്നു…", "Loading…")}</p>
         ) : (
           <div className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
@@ -136,7 +136,7 @@ function SettingsPage() {
             </div>
 
             <div>
-              <span className="mb-1.5 block font-mal text-[11.5px] text-muted-foreground">
+              <span className="mb-1.5 block font-mal text-[13px] text-muted-foreground">
                 {t("വായ്പ പലിശ കണക്കാക്കുന്ന രീതി", "How borrowing interest is calculated")}
               </span>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -164,20 +164,20 @@ function SettingsPage() {
                         : "border-border bg-background/60"
                     )}
                   >
-                    <span className="block font-mal text-[12px]">{option.label}</span>
-                    <span className="mt-0.5 block font-mal text-[10.5px] text-muted-foreground">{option.hint}</span>
+                    <span className="block font-mal text-[13.5px]">{option.label}</span>
+                    <span className="mt-0.5 block font-mal text-[12px] text-muted-foreground">{option.hint}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             {isAdmin && (
-              <Button onClick={save} disabled={busy} className="rounded-full bg-primary px-5 py-2.5 text-[12px] text-primary-foreground">
+              <Button onClick={save} disabled={busy} className="rounded-full bg-primary px-5 py-2.5 text-[13.5px] text-primary-foreground">
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("സേവ് ചെയ്യുക", "Save")}
               </Button>
             )}
             {!isAdmin && (
-              <p className="font-mal text-[11px] text-muted-foreground">
+              <p className="font-mal text-[12.5px] text-muted-foreground">
                 {t("മാറ്റങ്ങൾ വരുത്താൻ സൂപ്പർ അഡ്മിന് മാത്രമേ കഴിയൂ.", "Only the super admin can make changes.")}
               </p>
             )}
@@ -189,8 +189,8 @@ function SettingsPage() {
         <SectionHeading ml="ഫണ്ട് സൈക്കിൾ" en="Fund cycle" />
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="font-mal text-[13px]">{cycle?.name || "—"}</p>
-            <p className="mt-1 text-[10.5px] text-muted-foreground">
+            <p className="font-mal text-[14.5px]">{cycle?.name || "—"}</p>
+            <p className="mt-1 text-[12px] text-muted-foreground">
               {formatDate(cycle?.start_date)} → {formatDate(cycle?.proposed_close_date)}
             </p>
           </div>
@@ -207,8 +207,8 @@ function SettingsPage() {
             [t("ബാലൻസ്", "Balance"), inr(summary.balance)],
           ].map(([label, value]) => (
             <div key={label}>
-              <dt className="font-mal text-[10px] uppercase tracking-[0.1em] text-muted-foreground">{label}</dt>
-              <dd className="tnum mt-0.5 text-[12px]">{value}</dd>
+              <dt className="font-mal text-[11.5px] uppercase tracking-[0.1em] text-muted-foreground">{label}</dt>
+              <dd className="tnum mt-0.5 text-[13.5px]">{value}</dd>
             </div>
           ))}
         </dl>
@@ -219,21 +219,21 @@ function SettingsPage() {
               <button
                 onClick={closeCurrent}
                 disabled={busy}
-                className="flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-[11.5px] text-foreground/80 disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-[13px] text-foreground/80 disabled:opacity-50"
               >
                 <CalendarClock className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("സൈക്കിൾ അവസാനിപ്പിക്കുക", "Close this cycle")}
               </button>
             ) : (
               <button
                 onClick={() => setCycleOpen(true)}
-                className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+                className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
               >
                 {t("പുതിയ സൈക്കിൾ ആരംഭിക്കുക", "Start a new cycle")}
               </button>
             )}
           </div>
         )}
-        <p className="mt-2 font-mal text-[10.5px] leading-relaxed text-muted-foreground">
+        <p className="mt-2 font-mal text-[12px] leading-relaxed text-muted-foreground">
           ഓണം / വിഷു / ന്യൂ ഇയർ സമയത്ത് ഫണ്ട് പിരിഞ്ഞ് പുനരാരംഭിക്കുന്നു (നിയമം 15). പഴയ രേഖകൾ ഒരിക്കലും നീക്കം ചെയ്യില്ല.
         </p>
       </section>
@@ -242,25 +242,25 @@ function SettingsPage() {
         <SectionHeading ml="ക്യാഷ് ഹാൻഡ്ലർ" en="Cash handler" />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-[13px]">
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-[14.5px]">
               {(cashHandler?.full_name || "—").charAt(0)}
             </span>
             <div>
-              <p className="font-mal text-[12.5px]">{cashHandler?.full_name || t("നിയോഗിച്ചിട്ടില്ല", "Not assigned")}</p>
-              <p className="mt-0.5 text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground">Current handler</p>
+              <p className="font-mal text-[14px]">{cashHandler?.full_name || t("നിയോഗിച്ചിട്ടില്ല", "Not assigned")}</p>
+              <p className="mt-0.5 text-[12px] uppercase tracking-[0.14em] text-muted-foreground">Current handler</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Cash balance</p>
-            <p className="tnum text-[13px]">{inr(summary.cashBalance)}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">Cash balance</p>
+            <p className="tnum text-[14.5px]">{inr(summary.cashBalance)}</p>
           </div>
         </div>
 
         {handovers.length > 0 && (
           <div className="mt-4 space-y-2 border-t border-border/70 pt-3">
-            <p className="text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground">Handover history</p>
+            <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Handover history</p>
             {handovers.map((item) => (
-              <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 text-[11px]">
+              <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 text-[12.5px]">
                 <span className="font-mal">
                   {item.from_member_name} → {item.to_member_name}
                 </span>
@@ -272,7 +272,7 @@ function SettingsPage() {
           </div>
         )}
         {isAdmin && (
-          <p className="mt-3 flex items-center gap-1.5 font-mal text-[10.5px] text-muted-foreground">
+          <p className="mt-3 flex items-center gap-1.5 font-mal text-[12px] text-muted-foreground">
             <UserCog className="h-3.5 w-3.5" strokeWidth={1.8} />{" "}
             {t("ഹാൻഡ്ലർ മാറ്റാൻ അംഗങ്ങൾ പേജ് ഉപയോഗിക്കുക.", "Use the members page to change the handler.")}
           </p>
@@ -283,19 +283,19 @@ function SettingsPage() {
         <SectionHeading ml="എന്റെ അക്കൗണ്ട്" en="My account" />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-mal text-[12.5px]">{myMember?.full_name || user?.full_name}</p>
-            <p className="mt-0.5 text-[10.5px] text-muted-foreground">{user?.email}</p>
+            <p className="font-mal text-[14px]">{myMember?.full_name || user?.full_name}</p>
+            <p className="mt-0.5 text-[12px] text-muted-foreground">{user?.email}</p>
           </div>
           <button
             onClick={() => logout()}
-            className="flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-[11.5px] text-foreground/80"
+            className="flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-[13px] text-foreground/80"
           >
             <LogOut className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("പുറത്ത് കടക്കുക", "Sign out")}
           </button>
         </div>
         <div className="mt-4 flex items-start gap-2 rounded-xl border border-dashed border-border bg-background/60 px-3 py-2.5">
           <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" strokeWidth={1.8} />
-          <p className="font-mal text-[10.5px] leading-relaxed text-muted-foreground">
+          <p className="font-mal text-[12px] leading-relaxed text-muted-foreground">
             ഈ ആപ്പ് അംഗങ്ങൾക്ക് മാത്രമുള്ളതാണ് (നിയമം 8). ഫണ്ട് വിവരങ്ങൾ പുറത്ത് പങ്കുവയ്ക്കരുത്. എല്ലാ സാമ്പത്തിക
             മാറ്റങ്ങളും ഓഡിറ്റ് ലോഗിൽ രേഖപ്പെടുത്തുന്നു.
           </p>
@@ -361,7 +361,7 @@ function StartCycleDialog({ open, onOpenChange, onDone }) {
               onChange={(event) => setForm((p) => ({ ...p, proposed_close_date: event.target.value }))}
             />
           </Field>
-          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground">
+          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ആരംഭിക്കുക", "Start")}
           </Button>
         </div>

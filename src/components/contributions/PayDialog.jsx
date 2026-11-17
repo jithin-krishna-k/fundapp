@@ -64,17 +64,17 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
 
         <div className="space-y-4">
           <div className="rounded-xl border border-border bg-card px-4 py-3">
-            <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
               {t("അടയ്ക്കാനുള്ളത്", "Amount due")}
             </p>
             <p className="mt-1 font-display tnum text-[1.5rem] leading-none">{inr(remaining)}</p>
-            <p className="mt-1 font-mal text-[11px] text-muted-foreground">
+            <p className="mt-1 font-mal text-[12.5px] text-muted-foreground">
               {contribution?.member_name} · {contribution?.week_start}
             </p>
           </div>
 
           <div>
-            <span className={cn("text-[11.5px] text-muted-foreground", lang === "en" ? "" : "font-mal")}>
+            <span className={cn("text-[13px] text-muted-foreground", lang === "en" ? "" : "font-mal")}>
               {t("പേയ്‌മെന്റ് രീതി", "Payment method")}
             </span>
             <div className="mt-1.5 grid grid-cols-2 gap-2">
@@ -84,7 +84,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
                   type="button"
                   onClick={() => setMethod(option.value)}
                   className={cn(
-                    "rounded-xl border px-3 py-2.5 text-[12px] transition-colors",
+                    "rounded-xl border px-3 py-2.5 text-[13.5px] transition-colors",
                     lang === "en" ? "" : "font-mal",
                     method === option.value
                       ? "border-primary/50 bg-primary/10 text-primary"
@@ -99,7 +99,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
 
           {method === "online" && (
             <Field label={t("പേയ്‌മെന്റ് സ്ക്രീൻഷോട്ട്", "Payment screenshot")}>
-              <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[11.5px] text-muted-foreground transition-colors hover:border-primary/40">
+              <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-primary/40">
                 <Upload className="h-3.5 w-3.5 shrink-0" strokeWidth={1.8} />
                 <span className="truncate">{file ? file.name : t("സ്ക്രീൻഷോട്ട് തിരഞ്ഞെടുക്കുക", "Choose a screenshot")}</span>
                 <input
@@ -124,7 +124,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
           <Button
             onClick={submit}
             disabled={busy || remaining <= 0}
-            className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground"
+            className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground"
           >
             {busy ? (
               <Loader2 className="h-4 w-4 animate-spin" />

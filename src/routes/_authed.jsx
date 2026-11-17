@@ -35,9 +35,9 @@ function FundGate() {
   if (fund.error) {
     return (
       <div className="mx-auto max-w-xl px-6 py-20 text-center">
-        <p className="font-mal text-[14px]">ഡാറ്റ ലോഡ് ചെയ്യാനായില്ല</p>
-        <p className="mt-2 text-[12px] text-muted-foreground">{fund.error}</p>
-        <button onClick={() => fund.reload()} className="mt-5 rounded-full bg-primary px-5 py-2 text-[12px] text-primary-foreground">
+        <p className="font-mal text-[15px]">ഡാറ്റ ലോഡ് ചെയ്യാനായില്ല</p>
+        <p className="mt-2 text-[13.5px] text-muted-foreground">{fund.error}</p>
+        <button onClick={() => fund.reload()} className="mt-5 rounded-full bg-primary px-5 py-2 text-[13.5px] text-primary-foreground">
           വീണ്ടും ശ്രമിക്കുക
         </button>
       </div>

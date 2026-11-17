@@ -57,7 +57,7 @@ export default function NewEmergencyDialog({ open, onOpenChange, onDone }) {
 
         <div className="space-y-3.5">
           <div className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3">
-            <span className={lang === "en" ? "text-[11.5px] text-muted-foreground" : "font-mal text-[11.5px] text-muted-foreground"}>
+            <span className={lang === "en" ? "text-[13px] text-muted-foreground" : "font-mal text-[13px] text-muted-foreground"}>
               {t("സാഹചര്യം", "Situation")}
             </span>
             <div className="grid grid-cols-3 gap-2">
@@ -98,7 +98,7 @@ export default function NewEmergencyDialog({ open, onOpenChange, onDone }) {
           </Field>
 
           <Field label={t("രേഖകൾ", "Documents")} hint={t("ഓപ്ഷണൽ", "Optional")}>
-            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[11.5px] text-muted-foreground transition-colors hover:border-primary/40">
+            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-primary/40">
               <Upload className="h-3.5 w-3.5 shrink-0" strokeWidth={1.8} />
               <span className="truncate">{file ? file.name : t("രേഖ തിരഞ്ഞെടുക്കുക", "Choose a document")}</span>
               <input
@@ -109,14 +109,14 @@ export default function NewEmergencyDialog({ open, onOpenChange, onDone }) {
             </label>
           </Field>
 
-          <p className={lang === "en" ? "px-3 py-2.5 text-[11px] leading-relaxed text-primary/90" : "px-3 py-2.5 font-mal text-[11px] leading-relaxed text-primary/90"}>
+          <p className={lang === "en" ? "px-3 py-2.5 text-[12.5px] leading-relaxed text-primary/90" : "px-3 py-2.5 font-mal text-[12.5px] leading-relaxed text-primary/90"}>
             {t(
               "നിയമം 2 — അടിയന്തിര സാഹചര്യങ്ങൾക്ക് മുൻഗണന നൽകും. എല്ലാ അംഗങ്ങളുടെയും തീരുമാനം ആവശ്യമാണ്.",
               "Rule 2 — emergencies get priority. Every member's decision is required."
             )}
           </p>
 
-          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[12.5px] text-primary-foreground">
+          <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("അഭ്യർത്ഥന സമർപ്പിക്കുക", "Submit request")}
           </Button>
         </div>

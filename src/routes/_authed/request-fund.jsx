@@ -77,7 +77,7 @@ function RequestFundPage() {
         action={
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground"
+            className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground"
           >
             <Send className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("പുതിയ അഭ്യർത്ഥന", "New request")}
           </button>
@@ -86,21 +86,21 @@ function RequestFundPage() {
 
       <div className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Available balance</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Available balance</p>
           <p className="tnum mt-1 font-display text-[1.3rem] leading-none">{inr(summary.balance)}</p>
         </div>
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Open loans</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">Open loans</p>
           <p className="tnum mt-1 font-display text-[1.3rem] leading-none">{openLoans.length}</p>
         </div>
         <div className="rounded-[1.2rem] border border-border bg-card px-4 py-3.5">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">My outstanding</p>
+          <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">My outstanding</p>
           <p className="tnum mt-1 font-display text-[1.3rem] leading-none">{inr(outstandingFor(myMember?.user_email))}</p>
         </div>
       </div>
 
       <section className="rounded-[1.2rem] border border-dashed border-primary/25 bg-primary/[0.04] px-4 py-3">
-        <p className="font-mal text-[11.5px] leading-relaxed text-primary/90">
+        <p className="font-mal text-[13px] leading-relaxed text-primary/90">
           {t("പലിശ നിയമം", "Interest rule")}:{" "}
           {settings?.borrowing_interest_mode === "weekly"
             ? t(`ആഴ്ചയിൽ ${settings?.borrowing_interest_percent}% വീതം`, `${settings?.borrowing_interest_percent}% per week`)
@@ -120,28 +120,28 @@ function RequestFundPage() {
                 <article key={w.id} className="rounded-[1.3rem] border border-border bg-card p-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <p className="font-mal text-[13.5px]">{w.member_name}</p>
-                      <p className="mt-1 font-mal text-[11.5px] text-muted-foreground">{w.purpose}</p>
+                      <p className="font-mal text-[15px]">{w.member_name}</p>
+                      <p className="mt-1 font-mal text-[13px] text-muted-foreground">{w.purpose}</p>
                     </div>
                     <p className="tnum font-display text-[1.25rem] leading-none">{inr(w.amount)}</p>
                   </div>
 
                   <dl className="mt-3 grid grid-cols-2 gap-2 border-t border-border/70 pt-3 sm:grid-cols-4">
                     <div>
-                      <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Fund balance</dt>
-                      <dd className="tnum mt-0.5 text-[12px]">{inr(summary.balance)}</dd>
+                      <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Fund balance</dt>
+                      <dd className="tnum mt-0.5 text-[13.5px]">{inr(summary.balance)}</dd>
                     </div>
                     <div>
-                      <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Their loans</dt>
-                      <dd className="tnum mt-0.5 text-[12px]">{inr(memberOutstanding)}</dd>
+                      <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Their loans</dt>
+                      <dd className="tnum mt-0.5 text-[13.5px]">{inr(memberOutstanding)}</dd>
                     </div>
                     <div>
-                      <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Repaid before</dt>
-                      <dd className="tnum mt-0.5 text-[12px]">{repaidCount}</dd>
+                      <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Repaid before</dt>
+                      <dd className="tnum mt-0.5 text-[13.5px]">{repaidCount}</dd>
                     </div>
                     <div>
-                      <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Repay by</dt>
-                      <dd className="mt-0.5 text-[12px]">{formatDate(w.expected_repayment_date)}</dd>
+                      <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Repay by</dt>
+                      <dd className="mt-0.5 text-[13.5px]">{formatDate(w.expected_repayment_date)}</dd>
                     </div>
                   </dl>
 
@@ -149,26 +149,26 @@ function RequestFundPage() {
                     <button
                       onClick={() => act(w.id, "approve")}
                       disabled={busy === w.id + "approve" || Number(w.amount) > summary.balance}
-                      className="flex items-center gap-1 rounded-full bg-emerald-600/12 px-3 py-1.5 text-[11px] text-emerald-800 disabled:opacity-40"
+                      className="flex items-center gap-1 rounded-full bg-emerald-600/12 px-3 py-1.5 text-[12.5px] text-emerald-800 disabled:opacity-40"
                     >
                       <Check className="h-3.5 w-3.5" strokeWidth={2} /> {t("അനുമതി", "Approve")}
                     </button>
                     <button
                       onClick={() => act(w.id, "review")}
                       disabled={busy === w.id + "review"}
-                      className="flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-[11px] text-muted-foreground"
+                      className="flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-[12.5px] text-muted-foreground"
                     >
                       <Clock className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("പരിശോധനയിൽ", "Review")}
                     </button>
                     <button
                       onClick={() => act(w.id, "reject")}
                       disabled={busy === w.id + "reject"}
-                      className="flex items-center gap-1 rounded-full bg-red-600/10 px-3 py-1.5 text-[11px] text-red-800"
+                      className="flex items-center gap-1 rounded-full bg-red-600/10 px-3 py-1.5 text-[12.5px] text-red-800"
                     >
                       <Undo2 className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("നിരസിക്കുക", "Reject")}
                     </button>
                     {Number(w.amount) > summary.balance && (
-                      <span className="self-center font-mal text-[10.5px] text-red-700">
+                      <span className="self-center font-mal text-[12px] text-red-700">
                         {t("ബാലൻസ് മതിയാകില്ല", "Not enough balance")}
                       </span>
                     )}
@@ -188,7 +188,7 @@ function RequestFundPage() {
             ml="ഇതുവരെ ഫണ്ട് അഭ്യർത്ഥനകൾ ഇല്ല"
             en="No fund requests yet"
             action={
-              <button onClick={() => setOpen(true)} className="rounded-full bg-primary px-4 py-2 text-[11.5px] text-primary-foreground">
+              <button onClick={() => setOpen(true)} className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground">
                 {t("ആദ്യ അഭ്യർത്ഥന സമർപ്പിക്കുക", "Submit the first request")}
               </button>
             }
@@ -202,8 +202,8 @@ function RequestFundPage() {
                 <article key={w.id} className="rounded-[1.3rem] border border-border bg-card p-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="font-mal text-[13px]">{w.member_name}</p>
-                      <p className="mt-1 font-mal text-[11.5px] text-muted-foreground">
+                      <p className="font-mal text-[14.5px]">{w.member_name}</p>
+                      <p className="mt-1 font-mal text-[13px] text-muted-foreground">
                         {w.purpose} · {formatDate(w.request_date)}
                       </p>
                     </div>
@@ -219,22 +219,22 @@ function RequestFundPage() {
                     <>
                       <dl className="mt-3 grid grid-cols-2 gap-2 border-t border-border/70 pt-3 sm:grid-cols-4">
                         <div>
-                          <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Principal</dt>
-                          <dd className="tnum mt-0.5 text-[12px]">{inr(schedule.principal)}</dd>
+                          <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Principal</dt>
+                          <dd className="tnum mt-0.5 text-[13.5px]">{inr(schedule.principal)}</dd>
                         </div>
                         <div>
-                          <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                          <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">
                             Interest · {schedule.percent}%{schedule.mode === "weekly" ? `/wk · ${chargeableWeeks}w` : " once"}
                           </dt>
-                          <dd className="tnum mt-0.5 text-[12px]">{inr(schedule.interest)}</dd>
+                          <dd className="tnum mt-0.5 text-[13.5px]">{inr(schedule.interest)}</dd>
                         </div>
                         <div>
-                          <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Total paid</dt>
-                          <dd className="tnum mt-0.5 text-[12px]">{inr(schedule.paid)}</dd>
+                          <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Total paid</dt>
+                          <dd className="tnum mt-0.5 text-[13.5px]">{inr(schedule.paid)}</dd>
                         </div>
                         <div>
-                          <dt className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Remaining</dt>
-                          <dd className="tnum mt-0.5 text-[12px]">{inr(schedule.remaining)}</dd>
+                          <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Remaining</dt>
+                          <dd className="tnum mt-0.5 text-[13.5px]">{inr(schedule.remaining)}</dd>
                         </div>
                       </dl>
                       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -242,7 +242,7 @@ function RequestFundPage() {
                           <button
                             onClick={() => act(w.id, "disburse")}
                             disabled={busy === w.id + "disburse"}
-                            className="flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] text-primary-foreground"
+                            className="flex items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[12.5px] text-primary-foreground"
                           >
                             <Wallet className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("തുക നൽകുക", "Disburse")}
                           </button>
@@ -250,13 +250,13 @@ function RequestFundPage() {
                         {isHandler && w.status !== "repaid" && (
                           <button
                             onClick={() => setRepay(w)}
-                            className="rounded-full border border-border px-3 py-1.5 text-[11px] text-foreground/80"
+                            className="rounded-full border border-border px-3 py-1.5 text-[12.5px] text-foreground/80"
                           >
                             {t("തിരിച്ചടവ് രേഖപ്പെടുത്തുക", "Record repayment")}
                           </button>
                         )}
                         {w.status === "repaid" && (
-                          <span className="font-mal text-[10.5px] text-emerald-700">
+                          <span className="font-mal text-[12px] text-emerald-700">
                             {t("തീർത്തു", "Settled")} · {formatDate(w.repaid_date)}
                           </span>
                         )}

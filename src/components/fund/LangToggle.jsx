@@ -1,44 +1,63 @@
-import { Languages } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { cn } from "@/lib/utils";
 
 const OPTIONS = [
-  { code: "ml", label: "മലയാളം" },
-  { code: "en", label: "EN" },
+  { code: "ml", label: "മലയാളം", short: "മ" },
+  { code: "en", label: "English", short: "EN" },
 ];
 
-export default function LangToggle({ className, showIcon = true }) {
+export default function LangToggle({ className, compact = false, iconOnly = false }) {
   const { lang, setLang } = useLang();
 
-  // Show only the language that is NOT currently selected
-  // This way, when English is selected, only Malayalam is shown (and vice versa)
-  const optionsToShow = OPTIONS.filter((option) => option.code !== lang);
+  // Narrow rail (collapsed sidebar): one square button that flips the language.
+  if (iconOnly) {
+    const next = lang === "en" ? "ml" : "en";
+    const label = lang === "en" ? "Switch to Malayalam" : "ഇംഗ്ലീഷിലേക്ക് മാറുക";
+    return (
+      <button
+        type="button"
+        onClick={() => setLang(next)}
+        aria-label={label}
+        title={label}
+        className={cn(
+          "grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-foreground/80 transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          className
+        )}
+      >
+        {lang === "en" ? (
+          <span className="text-[13px] font-semibold leading-none tracking-wide">EN</span>
+        ) : (
+          <span className="font-mal text-[17px] leading-none">മ</span>
+        )}
+      </button>
+    );
+  }
 
   return (
     <div
-      role="group"
+      role="radiogroup"
       aria-label="Language"
-      className={cn(
-        "inline-flex items-center gap-0.5 rounded-full border border-border bg-card/80 p-0.5",
-        className
-      )}
+      className={cn("inline-flex items-center rounded-full border border-border bg-muted p-0.5", className)}
     >
-      {showIcon && <Languages className="ml-1.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" strokeWidth={1.7} />}
-      {optionsToShow.map((option) => (
-        <button
-          key={option.code}
-          type="button"
-          onClick={() => setLang(option.code)}
-          aria-pressed={false}
-          className={cn(
-            "rounded-full px-2 py-1 text-[11px] leading-none transition-colors",
-            option.code === "ml" ? "font-mal" : "tracking-[0.1em]",
-            "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          {option.label}
-        </button>
-      ))}
+      {OPTIONS.map((option) => {
+        const selected = option.code === lang;
+        return (
+          <button
+            key={option.code}
+            type="button"
+            role="radio"
+            aria-checked={selected}
+            onClick={() => setLang(option.code)}
+            className={cn(
+              "rounded-full px-2.5 py-1 text-[13px] leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              option.code === "ml" && (compact ? "font-mal text-[15px]" : "font-mal"),
+              selected ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {compact ? option.short : option.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
