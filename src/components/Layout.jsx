@@ -177,7 +177,7 @@ export default function AppLayout({ children }) {
               </span>
             )}
           </Link>
-          <LangToggle compact />
+          <LangToggle iconOnly />
           <ProfileMenu
             initial={initial}
             name={mounted ? user?.full_name || t("അംഗം", "Member") : ""}
@@ -189,15 +189,15 @@ export default function AppLayout({ children }) {
         </div>
       </header>
 
-      <main className={cn("transition-[padding] duration-200", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[14rem]")}>
-        <div className="sticky top-0 z-20 hidden h-[4.5rem] items-center gap-4 border-b border-border bg-card/95 px-8 backdrop-blur-md lg:flex xl:px-10">
+      <main className={cn("min-w-0 transition-[padding] duration-200", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[14rem]")}>
+        <div className="sticky top-0 z-20 hidden h-[4.5rem] items-center gap-4 border-b border-border bg-card/95 px-6 backdrop-blur-md lg:flex xl:px-8">
           <GlobalSearch />
-          <div className="ml-auto flex items-center gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-3">
             <LangToggle />
             <Link
               to="/notifications"
-              aria-label={t("അറിയിപ്പുകൾ", "Notifications")}
-              className="relative grid h-10 w-10 place-items-center rounded-full text-foreground/75 transition-colors hover:bg-secondary hover:text-primary"
+              aria-label={t("???????????", "Notifications")}
+              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full text-foreground/75 transition-colors hover:bg-secondary hover:text-primary"
             >
               <Bell className="h-[22px] w-[22px]" strokeWidth={1.8} />
               {unreadCount > 0 && (
@@ -208,19 +208,19 @@ export default function AppLayout({ children }) {
             </Link>
             <ProfileMenu
               initial={initial}
-              name={mounted ? user?.full_name || t("അംഗം", "Member") : ""}
+              name={mounted ? user?.full_name || t("????", "Member") : ""}
               email={mounted ? user?.email : ""}
               role={t(role.ml, role.en)}
               onSignOut={() => setLogoutOpen(true)}
             />
           </div>
         </div>
-        <div className="w-full max-w-[120rem] px-4 pb-28 pt-5 sm:px-6 lg:px-8 lg:pb-12 lg:pt-6 xl:px-10">{children}</div>
+        <div className="w-full max-w-[120rem] min-w-0 px-4 pb-28 pt-5 sm:px-6 lg:px-8 lg:pb-12 lg:pt-6 xl:px-10">{children}</div>
       </main>
 
       {/* ── mobile bottom nav ── */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden">
-        <div className="grid grid-cols-5">
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden" aria-label="Primary">
+        <div className="grid grid-cols-4">
           {primary.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.to);
@@ -229,31 +229,29 @@ export default function AppLayout({ children }) {
                 key={item.to}
                 to={item.to}
                 aria-current={active ? "page" : undefined}
-                className={cn("flex flex-col items-center gap-1 py-2.5", active ? "text-primary" : "text-muted-foreground")}
+                className={cn("flex min-h-[64px] flex-col items-center justify-center gap-1.5 px-1 py-3", active ? "text-primary" : "text-muted-foreground")}
               >
                 <Icon className="h-[19px] w-[19px]" strokeWidth={active ? 2.1 : 1.8} />
-                <span className={cn("text-[11.5px] leading-none", active && "font-medium", lang === "en" ? "" : "font-mal")}>
+                <span className={cn("max-w-full truncate text-[11px] leading-none sm:text-[11.5px]", active && "font-medium", lang === "en" ? "" : "font-mal")}>
                   {lang === "en" ? item.en : item.ml}
                 </span>
               </Link>
             );
           })}
           <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
-            <SheetTrigger className="flex flex-col items-center gap-1 py-2.5">
+            <SheetTrigger className="flex min-h-[64px] flex-col items-center justify-center gap-1.5 px-1 py-3">
               <MoreHorizontal className="h-[19px] w-[19px] text-muted-foreground" strokeWidth={1.8} />
-              <span className="text-[11.5px] leading-none
-                font-mal">
-                {t("കൂടുതൽ", "More")}
+              <span className={cn("text-[11px] leading-none sm:text-[11.5px]", lang === "en" ? "" : "font-mal")}>
+                {t("??????", "More")}
               </span>
             </SheetTrigger>
             <SheetContent side="bottom" className="rounded-t-3xl border-border bg-background">
               <SheetHeader>
-                <SheetTitle className="text-left text-base font-normal
-                  font-mal">
-                  {t("കൂടുതൽ വിഭാഗങ്ങൾ", "More sections")}
+                <SheetTitle className={cn("text-left text-base font-normal", lang === "en" ? "" : "font-mal")}>
+                  {t("?????? ?????????", "More sections")}
                 </SheetTitle>
               </SheetHeader>
-              <div className="mt-4 grid grid-cols-3 gap-2 pb-6">
+              <div className="mt-4 grid grid-cols-2 gap-2 pb-6 sm:grid-cols-3">
                 {rest.map((item) => {
                   const Icon = item.icon;
                   const active = isActive(item.to);
@@ -264,33 +262,33 @@ export default function AppLayout({ children }) {
                       onClick={() => setMoreOpen(false)}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "flex flex-col items-center gap-2 rounded-2xl border px-2 py-3 text-center",
+                        "flex min-h-[72px] flex-col items-center justify-center gap-2 rounded-2xl border px-2 py-3 text-center",
                         active
                           ? "border-primary/25 bg-primary/10 text-primary"
                           : "border-border bg-card text-foreground/80 hover:border-primary/25"
                       )}
                     >
                       <Icon className="h-[18px] w-[18px]" strokeWidth={1.7} />
-                      <span
-                        className="text-[12.5px] leading-tight
-                          font-mal">
+                      <span className={cn("text-[12px] leading-tight sm:text-[12.5px]", lang === "en" ? "" : "font-mal")}>
                         {lang === "en" ? item.en : item.ml}
                       </span>
                     </Link>
                   );
                 })}
                 <button
-                  onClick={() => setLogoutOpen(true)}
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-border bg-card px-2 py-3 text-center text-foreground/70"
+                  onClick={() => {
+                    setMoreOpen(false);
+                    setLogoutOpen(true);
+                  }}
+                  className="flex min-h-[72px] flex-col items-center justify-center gap-2 rounded-2xl border border-border bg-card px-2 py-3 text-center text-foreground/70"
                 >
                   <LogOut className="h-[18px] w-[18px]" strokeWidth={1.7} />
-                  <span className="text-[12.5px] leading-tight
-                    font-mal">
-                    {t("പുറത്ത്", "Sign out")}
+                  <span className={cn("text-[12px] leading-tight sm:text-[12.5px]", lang === "en" ? "" : "font-mal")}>
+                    {t("???????", "Sign out")}
                   </span>
                 </button>
-</div>
-          </SheetContent>
+              </div>
+            </SheetContent>
           </Sheet>
         </div>
       </nav>

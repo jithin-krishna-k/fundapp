@@ -114,20 +114,20 @@ function DashboardPage() {
   return (
     <div className="page-enter space-y-6">
       {/* Greeting */}
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-[14.5px] text-foreground/80">{now ? formatDate(now, locale) : " "}</p>
-          <h1 className={cn("mt-1 text-[1.9rem] font-bold leading-tight tracking-tight sm:text-[2.2rem]", leadFont)}>
-            {t("നമസ്കാരം", "Welcome")}
+      <header className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <p className="text-[14.5px] text-foreground/80">{now ? formatDate(now, locale) : "�"}</p>
+          <h1 className={cn("mt-1 break-words text-[1.6rem] font-bold leading-tight tracking-tight sm:text-[2.2rem]", leadFont)}>
+            {t("????????", "Welcome")}
             {firstName ? `, ${firstName}` : ""}
           </h1>
-          <p className={cn("mt-1 text-[15px] text-muted-foreground", leadFont)}>
-            {t("ഈ ആഴ്ചയിലെ ഫണ്ട് വിവരങ്ങൾ", "Here's your fund summary for this week")}
+          <p className={cn("mt-1 break-words text-[14px] text-muted-foreground sm:text-[15px]", leadFont)}>
+            {t("? ???????? ????? ????????", "Here's your fund summary for this week")}
           </p>
         </div>
-        <span className="card-soft inline-flex items-center gap-2.5 rounded-xl border border-border bg-card px-4 py-2.5 text-[14px] font-medium">
-          <CalendarDays className="h-[18px] w-[18px] text-muted-foreground" strokeWidth={1.8} />
-          <span className="tnum">{range}</span>
+        <span className="card-soft inline-flex w-full max-w-full items-center gap-2.5 self-start rounded-xl border border-border bg-card px-4 py-2.5 text-[14px] font-medium sm:w-auto">
+          <CalendarDays className="h-[18px] w-[18px] shrink-0 text-muted-foreground" strokeWidth={1.8} />
+          <span className="tnum min-w-0 break-words">{range}</span>
         </span>
       </header>
 

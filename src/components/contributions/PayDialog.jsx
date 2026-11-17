@@ -77,7 +77,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
             <span className={cn("text-[13px] text-muted-foreground", lang === "en" ? "" : "font-mal")}>
               {t("പേയ്‌മെന്റ് രീതി", "Payment method")}
             </span>
-            <div className="mt-1.5 grid grid-cols-2 gap-2">
+            <div className="mt-1.5 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {options.map((option) => (
                 <button
                   key={option.value}

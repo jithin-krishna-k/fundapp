@@ -102,7 +102,7 @@ export default function RepayDialog({ loan, remaining, open, onOpenChange, onDon
             />
           </Field>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {["cash", "online"].map((option) => (
               <button
                 key={option}

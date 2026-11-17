@@ -94,7 +94,7 @@ function ReportsPage() {
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[520px] text-left">
+            <table className="w-full min-w-[640px] text-left">
               <thead>
                 <tr className="border-b border-border/70">
                   {report.columns.map((column) => (

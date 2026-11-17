@@ -47,7 +47,7 @@ export function MfaManage({ session, returnTo }) {
             return (
               <div key={id} className="flex flex-wrap items-center gap-3 rounded-lg border border-border p-4">
                 <Icon className="w-5 h-5 text-muted-foreground shrink-0" aria-hidden="true" />
-                <div className="flex-1 min-w-[10rem]">
+                <div className="flex-1 min-w-0 sm:min-w-[10rem]">
                   <p className="font-medium">{name}</p>
                   <p className="text-sm text-muted-foreground">
                     {enrolled ? (id === "sms" && status.phone_hint ? `Enabled · ${status.phone_hint}` : "Enabled") : description}
@@ -127,7 +127,7 @@ function Disable({ session, method, onDone, onBack }) {
           Send Code
         </Button>
       )}
-      <div className="grid grid-cols-2 gap-3 pt-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 pt-2">
         <Button variant="outline" className="h-11" disabled={busy} onClick={onBack}>Cancel</Button>
         <Button className="h-11" disabled={busy || !codeSent || code.length < 6} onClick={() => confirm()}>
           {busy && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}

@@ -26,4 +26,4 @@ export const NAV = [
   { to: "/settings", ml: "ക്രമീകരണങ്ങൾ", en: "Settings", icon: Settings2 },
 ];
 
-export const MOBILE_NAV = ["/dashboard", "/contributions", "/request-fund", "/transactions"];
+export const MOBILE_NAV = ["/dashboard", "/contributions", "/transactions"];

@@ -122,7 +122,7 @@ function MembersPage() {
                     </div>
                   </div>
 
-                  <dl className="mt-4 grid grid-cols-3 gap-2">
+                  <dl className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
                     <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
                       <dt className="font-mal text-[12px] text-muted-foreground">{t("സംഭാവന", "Contributed")}</dt>
                       <dd className="tnum mt-1 text-[15px] font-semibold text-emerald-700">{inr(contributedBy(member.id))}</dd>

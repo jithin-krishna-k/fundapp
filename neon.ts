@@ -9,6 +9,7 @@ export default defineConfig({
         "http://localhost:3000",
         "http://localhost:3001",
         "https://fundapp.onrender.com",
+        "https://armory-anemia-provoke.ngrok-free.dev",
       ],
     },
   },

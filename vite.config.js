@@ -5,9 +5,17 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
-  server: { port: 3000 },
+  server: {
+    host: true,
+    port: 3000,
+    allowedHosts: ["armory-anemia-provoke.ngrok-free.dev"],
+    hmr: { clientPort: 443 },
+  },
   preview: {
-    allowedHosts: ["fundapp.onrender.com"],
+    allowedHosts: [
+      "fundapp.onrender.com",
+      "armory-anemia-provoke.ngrok-free.dev",
+    ],
   },
   plugins: [tanstackStart({ srcDirectory: "src" }), react()],
 });

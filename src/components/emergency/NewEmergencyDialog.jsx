@@ -60,7 +60,7 @@ export default function NewEmergencyDialog({ open, onOpenChange, onDone }) {
             <span className={lang === "en" ? "text-[13px] text-muted-foreground" : "font-mal text-[13px] text-muted-foreground"}>
               {t("സാഹചര്യം", "Situation")}
             </span>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               {CASES.map((item) => (
                 <button
                   key={item.value}

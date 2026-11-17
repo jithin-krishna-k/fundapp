@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -11,6 +11,9 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+
+import Logo from "@/components/fund/Logo";
+import { useAuth } from "@/lib/AuthContext";
 
 const WHATSAPP_URL = "https://chat.whatsapp.com/G3eiyehyWr6JKNsy8qVtvv";
 
@@ -26,8 +29,6 @@ function WhatsAppIcon({ className }) {
     </svg>
   );
 }
-import Logo from "@/components/fund/Logo";
-import { useAuth } from "@/lib/AuthContext";
 
 const PRINCIPLES = [
   {
@@ -165,7 +166,12 @@ function useLedgerStory(running) {
     const cycle = () => {
       // 1. Payment arrives → verifying
       later(1400, () =>
-        setStory((s) => ({ ...s, rows: s.rows.map((r, i) => (i === s.rows.length - 1 ? { ...r, state: "verifying" } : r)) }))
+        setStory((s) => ({
+          ...s,
+          rows: s.rows.map((r, i) =>
+            i === s.rows.length - 1 ? { ...r, state: "verifying" } : r
+          ),
+        }))
       );
       // 2. Verified → paid, totals tick up
       later(2600, () =>
@@ -175,7 +181,9 @@ function useLedgerStory(running) {
             ...s,
             paid: s.paid + 1,
             balance: s.balance + DEMO_WEEKLY,
-            rows: s.rows.map((r) => (r.id === last.id ? { ...r, state: "paid" } : r)),
+            rows: s.rows.map((r) =>
+              r.id === last.id ? { ...r, state: "paid" } : r
+            ),
             flash: last.id,
           };
         })
@@ -193,7 +201,11 @@ function useLedgerStory(running) {
               rows: [{ id: `${week}-0`, name: DEMO_MEMBERS[0], state: "due" }],
             };
           }
-          const next = { id: `${s.week}-${s.paid}`, name: DEMO_MEMBERS[s.paid], state: "due" };
+          const next = {
+            id: `${s.week}-${s.paid}`,
+            name: DEMO_MEMBERS[s.paid],
+            state: "due",
+          };
           return { ...s, flash: null, rows: [...s.rows, next].slice(-3) };
         })
       );
@@ -214,7 +226,10 @@ function LedgerPanel() {
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.3 });
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -227,23 +242,27 @@ function LedgerPanel() {
   return (
     <div ref={ref} className="relative mx-auto w-full max-w-2xl">
       <div className="overflow-hidden rounded-[1.75rem] border border-border bg-card/95 shadow-[0_40px_90px_-55px_rgba(15,40,35,0.55)] backdrop-blur-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-6">
+        <div className="flex flex-col gap-3 border-b border-border px-4 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-[13.5px] font-semibold text-primary-foreground">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-[13.5px] font-semibold text-primary-foreground">
               ₹
             </span>
-            <div className="text-left">
-              <p className="text-[12.5px] uppercase tracking-[0.18em] text-muted-foreground">Shared ledger</p>
+            <div className="min-w-0 text-left">
+              <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground sm:text-[12.5px]">
+                Shared ledger
+              </p>
               <p className="text-[15px] font-semibold">FUND cycle 2026</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="tnum rounded-full border border-border bg-background px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="tnum rounded-full border border-border bg-background px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground sm:text-[11.5px]">
               {rupees(thisWeek)} this week
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[11.5px] uppercase tracking-[0.14em] text-primary">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] text-primary sm:text-[11.5px]">
               <span className="relative flex h-1.5 w-1.5">
-                {!reduced && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />}
+                {!reduced && (
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                )}
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
               </span>
               Live
@@ -257,31 +276,41 @@ function LedgerPanel() {
             { label: "Members", value: String(DEMO_MEMBERS.length) },
             { label: "Weekly", value: rupees(DEMO_WEEKLY) },
           ].map((item) => (
-            <div key={item.label} className="bg-card px-4 py-3 text-center sm:px-5">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{item.label}</p>
-              <p className={`tnum mt-1 text-[16px] font-semibold transition-colors duration-500 ${item.live && story.flash ? "text-emerald-700" : ""}`}>
+            <div key={item.label} className="bg-card px-2 py-3 text-center sm:px-5">
+              <p className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground sm:text-[11px] sm:tracking-[0.16em]">
+                {item.label}
+              </p>
+              <p
+                className={`tnum mt-1 text-[13px] font-semibold transition-colors duration-500 sm:text-[16px] ${item.live && story.flash ? "text-emerald-700" : ""
+                  }`}
+              >
                 {item.value}
               </p>
             </div>
           ))}
         </div>
 
-        {/* Fixed height for three rows so the card doesn't jump as rows come and go. */}
-        <ul className="h-[13.5rem] divide-y divide-border/70 overflow-hidden px-5 sm:px-6" aria-live="off">
+        {/* Fixed min height for three rows so the card doesn't jump as rows come and go. */}
+        <ul
+          className="min-h-[13.5rem] divide-y divide-border/70 overflow-hidden px-4 sm:px-6"
+          aria-live="off"
+        >
           {story.rows.map((row) => {
             const paid = row.state === "paid";
             const verifying = row.state === "verifying";
             return (
               <li
                 key={row.id}
-                className={`ledger-row flex h-[4.5rem] items-center gap-3 text-left transition-colors duration-700 ${
-                  story.flash === row.id ? "bg-emerald-50/80" : ""
-                }`}
+                className={`ledger-row flex min-h-[4.5rem] items-center gap-2.5 py-2.5 text-left transition-colors duration-700 sm:gap-3 ${story.flash === row.id ? "bg-emerald-50/80" : ""
+                  }`}
               >
                 <div
-                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-semibold transition-colors duration-300 ${
-                    paid ? "bg-emerald-700/10 text-emerald-800" : verifying ? "bg-amber-100 text-amber-700" : "bg-primary/10 text-primary"
-                  }`}
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[12.5px] font-semibold transition-colors duration-300 ${paid
+                    ? "bg-emerald-700/10 text-emerald-800"
+                    : verifying
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-primary/10 text-primary"
+                    }`}
                 >
                   {paid ? (
                     <Check key="check" className="ledger-pop h-4 w-4" strokeWidth={2.2} />
@@ -292,15 +321,20 @@ function LedgerPanel() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[14.5px] font-medium">{row.name}</p>
-                  <p className="mt-0.5 text-[12.5px] text-muted-foreground">Week {story.week} · contribution</p>
+                  <p className="truncate text-[13.5px] font-medium sm:text-[14.5px]">
+                    {row.name}
+                  </p>
+                  <p className="mt-0.5 truncate text-[12px] text-muted-foreground sm:text-[12.5px]">
+                    Week {story.week} · contribution
+                  </p>
                 </div>
-                <div className="text-right">
-                  <p className="tnum text-[14.5px] font-semibold">{rupees(DEMO_WEEKLY)}</p>
+                <div className="shrink-0 text-right">
+                  <p className="tnum text-[13.5px] font-semibold sm:text-[14.5px]">
+                    {rupees(DEMO_WEEKLY)}
+                  </p>
                   <p
-                    className={`mt-0.5 text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-300 ${
-                      paid ? "text-emerald-700" : verifying ? "text-amber-700" : "text-primary"
-                    }`}
+                    className={`mt-0.5 text-[10.5px] uppercase tracking-[0.12em] transition-colors duration-300 sm:text-[11.5px] ${paid ? "text-emerald-700" : verifying ? "text-amber-700" : "text-primary"
+                      }`}
                   >
                     {paid ? "Paid" : verifying ? "Verifying…" : "Due"}
                   </p>
@@ -339,11 +373,11 @@ export default function LandingPage() {
   return (
     <div className="land-paper min-h-screen overflow-x-hidden">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
-          <Link to="/" aria-label="FUND home">
-            <Logo />
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-8 sm:py-3.5">
+          <Link to="/" aria-label="FUND home" className="min-w-0 shrink-0">
+            <Logo compact />
           </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             {!user && (
               <Link
                 to="/register"
@@ -354,10 +388,10 @@ export default function LandingPage() {
             )}
             <Link
               to={primaryTo}
-              className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
+              className="inline-flex min-h-[40px] items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
               {primaryLabel}
-              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
+              <ArrowUpRight className="h-3.5 w-3.5 shrink-0" strokeWidth={1.9} />
             </Link>
           </div>
         </div>
@@ -375,24 +409,27 @@ export default function LandingPage() {
             <div className="absolute right-[10%] top-[15%] h-[12rem] w-[12rem] rounded-full bg-primary/10 blur-3xl" />
           </div>
 
-          <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-10 lg:py-12">
+          <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-8 sm:py-10 lg:py-12">
             <div className="land-rise mx-auto max-w-3xl text-center">
-              <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-2 py-1.5 pr-4 backdrop-blur-sm">
-                <span className="rounded-full bg-primary px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
+              <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-border bg-card/70 px-2 py-1.5 pr-3 backdrop-blur-sm sm:gap-3 sm:pr-4">
+                <span className="rounded-full bg-primary px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-foreground sm:text-[11.5px]">
                   Members only
                 </span>
-                <span className="text-[12.5px] text-muted-foreground">Private weekly fund, fully tracked</span>
+                <span className="text-[12px] text-muted-foreground sm:text-[12.5px]">
+                  Private weekly fund, fully tracked
+                </span>
               </div>
 
-              <h1 className="mt-4 font-display text-[2.8rem] leading-[0.98] tracking-[-0.03em] sm:text-[4rem] lg:mt-5 lg:text-[5rem]">
+              <h1 className="mt-4 break-words font-display text-[2.1rem] leading-[1.02] tracking-[-0.03em] sm:text-[4rem] lg:mt-5 lg:text-[5rem]">
                 Your group&apos;s money,
-                <br />
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
                 <span>counted clearly.</span>
               </h1>
 
-              <p className="mx-auto mt-4 max-w-2xl text-[16px] leading-relaxed text-foreground/70 sm:mt-5 sm:text-[17px]">
-                FUND keeps weekly contributions, loans, interest and repayments in one shared ledger — so every
-                member sees the same truth, every week.
+              <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-foreground/70 sm:mt-5 sm:text-[17px]">
+                FUND keeps weekly contributions, loans, interest and repayments in one shared ledger
+                — so every member sees the same truth, every week.
               </p>
 
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -401,7 +438,10 @@ export default function LandingPage() {
                   className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-[14.5px] font-medium text-primary-foreground shadow-[0_14px_30px_-18px_hsl(var(--primary))] transition-transform hover:-translate-y-0.5 sm:w-auto"
                 >
                   {primaryLabel}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={1.8} />
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    strokeWidth={1.8}
+                  />
                 </Link>
                 {!user && (
                   <Link
@@ -413,15 +453,17 @@ export default function LandingPage() {
                 )}
               </div>
 
-              <div className="mx-auto mt-6 grid max-w-lg grid-cols-3 gap-3 border-t border-border/80 pt-5">
+              <div className="mx-auto mt-6 grid max-w-lg grid-cols-1 gap-4 border-t border-border/80 pt-5 sm:grid-cols-3 sm:gap-3">
                 {[
                   { value: "₹250", label: "Every week" },
                   { value: "1", label: "Shared ledger" },
                   { value: "100%", label: "Member-visible" },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
-                    <p className="tnum font-display text-[1.35rem] leading-none sm:text-[1.6rem]">{stat.value}</p>
-                    <p className="mt-1.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                    <p className="tnum font-display text-[1.35rem] leading-none sm:text-[1.6rem]">
+                      {stat.value}
+                    </p>
+                    <p className="mt-1.5 text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:text-[11.5px] sm:tracking-[0.16em]">
                       {stat.label}
                     </p>
                   </div>
@@ -452,9 +494,13 @@ export default function LandingPage() {
             {PRINCIPLES.map((item, index) => (
               <article key={item.title} className="relative pl-6">
                 <span className="absolute left-0 top-1 h-[calc(100%-0.5rem)] w-px bg-gradient-to-b from-primary/60 via-border to-transparent" />
-                <p className="text-[11.5px] uppercase tracking-[0.22em] text-primary/80">0{index + 1}</p>
+                <p className="text-[11.5px] uppercase tracking-[0.22em] text-primary/80">
+                  0{index + 1}
+                </p>
                 <h2 className="mt-3 font-display text-[1.35rem] leading-tight">{item.title}</h2>
-                <p className="mt-2.5 text-[14.5px] leading-relaxed text-foreground/65">{item.body}</p>
+                <p className="mt-2.5 text-[14.5px] leading-relaxed text-foreground/65">
+                  {item.body}
+                </p>
               </article>
             ))}
           </div>
@@ -486,8 +532,12 @@ export default function LandingPage() {
                     <span className="grid h-9 w-9 place-items-center rounded-full border border-primary/20 bg-primary/[0.06] text-primary">
                       <Icon className="h-4 w-4" strokeWidth={1.7} />
                     </span>
-                    <h3 className="mt-4 text-[16px] font-medium leading-tight">{feature.title}</h3>
-                    <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">{feature.body}</p>
+                    <h3 className="mt-4 text-[16px] font-medium leading-tight">
+                      {feature.title}
+                    </h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">
+                      {feature.body}
+                    </p>
                   </article>
                 );
               })}
@@ -503,7 +553,9 @@ export default function LandingPage() {
                 <span className="h-px w-8 bg-primary/50" />
                 How it works
               </p>
-              <h2 className="mt-4 font-display text-[2rem] leading-tight sm:text-[2.4rem]">Three steps.</h2>
+              <h2 className="mt-4 font-display text-[2rem] leading-tight sm:text-[2.4rem]">
+                Three steps.
+              </h2>
               <p className="mt-3 max-w-sm text-[14.5px] leading-relaxed text-foreground/65">
                 From the first week to the closing balance, without a single loose end.
               </p>
@@ -511,11 +563,18 @@ export default function LandingPage() {
 
             <ol className="space-y-0">
               {STEPS.map((step, index) => (
-                <li key={step.title} className="flex gap-5 border-t border-border/70 py-6 first:border-t-0 first:pt-0">
-                  <span className="font-display text-[2.2rem] leading-none text-primary/35">0{index + 1}</span>
+                <li
+                  key={step.title}
+                  className="flex gap-5 border-t border-border/70 py-6 first:border-t-0 first:pt-0"
+                >
+                  <span className="font-display text-[2.2rem] leading-none text-primary/35">
+                    0{index + 1}
+                  </span>
                   <div>
                     <h3 className="text-[16px] font-medium leading-tight">{step.title}</h3>
-                    <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">{step.body}</p>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">
+                      {step.body}
+                    </p>
                   </div>
                 </li>
               ))}
@@ -527,9 +586,11 @@ export default function LandingPage() {
         <section className="border-y border-border/70 bg-primary/[0.05]">
           <div className="mx-auto w-full max-w-4xl px-5 py-14 text-center sm:px-8 sm:py-16">
             <p className="font-display text-[1.5rem] leading-snug sm:text-[1.9rem]">
-              “No new member without everyone&apos;s consent.”
+              &ldquo;No new member without everyone&apos;s consent.&rdquo;
             </p>
-            <p className="mt-4 text-[12.5px] uppercase tracking-[0.18em] text-muted-foreground">FUND rule 9</p>
+            <p className="mt-4 text-[12.5px] uppercase tracking-[0.18em] text-muted-foreground">
+              FUND rule 9
+            </p>
           </div>
         </section>
 
@@ -537,7 +598,9 @@ export default function LandingPage() {
         <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
           <div className="land-rise flex flex-col items-start justify-between gap-6 rounded-[1.6rem] border border-primary/20 bg-card p-6 shadow-[0_30px_60px_-50px_rgba(15,40,35,0.6)] sm:flex-row sm:items-center sm:p-8">
             <div>
-              <h2 className="font-display text-[1.6rem] leading-tight sm:text-[1.9rem]">Already part of the circle?</h2>
+              <h2 className="font-display text-[1.6rem] leading-tight sm:text-[1.9rem]">
+                Already part of the circle?
+              </h2>
               <p className="mt-2 text-[14.5px] leading-relaxed text-foreground/65">
                 Sign in with your email. The rest of the ledger will be waiting.
               </p>
@@ -569,21 +632,31 @@ export default function LandingPage() {
             <div className="max-w-sm">
               <Logo />
               <p className="mt-4 text-[14.5px] leading-relaxed text-muted-foreground">
-                A private savings group for friends. Weekly contributions, fair loans and an open ledger every member can see.
+                A private savings group for friends. Weekly contributions, fair loans and an open
+                ledger every member can see.
               </p>
             </div>
 
             <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 text-[14.5px]">
               {user ? (
-                <Link to="/dashboard" className="font-medium text-foreground/80 transition-colors hover:text-primary">
+                <Link
+                  to="/dashboard"
+                  className="font-medium text-foreground/80 transition-colors hover:text-primary"
+                >
                   Go to dashboard
                 </Link>
               ) : (
                 <>
-                  <Link to="/login" className="font-medium text-foreground/80 transition-colors hover:text-primary">
+                  <Link
+                    to="/login"
+                    className="font-medium text-foreground/80 transition-colors hover:text-primary"
+                  >
                     Log in
                   </Link>
-                  <Link to="/register" className="font-medium text-foreground/80 transition-colors hover:text-primary">
+                  <Link
+                    to="/register"
+                    className="font-medium text-foreground/80 transition-colors hover:text-primary"
+                  >
                     Register
                   </Link>
                 </>
@@ -601,9 +674,7 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6 text-[13.5px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              © {new Date().getFullYear()} FUND · Members only
-            </p>
+            <p>© {new Date().getFullYear()} FUND · Members only</p>
             <p>
               Created by <span className="font-medium text-foreground/80">Jithin Krishna</span>
             </p>
@@ -622,6 +693,6 @@ export default function LandingPage() {
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366] opacity-40 [animation-duration:1.8s]" />
         <WhatsAppIcon className="relative h-7 w-7" />
       </a>
-</div>
+    </div>
   );
 }

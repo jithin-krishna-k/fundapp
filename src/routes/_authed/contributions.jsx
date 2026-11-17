@@ -49,12 +49,12 @@ function ContributionsPage() {
       const result = await generateWeek({ data: { week_start: weekStart } });
       toast.success(
         result.created
-          ? t(`${result.created} അംഗങ്ങൾക്ക് രേഖ സൃഷ്ടിച്ചു`, `Created records for ${result.created} members`)
-          : t("ഈ ആഴ്ചയുടെ രേഖകൾ ഇതിനകം ഉണ്ട്", "This week's records already exist")
+          ? t(`${result.created} a��a��a��a��a��a��a�+a��a��a��a�� a��a��a�� a�+a��a�+a��a��a�+a��a��a��a��`, `Created records for ${result.created} members`)
+          : t("a�� a��a��a��a��a��a��a��a�� a��a��a��a��a�+ a��a��a�+a��a��a�� a��a��a��a��a��", "This week's records already exist")
       );
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || t("രേഖകൾ സൃഷ്ടിക്കാനായില്ല", "Could not generate records"));
+      toast.error(error?.message || t("a��a��a��a��a�+ a�+a��a�+a��a��a�+a��a��a��a�+a��a�+a��a�+a��a��a��", "Could not generate records"));
     } finally {
       setBusy(false);
     }
@@ -64,9 +64,9 @@ function ContributionsPage() {
     setBusy(true);
     try {
       const result = await sendContributionReminders({ data: { week_start: weekStart } });
-      toast.success(t(`${result.sent} അംഗങ്ങൾക്ക് ഓർമ്മപ്പെടുത്തൽ അയച്ചു`, `Reminders sent to ${result.sent} members`));
+      toast.success(t(`${result.sent} a��a��a��a��a��a��a�+a��a��a��a�� a��a�+a��a��a��a��a��a��a��a��a��a��a��a��a�+ a��a��a��a��a��a��`, `Reminders sent to ${result.sent} members`));
     } catch (error) {
-      toast.error(error?.message || t("ഓർമ്മപ്പെടുത്തൽ അയക്കാനായില്ല", "Could not send reminders"));
+      toast.error(error?.message || t("a��a�+a��a��a��a��a��a��a��a��a��a��a��a��a�+ a��a��a��a��a��a�+a��a�+a��a�+a��a��a��", "Could not send reminders"));
     } finally {
       setBusy(false);
     }
@@ -81,10 +81,10 @@ function ContributionsPage() {
   return (
     <div className="page-enter space-y-6">
       <PageHeader
-        ml="ആഴ്ച സംഭാവനകൾ"
+        ml="a��a��a��a�� a�+a��a��a�+a��a��a��a�+"
         en="Weekly contributions"
         description={t(
-          `ഓരോ അംഗവും ആഴ്ചയിൽ ${inr(settings?.weekly_amount || 250)} അടയ്ക്കണം. അടച്ചതും ബാക്കിയുള്ളതും ഇവിടെ കാണാം.`,
+          `a��a��a�� a��a��a��a��a��a�� a��a��a��a��a��a�+a�+ ${inr(settings?.weekly_amount || 250)} a��a��a��a��a��a��a��a��a��. a��a��a��a��a��a��a��a�� a��a�+a��a��a��a�+a��a��a��a��a��a��a��a�� a��a��a�+a��a�� a��a�+a��a�+a��.`,
           `Each member must contribute ${inr(settings?.weekly_amount || 250)} per week. View paid and outstanding contributions here.`
         )}
         action={
@@ -96,14 +96,14 @@ function ContributionsPage() {
                 disabled={busy}
                 className="flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground disabled:opacity-60"
               >
-                <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("ഈ ആഴ്ച സൃഷ്ടിക്കുക", "Generate this week")}
+                <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("a�� a��a��a��a�� a�+a��a�+a��a��a�+a��a��a��a��a��", "Generate this week")}
               </button>
               <button
                 onClick={remind}
                 disabled={busy || !rows.length}
                 className="flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[13px] text-foreground/80 disabled:opacity-60"
               >
-                <BellRing className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("ഓർമ്മപ്പെടുത്തൽ", "Remind")}
+                <BellRing className="h-3.5 w-3.5" strokeWidth={1.8} /> {t("a��a�+a��a��a��a��a��a��a��a��a��a��a��a��a�+", "Remind")}
               </button>
             </div>
           ) : null
@@ -118,10 +118,10 @@ function ContributionsPage() {
           </button>
           <div className="text-center">
             <p className="font-mal text-[14.5px]">
-              {formatDate(weekStart)} – {formatDate(isoDate(addDays(weekStart, 6)))}
+              {formatDate(weekStart)} G�� {formatDate(isoDate(addDays(weekStart, 6)))}
             </p>
             <p className={cn("mt-0.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground", lang === "en" ? "font-mal" : "")}>
-              {t("സംഭാവന ആഴ്ച", "Contribution week")}
+              {t("a�+a��a��a�+a��a�� a��a��a��a��", "Contribution week")}
             </p>
           </div>
           <button onClick={() => shift(7)} className="grid h-8 w-8 place-items-center rounded-full border border-border text-muted-foreground">
@@ -129,38 +129,38 @@ function ContributionsPage() {
           </button>
         </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border/70 pt-4">
+        <div className="mt-4 grid grid-cols-1 gap-3 border-t border-border/70 pt-4 sm:grid-cols-3">
           <div>
-            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("അടച്ചത്", "Paid")}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("a��a��a��a��a��a��a��", "Paid")}</p>
             <p className="tnum mt-1 font-display text-[1.1rem]">
               {paidCount}/{rows.length || members.filter((m) => m.status === "active").length}
             </p>
           </div>
           <div>
-            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("ബാക്കി", "Pending")}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("a��a�+a��a��a��a�+", "Pending")}</p>
             <p className="tnum mt-1 font-display text-[1.1rem]">{rows.length - paidCount}</p>
           </div>
           <div>
-            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("ശേഖരിക്കാനുള്ളത്", "To collect")}</p>
+            <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{t("a��a��a��a��a�+a��a��a��a�+a��a��a��a��a��a��a��", "To collect")}</p>
             <p className="tnum mt-1 font-display text-[1.1rem]">{inr(totalDue)}</p>
           </div>
         </div>
       </section>
 
         <section>
-          <SectionHeading ml="ഈ ആഴ്ചയിലെ അംഗങ്ങൾ" en="Member status" />
+          <SectionHeading ml="a�� a��a��a��a��a��a�+a��a�� a��a��a��a��a��a��a�+" en="Member status" />
           {rows.length === 0 ? (
             <EmptyState
               icon={Wallet}
-              ml="ഈ ആഴ്ചയുടെ രേഖകൾ ഇല്ല"
+              ml="a�� a��a��a��a��a��a��a��a�� a��a��a��a��a�+ a��a��a��a��"
               en="No contributions generated for this week"
               action={
                 isHandler ? (
                   <button onClick={generate} disabled={busy} className="rounded-full bg-primary px-4 py-2 text-[13px] text-primary-foreground">
-                    {t("രേഖകൾ സൃഷ്ടിക്കുക", "Generate records")}
+                    {t("a��a��a��a��a�+ a�+a��a�+a��a��a�+a��a��a��a��a��", "Generate records")}
                   </button>
                 ) : (
-                  <p className="font-mal text-[13px] text-muted-foreground">{t("ക്യാഷ് ഹാൻഡ്ലർ രേഖകൾ സൃഷ്ടിക്കും", "The cash handler will generate the records")}</p>
+                  <p className="font-mal text-[13px] text-muted-foreground">{t("a��a��a��a�+a�+a�� a��a�+a�+a��a��a��a�+ a��a��a��a��a�+ a�+a��a�+a��a��a�+a��a��a��a��a��", "The cash handler will generate the records")}</p>
                 )
               }
             />
@@ -179,30 +179,30 @@ function ContributionsPage() {
                       <p className="font-mal text-[14px] leading-tight">
                         {row.member_name}
                         {isMine && (
-                          <span className="ml-2 text-[11.5px] uppercase tracking-[0.12em] text-primary">{t("നിങ്ങൾ", "you")}</span>
+                          <span className="ml-2 text-[11.5px] uppercase tracking-[0.12em] text-primary">{t("a��a�+a��a��a��a�+", "you")}</span>
                         )}
                       </p>
                       <p className="mt-1 text-[12px] text-muted-foreground">
                         {inr(row.amount_paid || 0)} / {inr(row.amount_due)}
-                        {row.paid_date ? ` · ${formatDate(row.paid_date)}` : ""}
-                        {late.interest > 0 ? ` · ${t("പലിശ", "Interest")} ${inr(late.interest)}` : ""}
+                        {row.paid_date ? ` -+ ${formatDate(row.paid_date)}` : ""}
+                        {late.interest > 0 ? ` -+ ${t("a��a��a�+a��", "Interest")} ${inr(late.interest)}` : ""}
                       </p>
                     </div>
                     <StatusPill tone={status}>
                       {status === "paid"
-                        ? t("അടച്ചു", "Paid")
+                        ? t("a��a��a��a��a��a��", "Paid")
                         : status === "overdue"
-                          ? t("കാലതാമസം", "Overdue")
+                          ? t("a��a�+a��a��a�+a��a�+a��", "Overdue")
                           : status === "partial"
-                            ? t("ഭാഗികം", "Partial")
-                            : t("ബാക്കി", "Pending")}
+                            ? t("a��a�+a��a�+a��a��", "Partial")
+                            : t("a��a�+a��a��a��a�+", "Pending")}
                     </StatusPill>
                     {status !== "paid" && (isMine || isHandler) && (
                       <button
                         onClick={() => setPayTarget(row)}
                         className="rounded-full bg-primary/10 px-3 py-1.5 text-[12.5px] text-primary"
                       >
-                        {isMine ? t("അടയ്ക്കുക", "Pay") : t("ക്യാഷ് രേഖപ്പെടുത്തുക", "Record cash")}
+                        {isMine ? t("a��a��a��a��a��a��a��a��a��", "Pay") : t("a��a��a��a�+a�+a�� a��a��a��a��a��a��a��a��a��a��a��a��a��a��", "Record cash")}
                       </button>
                     )}
                   </div>
@@ -214,15 +214,15 @@ function ContributionsPage() {
 
         {isHandler && pendingOnline.length > 0 && (
           <section>
-            <SectionHeading ml="പരിശോധനയ്ക്കായി കാത്തിരിക്കുന്നു" en="Awaiting verification" />
+            <SectionHeading ml="a��a��a�+a��a��a��a��a��a��a��a��a��a�+a��a�+ a��a�+a��a��a��a�+a��a�+a��a��a��a��a��a��a��a��" en="Awaiting verification" />
             <PendingPayments items={pendingOnline} onDone={() => fund.reload()} />
           </section>
         )}
 
         <section>
-          <SectionHeading ml="എന്റെ സംഭാവന ചരിത്രം" en="My contribution history" />
+          <SectionHeading ml="a��a��a��a��a�� a�+a��a��a�+a��a�� a��a��a�+a��a��a��a��" en="My contribution history" />
           {myHistory.length === 0 ? (
-            <EmptyState icon={Wallet} ml="ഇതുവരെ സംഭാവന രേഖകൾ ഇല്ല" en="No contribution records yet" />
+            <EmptyState icon={Wallet} ml="a��a��a��a��a��a�� a�+a��a��a�+a��a�� a��a��a��a��a�+ a��a��a��a��" en="No contribution records yet" />
           ) : (
             <div className="overflow-hidden rounded-[1.2rem] border border-border bg-card">
               {myHistory.slice(0, 12).map((row, index) => (
@@ -230,16 +230,16 @@ function ContributionsPage() {
                   <div>
                     <p className="text-[13.5px]">{formatDate(row.week_start)}</p>
                     <p className="mt-0.5 text-[12px] text-muted-foreground">
-                      {row.method === "cash" ? t("ക്യാഷ്", "Cash") : row.method === "online" ? t("ഓൺലൈൻ", "Online") : "—"}
+                      {row.method === "cash" ? t("a��a��a��a�+a�+a��", "Cash") : row.method === "online" ? t("a��a��a��a��a�+", "Online") : "G��"}
                     </p>
                   </div>
                   <p className="tnum text-[14px]">{inr(row.amount_paid || 0)}</p>
                   <StatusPill tone={row.status === "paid" ? "paid" : row.status === "partial" ? "partial" : "pending"}>
                     {row.status === "paid"
-                      ? t("അടച്ചു", "Paid")
+                      ? t("a��a��a��a��a��a��", "Paid")
                       : row.status === "partial"
-                        ? t("ഭാഗികം", "Partial")
-                        : t("ബാക്കി", "Pending")}
+                        ? t("a��a�+a��a�+a��a��", "Partial")
+                        : t("a��a�+a��a��a��a�+", "Pending")}
                   </StatusPill>
                 </div>
               ))}

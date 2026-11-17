@@ -170,7 +170,7 @@ function AddExpenseDialog({ open, onOpenChange, onDone }) {
           <DialogTitle className="font-mal text-[1.05rem] font-normal">{t("ചെലവ് ചേർക്കുക", "Add expense")}</DialogTitle>
         </DialogHeader>
         <div className="space-y-3.5">
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {CATEGORIES.map((item) => (
               <button
                 key={item.value}

@@ -35,17 +35,17 @@ export default function ActivityFeed({ items }) {
           const type = TYPES[item.type] || TYPES.request;
           const Icon = type.icon;
           return (
-            <li key={index} className="flex items-center gap-4 py-3.5 last:pb-0">
-              <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full", type.chip)}>
+            <li key={index} className="flex items-start gap-3 py-3.5 last:pb-0 sm:items-center sm:gap-4">
+              <span className={cn("mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-full sm:mt-0 sm:h-11 sm:w-11", type.chip)}>
                 <Icon className="h-5 w-5" strokeWidth={1.9} />
               </span>
               <div className="min-w-0 flex-1">
-                <p className={cn("truncate text-[14.5px] font-medium", leadFont)}>{item.title}</p>
-                <p className="mt-0.5 truncate text-[13px] text-muted-foreground">
-                  {item.meta} · {item.when}
+                <p className={cn("break-words text-[14px] font-medium sm:text-[14.5px]", leadFont)}>{item.title}</p>
+                <p className="mt-0.5 break-words text-[13px] text-muted-foreground">
+                  {item.meta} A� {item.when}
                 </p>
               </div>
-              <p className={cn("tnum shrink-0 text-[15px] font-semibold", type.amount)}>{inr(item.amount)}</p>
+              <p className={cn("tnum shrink-0 pt-0.5 text-[14px] font-semibold sm:pt-0 sm:text-[15px]", type.amount)}>{inr(item.amount)}</p>
             </li>
           );
         })}

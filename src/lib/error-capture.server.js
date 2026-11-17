@@ -1,6 +1,10 @@
-// Errors are logged to the server console. Expected auth rejections (401/403: signed out, not allowed)
-// are part of normal flow and are not logged as failures.
-const isExpected = (error) => error?.status === 401 || error?.status === 403;
+// Errors are logged to the server console. Expected auth rejections (401/403) and aborted requests
+// (client disconnect / navigation / proxy timeout) are not logged as failures.
+const isExpected = (error) =>
+  error?.status === 401 ||
+  error?.status === 403 ||
+  error?.name === "AbortError" ||
+  error?.code === "ABORT_ERR";
 
 export function recordFunctionError(error, meta) {
   if (isExpected(error)) return;

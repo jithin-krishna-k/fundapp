@@ -126,7 +126,7 @@ function RequestFundPage() {
                     <p className="tnum font-display text-[1.25rem] leading-none">{inr(w.amount)}</p>
                   </div>
 
-                  <dl className="mt-3 grid grid-cols-2 gap-2 border-t border-border/70 pt-3 sm:grid-cols-4">
+                      <dl className="mt-3 grid grid-cols-1 gap-2 border-t border-border/70 pt-3 min-[430px]:grid-cols-2 sm:grid-cols-4">
                     <div>
                       <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Fund balance</dt>
                       <dd className="tnum mt-0.5 text-[13.5px]">{inr(summary.balance)}</dd>
@@ -217,7 +217,7 @@ function RequestFundPage() {
 
                   {["approved", "disbursed", "repaid"].includes(w.status) && (
                     <>
-                      <dl className="mt-3 grid grid-cols-2 gap-2 border-t border-border/70 pt-3 sm:grid-cols-4">
+                  <dl className="mt-3 grid grid-cols-1 gap-2 border-t border-border/70 pt-3 min-[430px]:grid-cols-2 sm:grid-cols-4">
                         <div>
                           <dt className="text-[11.5px] uppercase tracking-[0.12em] text-muted-foreground">Principal</dt>
                           <dd className="tnum mt-0.5 text-[13.5px]">{inr(schedule.principal)}</dd>

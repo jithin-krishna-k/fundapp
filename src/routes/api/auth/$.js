@@ -6,13 +6,21 @@ import { authConfig } from "@/lib/neon-auth.server";
 export const Route = createFileRoute("/api/auth/$")({
   server: {
     handlers: {
-      ANY: ({ request, params }) =>
-        handleAuthProxyRequest({
-          request,
-          path: params._splat ?? "",
-          baseUrl: authConfig.baseUrl,
-          cookieSecret: authConfig.cookieSecret,
-        }),
+      ANY: async ({ request, params }) => {
+        try {
+          return await handleAuthProxyRequest({
+            request,
+            path: params._splat ?? "",
+            baseUrl: authConfig.baseUrl,
+            cookieSecret: authConfig.cookieSecret,
+          });
+        } catch (err) {
+          if (err?.name === "AbortError" || err?.code === "ABORT_ERR") {
+            return new Response(null, { status: 499 });
+          }
+          throw err;
+        }
+      },
     },
   },
 });

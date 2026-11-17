@@ -219,7 +219,7 @@ function SettingsPage() {
           </StatusPill>
         </div>
 
-        <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border/70 pt-4 sm:grid-cols-4">
+        <dl className="mt-4 grid grid-cols-1 gap-3 border-t border-border/70 pt-4 min-[430px]:grid-cols-2 sm:grid-cols-4">
           {[
             [t("സംഭാവന", "Contributions"), inr(summary.contributionsTotal)],
             [t("പലിശ", "Interest"), inr(summary.interestCollected)],
