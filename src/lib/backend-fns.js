@@ -12,7 +12,10 @@ const ENTITY_OPS = new Set(["list", "filter", "get", "count", "create", "bulkCre
 const READ_OPS = new Set(["list", "filter", "get", "count"]);
 // Entities a signed-in member may write straight from the browser; every other write goes through
 // the checked handlers in server-fns.js.
-const CLIENT_WRITABLE = new Set(["Member", "Notification"]);
+const CLIENT_WRITABLE = new Set(["Notification"]);
+// Never written from the browser, not even by admins: membership changes go through the
+// server actions in server-fns.js (invite, vote, role change, remove), which enforce rule 9.
+const SERVER_ONLY = new Set(["Member"]);
 
 const fail = (message, status = 400) => Object.assign(new Error(message), { status });
 const pass = (d) => d;
@@ -41,6 +44,7 @@ export const entityCall = createServerFn({ method: "POST" })
     const { entity, op, args = [] } = data || {};
     if (!/^[A-Za-z][A-Za-z0-9]*$/.test(entity || "") || !ENTITY_OPS.has(op) || !Array.isArray(args)) throw fail("Bad request");
     const user = await requireCaller();
+    if (!READ_OPS.has(op) && SERVER_ONLY.has(entity)) throw fail("Not allowed", 403);
     if (!READ_OPS.has(op) && !CLIENT_WRITABLE.has(entity) && !(await isFundAdmin(user))) throw fail("Not allowed", 403);
     return entityStore(entity, async () => user)[op](...args);
   });

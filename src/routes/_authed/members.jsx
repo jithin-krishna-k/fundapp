@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Loader2, ShieldCheck, ShieldOff, UserMinus, UserPlus, Users } from "lucide-react";
+import { Check, Loader2, ShieldCheck, ShieldOff, UserMinus, UserPlus, Users, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -14,9 +14,8 @@ import Field from "@/components/fund/Field";
 import { useFund } from "@/lib/FundContext";
 import { formatDate, inr, isoDate } from "@/lib/format";
 import { loanSummary } from "@/lib/finance";
-import { recordHandover, removeMember, setMemberRole } from "@/lib/server-fns";
+import { inviteMember, recordHandover, removeMember, setMemberRole, voteMembership } from "@/lib/server-fns";
 import { useLang } from "@/lib/LangContext";
-import { withEnglish } from "@/lib/notification-text";
 
 export const Route = createFileRoute("/_authed/members")({
   component: MembersPage,
@@ -50,25 +49,6 @@ function MembersPage() {
       .filter((w) => w.member_email === email && ["approved", "disbursed"].includes(w.status))
       .reduce((sum, w) => sum + loanSummary(w, settings).remaining, 0);
 
-  const approve = async (member) => {
-    try {
-      await base44.entities.Member.update(member.id, { status: "active", join_date: isoDate(new Date()), removed_date: null });
-      await base44.entities.Notification.create(withEnglish({
-        user_email: member.user_email,
-        member_name: member.full_name,
-        title: "അംഗത്വം അനുവദിച്ചു",
-        body: "എല്ലാ അംഗങ്ങളുടെയും അനുമതിയോടെ നിങ്ങൾ ഗ്രൂപ്പിൽ ചേർന്നു.",
-        type: "new_member",
-        link: "/",
-        read: false,
-      }));
-      toast.success(t("അംഗത്വം അനുവദിച്ചു", "Membership approved"));
-      fund.reload();
-    } catch (error) {
-      toast.error(error?.message || t("അനുവദിക്കാനായില്ല", "Couldn't approve"));
-    }
-  };
-
   const changeRole = (member, role) => setRoleTarget({ member, role });
 
   return (
@@ -97,26 +77,8 @@ function MembersPage() {
         }
       />
 
-      {isAdmin && pending.length > 0 && (
-        <section>
-          <SectionHeading ml="അനുമതിക്കായി കാത്തിരിക്കുന്നു" en="Pending approval" />
-          <div className="space-y-2">
-            {pending.map((member) => (
-              <div key={member.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3">
-                <div className="min-w-0 flex-1">
-                  <p className="font-mal text-[14px]">{member.full_name}</p>
-                  <p className="mt-0.5 text-[12px] text-muted-foreground">{member.user_email}</p>
-                </div>
-                <button
-                  onClick={() => approve(member)}
-                  className="rounded-full bg-emerald-600/12 px-3 py-1.5 text-[12.5px] text-emerald-800"
-                >
-                  {t("അംഗത്വം അനുവദിക്കുക", "Approve membership")}
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+      {pending.length > 0 && (
+        <MembershipRequests requests={pending} voters={active} me={myMember} onDone={() => fund.reload()} />
       )}
 
       <section>
@@ -269,24 +231,9 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
     setBusy(true);
     try {
       await base44.users.inviteUser(email, "user");
-      if (existing) {
-        // Previously removed (status inactive) or already pending: reactivate the same record.
-        // Creating a second Member for the email violates app_records_member_email_uniq.
-        await base44.entities.Member.update(existing.id, {
-          full_name: name,
-          status: "pending",
-          fund_role: "member",
-          removed_date: null,
-        });
-      } else {
-        await base44.entities.Member.create({
-          user_email: email,
-          full_name: name,
-          status: "pending",
-          fund_role: "member",
-        });
-      }
-      toast.success(t("ക്ഷണം അയച്ചു — എല്ലാ അംഗങ്ങളുടെയും അനുമതിക്ക് ശേഷം പ്രവേശനം", "Invite sent — access starts once every member approves"));
+      // Creates (or re-opens) the pending request; every active member is asked to vote.
+      await inviteMember({ data: { email, full_name: name } });
+      toast.success(t("ക്ഷണം അയച്ചു — എല്ലാ അംഗങ്ങളും അനുമതി നൽകിയാൽ പ്രവേശനം", "Invite sent — every member will be asked to approve"));
       setForm({ email: "", full_name: "" });
       onOpenChange(false);
       onDone?.();
@@ -504,5 +451,118 @@ function HandoverDialog({ open, onOpenChange, members, cashBalance, onDone }) {
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+// Rule 9: every active member approves a new member; a single rejection declines the request.
+function MembershipRequests({ requests, voters, me, onDone }) {
+  const { t, lang } = useLang();
+  const [busy, setBusy] = useState(null);
+  const voterIds = new Set(voters.map((m) => m.id));
+  const canVote = me?.status === "active";
+
+  const vote = async (member, decision) => {
+    setBusy(member.id + decision);
+    try {
+      const result = await voteMembership({ data: { member_id: member.id, decision } });
+      toast.success(
+        result.rejected
+          ? t("അഭ്യർത്ഥന നിരസിച്ചു", "Request declined")
+          : result.approved
+            ? t("എല്ലാവരും അനുമതി നൽകി — പുതിയ അംഗം ചേർന്നു", "Everyone approved — the new member has joined")
+            : t("നിങ്ങളുടെ അനുമതി രേഖപ്പെടുത്തി", "Your approval is recorded")
+      );
+      onDone?.();
+    } catch (error) {
+      toast.error(error?.message || t("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  return (
+    <section>
+      <SectionHeading ml="അംഗത്വ അഭ്യർത്ഥനകൾ" en="Membership requests" />
+      <p className={`-mt-2 mb-4 text-[13.5px] text-muted-foreground ${lang === "en" ? "" : "font-mal"}`}>
+        {t(
+          "നിയമം 9 — എല്ലാ അംഗങ്ങളും അനുമതി നൽകിയാൽ മാത്രം പുതിയ അംഗം ചേരും. ഒരാൾ നിരസിച്ചാൽ അഭ്യർത്ഥന റദ്ദാകും.",
+          "Rule 9 — a new member joins only when every member approves. One rejection declines the request."
+        )}
+      </p>
+      <div className="grid gap-4 md:grid-cols-2">
+        {requests.map((member) => {
+          const votes = (member.join_votes || []).filter((v) => voterIds.has(v.member_id));
+          const approvedBy = votes.filter((v) => v.decision === "approve");
+          const mine = votes.find((v) => v.member_id === me?.id);
+          const waitingFor = voters.filter((m) => !votes.some((v) => v.member_id === m.id));
+          const pct = voters.length ? Math.round((approvedBy.length / voters.length) * 100) : 0;
+          return (
+            <article key={member.id} className="card-soft rounded-2xl border border-amber-200 bg-card p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate text-[15.5px] font-semibold">{member.full_name}</p>
+                  <p className="truncate text-[13px] text-muted-foreground">{member.user_email}</p>
+                  <p className="mt-1 text-[12.5px] text-muted-foreground">
+                    {member.requested_by && member.requested_by !== "Self"
+                      ? t(`ക്ഷണിച്ചത്: ${member.requested_by}`, `Invited by ${member.requested_by}`)
+                      : t("സ്വയം അപേക്ഷിച്ചു", "Asked to join")}
+                    {member.requested_date ? ` · ${formatDate(member.requested_date)}` : ""}
+                  </p>
+                </div>
+                <StatusPill tone="partial">{t("വോട്ടെടുപ്പിൽ", "Voting")}</StatusPill>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex items-center justify-between text-[13px]">
+                  <span className="font-medium">
+                    {t(`${approvedBy.length} / ${voters.length} അനുമതി`, `${approvedBy.length} of ${voters.length} approved`)}
+                  </span>
+                  <span className="text-muted-foreground">{pct}%</span>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="h-full rounded-full bg-emerald-500 transition-[width] duration-500" style={{ width: `${pct}%` }} />
+                </div>
+                {approvedBy.length > 0 && (
+                  <p className="mt-2 text-[12.5px] text-muted-foreground">
+                    {t("അനുമതി നൽകിയവർ", "Approved by")}: {approvedBy.map((v) => v.member_name).join(", ")}
+                  </p>
+                )}
+                {waitingFor.length > 0 && (
+                  <p className="mt-1 text-[12.5px] text-muted-foreground">
+                    {t("കാത്തിരിക്കുന്നു", "Waiting for")}: {waitingFor.map((m) => m.full_name).join(", ")}
+                  </p>
+                )}
+              </div>
+
+              {canVote && (
+                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/70 pt-4">
+                  {mine ? (
+                    <span className="text-[13px] text-muted-foreground">{t("നിങ്ങൾ അനുമതി നൽകി ✓", "You approved ✓")}</span>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => vote(member, "approve")}
+                        disabled={!!busy}
+                        className="flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-60"
+                      >
+                        {busy === member.id + "approve" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" strokeWidth={2.2} />}
+                        {t("അനുമതി നൽകുക", "Approve")}
+                      </button>
+                      <button
+                        onClick={() => vote(member, "reject")}
+                        disabled={!!busy}
+                        className="flex items-center gap-1.5 rounded-full border border-destructive/30 px-4 py-2 text-[13px] font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-60"
+                      >
+                        {busy === member.id + "reject" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <X className="h-3.5 w-3.5" strokeWidth={2.2} />}
+                        {t("നിരസിക്കുക", "Reject")}
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </section>
   );
 }

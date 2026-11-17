@@ -141,6 +141,7 @@ export const ensureMember = createServerFn({ method: "POST" })
         fund_role: bootstrap ? "super_admin" : "member",
         status: bootstrap ? "active" : "pending",
         join_date: today(),
+        ...(bootstrap ? {} : { join_votes: [], requested_date: today(), requested_by: "Self" }),
       });
     } catch (err) {
       // A parallel first load already created this member (unique email index): use that one.
@@ -150,15 +151,8 @@ export const ensureMember = createServerFn({ method: "POST" })
       return { member: raced, settings, cycle, isFirst: false };
     }
 
-    if (!bootstrap) {
-      const admins = asArray(await b44.entities.Member.filter({ fund_role: "super_admin" }));
-      await notifyAll(b44, admins, {
-        title: "പുതിയ അംഗ അഭ്യർത്ഥന",
-        body: `${member.full_name} അംഗത്വത്തിന് അപേക്ഷിച്ചു. എല്ലാ അംഗങ്ങളുടെയും അനുവാദം ആവശ്യമാണ്.`,
-        type: "new_member",
-        link: "/members",
-      });
-    }
+    // Rule 9: every active member votes on the request (not just admins).
+    if (!bootstrap) await announceMembershipRequest(b44, member.full_name);
     return { member, settings, cycle, isFirst: bootstrap };
   });
 
@@ -183,6 +177,118 @@ export const removeMember = createServerFn({ method: "POST" })
     const removed = await b44.entities.Member.update(target.id, { status: "inactive", removed_date: today() });
     await audit(b44, user.email, "remove_member", "Member", target.id, target.full_name);
     return { ok: true, member: removed };
+  });
+
+/* ── membership voting (rule 9: no new member without everyone's consent) ── */
+
+// Every active member must approve a pending member; a single rejection declines the request.
+// Only votes from members who are active right now count, so the bar moves with the group.
+function tallyMembership(votes, voters) {
+  const activeIds = new Set(voters.map((m) => m.id));
+  const counted = (votes || []).filter((v) => activeIds.has(v.member_id));
+  const approvals = counted.filter((v) => v.decision === "approve").length;
+  const rejected = counted.some((v) => v.decision === "reject");
+  const required = voters.length;
+  return { approvals, required, rejected, approved: !rejected && required > 0 && approvals >= required };
+}
+
+async function announceMembershipRequest(b44, name) {
+  await notifyAll(b44, await activeMembers(b44), {
+    title: "പുതിയ അംഗ അഭ്യർത്ഥന",
+    body: `${name} അംഗത്വത്തിന് അപേക്ഷിച്ചു. എല്ലാ അംഗങ്ങളുടെയും അനുവാദം ആവശ്യമാണ്.`,
+    type: "new_member",
+    link: "/members",
+  });
+}
+
+// Admin invites someone: a pending request that every active member then votes on.
+export const inviteMember = createServerFn({ method: "POST" })
+  .middleware([requireUser])
+  .validator(z.object({ email: z.string().email(), full_name: z.string().trim().min(1).max(120) }))
+  .handler(async ({ context, data }) => {
+    const b44 = context.getBase44().asServiceRole;
+    const user = context.user;
+    const me = await memberFor(b44, user);
+    if (!isAdmin(user, me)) throw deny("Only the super admin can invite members.");
+
+    const email = data.email.trim().toLowerCase();
+    const existing = await findMemberByEmail(b44, email);
+    if (existing?.status === "active") throw Object.assign(new Error("This email is already a member."), { status: 400 });
+
+    const request = {
+      full_name: data.full_name,
+      status: "pending",
+      fund_role: "member",
+      removed_date: null,
+      join_votes: [],
+      join_result: null,
+      requested_date: today(),
+      requested_by: me?.full_name || user.email,
+    };
+    // Re-open a removed/declined record rather than creating a second one (emails are unique).
+    const member = existing
+      ? await b44.entities.Member.update(existing.id, request)
+      : await b44.entities.Member.create({ user_email: email, ...request });
+
+    await announceMembershipRequest(b44, data.full_name);
+    await audit(b44, user.email, "member_invited", "Member", member.id, `${data.full_name} <${email}>`);
+    return { ok: true, member };
+  });
+
+// One active member's vote on a pending membership request.
+export const voteMembership = createServerFn({ method: "POST" })
+  .middleware([requireUser])
+  .validator(z.object({ member_id: z.string().min(1), decision: z.enum(["approve", "reject"]) }))
+  .handler(async ({ context, data }) => {
+    const b44 = context.getBase44().asServiceRole;
+    const me = await memberFor(b44, context.user);
+    if (!me || me.status !== "active") throw deny("Only active members can vote on new members.");
+
+    const target = await b44.entities.Member.get(data.member_id);
+    if (!target) throw Object.assign(new Error("Request not found."), { status: 404 });
+    if (target.status !== "pending") throw Object.assign(new Error("This request is already decided."), { status: 400 });
+    if (target.id === me.id) throw deny("You cannot vote on your own request.");
+
+    const votes = (target.join_votes || []).filter((v) => v.member_id !== me.id);
+    votes.push({ member_id: me.id, member_name: me.full_name, decision: data.decision, date: today() });
+
+    const voters = await activeMembers(b44);
+    const tally = tallyMembership(votes, voters);
+
+    if (tally.rejected) {
+      await b44.entities.Member.update(target.id, { join_votes: votes, status: "inactive", removed_date: today(), join_result: "declined" });
+      await notifyAll(b44, [...voters, target], {
+        title: "അംഗത്വ അഭ്യർത്ഥന നിരസിച്ചു",
+        body: `${target.full_name} ന്റെ അംഗത്വ അഭ്യർത്ഥന നിരസിച്ചു.`,
+        type: "new_member",
+        link: "/members",
+      });
+    } else if (tally.approved) {
+      await b44.entities.Member.update(target.id, {
+        join_votes: votes,
+        status: "active",
+        join_date: today(),
+        removed_date: null,
+        join_result: "approved",
+      });
+      await notifyAll(b44, [target], {
+        title: "അംഗത്വം അനുവദിച്ചു",
+        body: "എല്ലാ അംഗങ്ങളുടെയും അനുമതിയോടെ നിങ്ങൾ ഗ്രൂപ്പിൽ ചേർന്നു.",
+        type: "new_member",
+        link: "/",
+      });
+      await notifyAll(b44, voters, {
+        title: "പുതിയ അംഗം",
+        body: `${target.full_name} എല്ലാവരുടെയും അനുമതിയോടെ ഗ്രൂപ്പിൽ ചേർന്നു.`,
+        type: "new_member",
+        link: "/members",
+      });
+    } else {
+      await b44.entities.Member.update(target.id, { join_votes: votes });
+    }
+
+    await audit(b44, context.user.email, `membership_${data.decision}`, "Member", target.id, target.full_name);
+    return { ok: true, ...tally };
   });
 
 /* ── weekly contributions ────────────────────────────────────────────── */

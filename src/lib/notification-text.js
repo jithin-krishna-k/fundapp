@@ -21,6 +21,8 @@ const TITLES = {
   "അഡ്മിൻ പദവി മാറ്റി": "Admin role removed",
   "ആഴ്ച സംഭാവന ബാക്കി": "Weekly contribution due",
   "അംഗത്വം അനുവദിച്ചു": "Membership approved",
+  "അംഗത്വ അഭ്യർത്ഥന നിരസിച്ചു": "Membership request declined",
+  "പുതിയ അംഗം": "New member joined",
 };
 
 // [pattern, (...captures) => English]
@@ -43,6 +45,8 @@ const BODIES = [
   [/^ഗ്രൂപ്പ് അഡ്മിൻ നിങ്ങളുടെ അഡ്മിൻ പദവി ഒഴിവാക്കി\.$/, () => "The group admin removed your admin role."],
   [/^(\S+) ലെ (₹[\d,.]+) സംഭാവന ഇതുവരെ അടച്ചിട്ടില്ല\.$/, (w, a) => `Your ${a} contribution for the week of ${w} hasn't been paid yet.`],
   [/^എല്ലാ അംഗങ്ങളുടെയും അനുമതിയോടെ നിങ്ങൾ ഗ്രൂപ്പിൽ ചേർന്നു\.$/, () => "You joined the group with every member's approval."],
+  [/^(.+) ന്റെ അംഗത്വ അഭ്യർത്ഥന നിരസിച്ചു\.$/, (n) => `${n}'s membership request was declined.`],
+  [/^(.+) എല്ലാവരുടെയും അനുമതിയോടെ ഗ്രൂപ്പിൽ ചേർന്നു\.$/, (n) => `${n} joined the group with everyone's approval.`],
 ];
 
 /** English title/body for a notification; falls back to the original text when no template matches. */

@@ -1,2 +1,156 @@
 [     604ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ http://localhost:3001/favicon.ico:1
 [    1629ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:15802
+[  203376ms] [ERROR] %o
+
+%s
+
+%s
+ Error: useAuth must be used within <AuthProvider>
+    at useAuth (http://localhost:3001/src/lib/AuthContext.jsx?t=1794907922321:105:18)
+    at LandingPage (http://localhost:3001/src/components/landing/LandingPage.jsx?t=1794908146907:549:19)
+    at Object.react_stack_bottom_frame (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:14139:12)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:4397:19)
+    at updateFunctionComponent (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5772:16)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:6388:20)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9145:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9041:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9025:6) The above error occurred in the <LandingPage> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  203378ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  203504ms] [ERROR] %o
+
+%s
+
+%s
+ Error: useAuth must be used within <AuthProvider>
+    at useAuth (http://localhost:3001/src/lib/AuthContext.jsx?t=1794907922321:105:18)
+    at LandingPage (http://localhost:3001/src/components/landing/LandingPage.jsx?t=1794908146907:549:19)
+    at Object.react_stack_bottom_frame (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:14139:12)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:4397:19)
+    at updateFunctionComponent (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5772:16)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:6388:20)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9145:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9041:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9025:6) The above error occurred in the <LandingPage> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  203506ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  203524ms] [ERROR] %o
+
+%s
+
+%s
+ Error: useAuth must be used within <AuthProvider>
+    at useAuth (http://localhost:3001/src/lib/AuthContext.jsx?t=1794907922321:105:18)
+    at LandingPage (http://localhost:3001/src/components/landing/LandingPage.jsx?t=1794908146907:549:19)
+    at Object.react_stack_bottom_frame (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:14139:12)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:4397:19)
+    at updateFunctionComponent (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5772:16)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:6388:20)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9145:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9041:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9025:6) The above error occurred in the <LandingPage> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  203524ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  203718ms] [ERROR] %o
+
+%s
+
+%s
+ Error: useAuth must be used within <AuthProvider>
+    at useAuth (http://localhost:3001/src/lib/AuthContext.jsx?t=1794907922321:105:18)
+    at LandingPage (http://localhost:3001/src/components/landing/LandingPage.jsx?t=1794908146907:549:19)
+    at Object.react_stack_bottom_frame (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:14139:12)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:4397:19)
+    at updateFunctionComponent (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5772:16)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:6388:20)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9145:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9041:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9025:6) The above error occurred in the <LandingPage> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  203719ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  203732ms] [ERROR] %o
+
+%s
+
+%s
+ Error: useAuth must be used within <AuthProvider>
+    at useAuth (http://localhost:3001/src/lib/AuthContext.jsx?t=1794907922321:105:18)
+    at LandingPage (http://localhost:3001/src/components/landing/LandingPage.jsx?t=1794908146907:549:19)
+    at Object.react_stack_bottom_frame (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:14139:12)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:4397:19)
+    at updateFunctionComponent (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5772:16)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:6388:20)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9145:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9041:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:9025:6) The above error occurred in the <LandingPage> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  203733ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  248798ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:11401:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7705:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7665:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7749:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7826:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  248800ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  248801ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:11401:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7705:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7665:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7749:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7826:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  248804ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  248805ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:11401:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7705:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7665:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7749:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7826:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  248808ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  248810ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:11401:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:941:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7705:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7665:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7749:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7826:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7922:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:7836:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=42796975:5464
+[  248812ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=42796975:60
+[  298365ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=40062139:15803
