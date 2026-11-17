@@ -4,16 +4,10 @@ import {
   ArrowRight,
   ArrowUpRight,
   CalendarDays,
-  CalendarRange,
   ClipboardCheck,
-  Clock3,
   HandCoins,
-  Handshake,
-  Percent,
   ShieldCheck,
   Siren,
-  Users,
-  Wallet,
 } from "lucide-react";
 import StatCard from "@/components/fund/StatCard";
 import WeeklyCard from "@/components/dashboard/WeeklyCard";
@@ -75,7 +69,7 @@ function DashboardPage() {
   useEffect(() => setNow(new Date()), []);
 
   const locale = lang === "en" ? "en-IN" : "ml-IN";
-  const monday = startOfWeek(now || new Date());
+  const monday = startOfWeek(now || new Date(), settings?.week_start_day ?? 1);
   const sunday = addDays(monday, 6);
   const range = `${formatDate(monday, locale)} – ${formatDate(sunday, locale)}`;
   const paid = weekContributions.filter((c) => c.status === "paid");
@@ -140,7 +134,7 @@ function DashboardPage() {
       {/* Headline figures */}
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.35fr_1fr_1fr]">
         <StatCard
-          icon={Wallet}
+         
           labelMl="ആകെ ഫണ്ട് ബാലൻസ്"
           labelEn="Total fund balance"
           value={summary.balance}
@@ -150,15 +144,15 @@ function DashboardPage() {
             { label: t("അംഗങ്ങൾ", "Members"), value: String(summary.members) },
           ]}
         />
-        <StatCard icon={Users} labelMl="ആകെ സംഭാവന" labelEn="Total contributions" value={summary.contributionsTotal} />
-        <StatCard icon={Handshake} labelMl="നൽകിയ വായ്പ" labelEn="Total money lent" value={summary.lent} />
+        <StatCard labelMl="ആകെ സംഭാവന" labelEn="Total contributions" value={summary.contributionsTotal} />
+        <StatCard labelMl="നൽകിയ വായ്പ" labelEn="Total money lent" value={summary.lent} />
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard size="sm" icon={Clock3} labelMl="ബാക്കി തുക" labelEn="Total outstanding" value={summary.outstanding} />
-        <StatCard size="sm" icon={Percent} labelMl="ലഭിച്ച പലിശ" labelEn="Interest collected" value={summary.interestCollected} />
-        <StatCard size="sm" icon={CalendarRange} labelMl="ഈ ആഴ്ചയിലെ ശേഖരണം" labelEn="Collected this week" value={weekCollected} />
-        <StatCard size="sm" icon={Users} labelMl="ആകെ അംഗങ്ങൾ" labelEn="Total members" value={summary.members} prefix="" />
+        <StatCard size="sm" labelMl="ബാക്കി തുക" labelEn="Total outstanding" value={summary.outstanding} />
+        <StatCard size="sm" labelMl="ലഭിച്ച പലിശ" labelEn="Interest collected" value={summary.interestCollected} />
+        <StatCard size="sm" labelMl="ഈ ആഴ്ചയിലെ ശേഖരണം" labelEn="Collected this week" value={weekCollected} />
+        <StatCard size="sm" labelMl="ആകെ അംഗങ്ങൾ" labelEn="Total members" value={summary.members} prefix="" />
       </section>
 
       {/* Items needing a handler's attention */}

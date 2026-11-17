@@ -31,7 +31,7 @@ export function num(value) {
 /** 16 നവംബർ 2026 */
 export function formatDate(value, locale = "en-IN") {
   if (!value) return "—";
-  const d = new Date(value);
+  const d = parseDay(value);
   if (Number.isNaN(d.getTime())) return "—";
   return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
@@ -55,23 +55,40 @@ export function formatDateTime(value) {
 }
 
 /** Monday-of-week helpers (IST-neutral, ISO weeks) */
-export function startOfWeek(date = new Date()) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = (day + 6) % 7; // Monday = 0
+/**
+ * A Date for a calendar day. "YYYY-MM-DD" strings are read as local midnight
+ * (new Date("2026-11-16") would be UTC midnight, a different local day in some zones).
+ */
+export function parseDay(value) {
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [y, m, d] = value.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+  return new Date(value);
+}
+
+/** First day of the week containing `date`. startDay: 0 = Sunday … 6 = Saturday (default Monday). */
+export function startOfWeek(date = new Date(), startDay = 1) {
+  const d = parseDay(date);
+  const first = Number.isInteger(Number(startDay)) ? ((Number(startDay) % 7) + 7) % 7 : 1;
+  const diff = (d.getDay() - first + 7) % 7;
   d.setDate(d.getDate() - diff);
   d.setHours(0, 0, 0, 0);
   return d;
 }
 
 export function addDays(date, days) {
-  const d = new Date(date);
+  const d = parseDay(date);
   d.setDate(d.getDate() + days);
   return d;
 }
 
+/** The local calendar day as "YYYY-MM-DD" (not UTC, which shifts Indian midnight to the day before). */
 export function isoDate(date) {
-  return new Date(date).toISOString().slice(0, 10);
+  if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) return date;
+  const d = new Date(date);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
 /** Whole weeks between two dates (floor). */

@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authed/settings")({
 });
 
 function SettingsPage() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const fund = useFund();
   const { settings, isAdmin, cycle, summary, handovers, members, myMember } = fund;
   const { user, logout } = useAuth();
@@ -33,6 +33,7 @@ function SettingsPage() {
     if (!settings || form) return;
     setForm({
       weekly_amount: String(settings.weekly_amount ?? 250),
+      week_start_day: String(settings.week_start_day ?? 1),
       late_interest_per_week: String(settings.late_interest_per_week ?? 10),
       late_interest_grace_weeks: String(settings.late_interest_grace_weeks ?? 2),
       borrowing_interest_percent: String(settings.borrowing_interest_percent ?? 1),
@@ -50,6 +51,7 @@ function SettingsPage() {
       await saveFundSettings({
         data: {
           weekly_amount: Number(form.weekly_amount),
+          week_start_day: Number(form.week_start_day),
           late_interest_per_week: Number(form.late_interest_per_week),
           late_interest_grace_weeks: Number(form.late_interest_grace_weeks),
           borrowing_interest_percent: Number(form.borrowing_interest_percent),
@@ -104,6 +106,24 @@ function SettingsPage() {
                   disabled={!isAdmin}
                   onChange={(event) => setForm((p) => ({ ...p, weekly_amount: event.target.value }))}
                 />
+              </Field>
+              <Field
+                label={t("ആഴ്ച ആരംഭിക്കുന്ന ദിവസം", "Week starts on")}
+                hint={t("സംഭാവന ആഴ്ച ഈ ദിവസം മുതൽ 7 ദിവസം", "Each contribution week runs 7 days from this day")}
+              >
+                <select
+                  value={form.week_start_day}
+                  disabled={!isAdmin}
+                  onChange={(event) => setForm((p) => ({ ...p, week_start_day: event.target.value }))}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 text-[14px] outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {[1, 2, 3, 4, 5, 6, 0].map((day) => (
+                    <option key={day} value={String(day)}>
+                      {/* 4 Jan 1970 was a Sunday, so 4 + day gives that weekday. */}
+                      {new Intl.DateTimeFormat(lang === "en" ? "en-IN" : "ml-IN", { weekday: "long" }).format(new Date(1970, 0, 4 + day))}
+                    </option>
+                  ))}
+                </select>
               </Field>
               <Field label={t("കാലതാമസ പലിശ / ആഴ്ച (₹)", "Late interest / week (₹)")}>
                 <Input

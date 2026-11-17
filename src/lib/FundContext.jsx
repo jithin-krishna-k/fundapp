@@ -72,7 +72,7 @@ export function FundProvider({ children }) {
         outstanding += Math.max(0, total - Number(w.amount_paid || 0));
       }
 
-      const weekStart = isoDate(startOfWeek(new Date()));
+      const weekStart = isoDate(startOfWeek(new Date(), boot.settings?.week_start_day ?? 1));
       const weekContributions = contributions
         .filter((c) => c.week_start === weekStart)
         .sort((a, b) => (a.member_name || "").localeCompare(b.member_name || ""));

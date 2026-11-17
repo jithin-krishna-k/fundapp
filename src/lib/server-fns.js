@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth-middleware";
-import { addDays, isoDate, weeksBetween } from "@/lib/format";
+import { addDays, isoDate, parseDay, weeksBetween } from "@/lib/format";
 import { borrowingInterest } from "@/lib/finance";
 
 /* ── helpers ─────────────────────────────────────────────────────────── */
@@ -44,6 +44,7 @@ async function ensureSettings(b44) {
     group_name: "FUND",
     currency: "INR",
     weekly_amount: 250,
+    week_start_day: 1,
     late_interest_per_week: 10,
     late_interest_grace_weeks: 2,
     borrowing_interest_percent: 1,
@@ -196,7 +197,7 @@ export const generateWeek = createServerFn({ method: "POST" })
     const settings = await ensureSettings(b44);
     const cycle = await ensureCycle(b44);
     const members = await activeMembers(b44);
-    const start = new Date(data.week_start);
+    const start = parseDay(data.week_start);
     const end = addDays(start, 6);
     const existing = asArray(await b44.entities.Contribution.filter({ week_start: data.week_start }));
     const known = new Set(existing.map((c) => c.member_id));
@@ -1111,6 +1112,7 @@ export const saveFundSettings = createServerFn({ method: "POST" })
   .validator(
     z.object({
       weekly_amount: z.number().positive(),
+      week_start_day: z.number().int().min(0).max(6),
       late_interest_per_week: z.number().min(0),
       late_interest_grace_weeks: z.number().min(0),
       borrowing_interest_percent: z.number().min(0),

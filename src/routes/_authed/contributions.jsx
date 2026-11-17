@@ -41,7 +41,7 @@ function ContributionsPage() {
   const paidCount = rows.filter((r) => r.status === "paid").length;
   const totalDue = rows.reduce((sum, r) => sum + (Number(r.amount_due) - Number(r.amount_paid || 0)), 0);
 
-  const shift = (days) => setWeekStart(isoDate(addDays(new Date(weekStart), days)));
+  const shift = (days) => setWeekStart(isoDate(addDays(weekStart, days)));
 
   const generate = async () => {
     setBusy(true);
@@ -118,7 +118,7 @@ function ContributionsPage() {
           </button>
           <div className="text-center">
             <p className="font-mal text-[14.5px]">
-              {formatDate(weekStart)} – {formatDate(isoDate(addDays(new Date(weekStart), 6)))}
+              {formatDate(weekStart)} – {formatDate(isoDate(addDays(weekStart, 6)))}
             </p>
             <p className={cn("mt-0.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground", lang === "en" ? "font-mal" : "")}>
               {t("സംഭാവന ആഴ്ച", "Contribution week")}

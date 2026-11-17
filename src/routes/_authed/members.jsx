@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Loader2, UserPlus, Users } from "lucide-react";
+import { Loader2, ShieldCheck, ShieldOff, UserMinus, UserPlus, Users } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,7 @@ function MembersPage() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [handoverOpen, setHandoverOpen] = useState(false);
   const [removeTarget, setRemoveTarget] = useState(null);
+  const [roleTarget, setRoleTarget] = useState(null);
 
   const active = members.filter((m) => m.status === "active");
   const pending = members.filter((m) => m.status === "pending");
@@ -67,26 +68,14 @@ function MembersPage() {
     }
   };
 
-  const changeRole = async (member, fund_role) => {
-    try {
-      await setMemberRole({ data: { member_id: member.id, fund_role } });
-      toast.success(
-        fund_role === "super_admin"
-          ? t("അഡ്മിൻ ആക്കി", "Made admin")
-          : t("അഡ്മിൻ പദവി ഒഴിവാക്കി", "Admin role removed")
-      );
-      fund.reload();
-    } catch (error) {
-      toast.error(error?.message || t("റോൾ മാറ്റാനായില്ല", "Could not change role"));
-    }
-  };
+  const changeRole = (member, role) => setRoleTarget({ member, role });
 
   return (
     <div className="page-enter space-y-6">
       <PageHeader
         ml="അംഗങ്ങൾ"
         en="Members"
-        description={t(`${active.length} സജീവ അംഗങ്ങൾ · ആകെ ${inr(summary.contributionsTotal)} സംഭാവന ലഭിച്ചു.`, `${active.length} active members · ${inr(summary.contributionsTotal)} contributed in total.`)}
+        description={t(`${active.length} സജീവ അംഗങ്ങൾ`, `${active.length} active members`)}
         action={
           isAdmin ? (
             <div className="flex gap-2">
@@ -134,65 +123,107 @@ function MembersPage() {
         {active.length === 0 ? (
           <EmptyState icon={Users} ml="അംഗങ്ങൾ ഇല്ല" en="No active members yet" />
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
-            {active.map((member) => (
-              <article key={member.id} className="rounded-[1.3rem] border border-border bg-card p-4">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary font-mal text-[14.5px]">
-                    {(member.full_name || "?").trim().charAt(0)}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-mal text-[14.5px]">{member.full_name}</p>
-                    <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{member.user_email}</p>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {active.map((member) => {
+              const isMe = member.user_email === myMember?.user_email;
+              const outstanding = outstandingBy(member.user_email);
+              const initial = (member.full_name || "?").trim().charAt(0).toUpperCase();
+              return (
+                <article
+                  key={member.id}
+                  className={`flex flex-col rounded-2xl border bg-card p-5 transition-shadow hover:shadow-md ${
+                    isMe ? "border-primary/40 ring-1 ring-primary/15" : "border-border"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary/10 text-[17px] font-semibold text-primary">
+                      {initial}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="truncate font-mal text-[15.5px] font-semibold">{member.full_name}</p>
+                        {isMe && (
+                          <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[11px] font-medium text-primary-foreground">
+                            {t("നിങ്ങൾ", "You")}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-0.5 truncate text-[12.5px] text-muted-foreground" title={member.user_email}>
+                        {member.user_email}
+                      </p>
+                    </div>
+                    <div className="shrink-0">
+                      <StatusPill tone={member.fund_role === "super_admin" ? "accent" : member.fund_role === "cash_handler" ? "partial" : "neutral"}>
+                        {t(ROLE_LABEL[member.fund_role]?.ml, ROLE_LABEL[member.fund_role]?.en)}
+                      </StatusPill>
+                    </div>
                   </div>
-                  <StatusPill tone={member.fund_role === "super_admin" ? "accent" : member.fund_role === "cash_handler" ? "partial" : "neutral"}>
-                    {t(ROLE_LABEL[member.fund_role]?.ml, ROLE_LABEL[member.fund_role]?.en)}
-                  </StatusPill>
-                </div>
-                <dl className="mt-3 grid grid-cols-3 gap-2 border-t border-border/70 pt-3">
-                  <div>
-                    <dt className="text-[11px] uppercase tracking-[0.1em] text-muted-foreground">Contributed</dt>
-                    <dd className="tnum mt-0.5 text-[13px]">{inr(contributedBy(member.id))}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[11px] uppercase tracking-[0.1em] text-muted-foreground">Outstanding</dt>
-                    <dd className="tnum mt-0.5 text-[13px]">{inr(outstandingBy(member.user_email))}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[11px] uppercase tracking-[0.1em] text-muted-foreground">Joined</dt>
-                    <dd className="mt-0.5 text-[13px]">{member.join_date ? formatDate(member.join_date) : "—"}</dd>
-                  </div>
-                </dl>
-                {member.user_email === myMember?.user_email && (
-                  <p className="mt-2 text-[11.5px] uppercase tracking-[0.14em] text-primary">this is you</p>
-                )}
-                {isAdmin && member.user_email !== myMember?.user_email && (
-                  <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-                    {member.fund_role === "super_admin" ? (
+
+                  <dl className="mt-4 grid grid-cols-3 gap-2">
+                    <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
+                      <dt className="font-mal text-[12px] text-muted-foreground">{t("സംഭാവന", "Contributed")}</dt>
+                      <dd className="tnum mt-1 text-[15px] font-semibold text-emerald-700">{inr(contributedBy(member.id))}</dd>
+                    </div>
+                    <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
+                      <dt className="font-mal text-[12px] text-muted-foreground">{t("ബാക്കി", "Outstanding")}</dt>
+                      <dd className={`tnum mt-1 text-[15px] font-semibold ${outstanding > 0 ? "text-red-600" : "text-foreground"}`}>
+                        {inr(outstanding)}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-secondary/60 px-3 py-2.5">
+                      <dt className="font-mal text-[12px] text-muted-foreground">{t("ചേർന്നത്", "Joined")}</dt>
+                      <dd className="mt-1 text-[13.5px] font-medium">{member.join_date ? formatDate(member.join_date) : "—"}</dd>
+                    </div>
+                  </dl>
+
+                  {member.fund_role === "super_admin" && (
+                    <div className="mt-4 flex items-start gap-3 rounded-xl border border-primary/15 bg-accent/60 px-3.5 py-3">
+                      <ShieldCheck className="mt-0.5 h-[18px] w-[18px] shrink-0 text-primary" strokeWidth={1.9} />
+                      <div className="min-w-0">
+                        <p className="text-[13.5px] font-semibold text-primary">{t("പൂർണ്ണ അധികാരം", "Full access")}</p>
+                        <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">
+                          {t(
+                            "അംഗങ്ങളെ ചേർക്കാനും ഒഴിവാക്കാനും, പേയ്‌മെന്റുകളും ഫണ്ട് അഭ്യർത്ഥനകളും അംഗീകരിക്കാനും, ഫണ്ട് ക്രമീകരണങ്ങളും സൈക്കിളും നിയന്ത്രിക്കാനും കഴിയും.",
+                            "Can add and remove members, approve payments and fund requests, and manage fund settings and cycles."
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Spacer: keeps the action row pinned to the card's bottom when row heights differ. */}
+                  {isAdmin && !isMe && <div aria-hidden="true" className="min-h-[1rem] flex-1" />}
+                  {isAdmin && !isMe && (
+                    <div className="flex flex-wrap gap-2 border-t border-border/70 pt-4">
+                      {member.fund_role === "super_admin" ? (
+                        <button
+                          onClick={() => changeRole(member, "member")}
+                          className="flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-[12.5px] text-foreground/80 transition-colors hover:bg-secondary"
+                        >
+                          <ShieldOff className="h-3.5 w-3.5" strokeWidth={1.8} />
+                          {t("അഡ്മിൻ പദവി ഒഴിവാക്കുക", "Remove admin")}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => changeRole(member, "super_admin")}
+                          className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3.5 py-1.5 text-[12.5px] text-primary transition-colors hover:bg-primary/10"
+                        >
+                          <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.8} />
+                          {t("അഡ്മിൻ ആക്കുക", "Make admin")}
+                        </button>
+                      )}
                       <button
-                        onClick={() => changeRole(member, "member")}
-                        className="text-[12px] text-muted-foreground transition-colors hover:text-foreground"
+                        onClick={() => setRemoveTarget(member)}
+                        className="ml-auto flex items-center gap-1.5 rounded-full border border-destructive/25 px-3.5 py-1.5 text-[12.5px] text-destructive transition-colors hover:bg-destructive/10"
                       >
-                        {t("അഡ്മിൻ പദവി ഒഴിവാക്കുക", "Remove admin")}
+                        <UserMinus className="h-3.5 w-3.5" strokeWidth={1.8} />
+                        {t("അംഗത്തെ ഒഴിവാക്കുക", "Remove member")}
                       </button>
-                    ) : (
-                      <button
-                        onClick={() => changeRole(member, "super_admin")}
-                        className="text-[12px] text-primary transition-colors hover:text-primary/80"
-                      >
-                        {t("അഡ്മിൻ ആക്കുക", "Make admin")}
-                      </button>
-                    )}
-                    <button
-                      onClick={() => setRemoveTarget(member)}
-                      className="text-[12px] text-destructive/80 transition-colors hover:text-destructive"
-                    >
-                      {t("അംഗത്തെ ഒഴിവാക്കുക", "Remove member")}
-                    </button>
-                  </div>
-                )}
-              </article>
-            ))}
+                    </div>
+                  )}
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
@@ -203,6 +234,12 @@ function MembersPage() {
         onOpenChange={setHandoverOpen}
         members={active}
         cashBalance={summary.cashBalance}
+        onDone={() => fund.reload()}
+      />
+      <RoleChangeDialog
+        target={roleTarget}
+        open={!!roleTarget}
+        onOpenChange={(next) => !next && setRoleTarget(null)}
         onDone={() => fund.reload()}
       />
       <RemoveMemberDialog
@@ -278,6 +315,71 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
           <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : t("ക്ഷണം അയക്കുക", "Send invite")}
           </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function RoleChangeDialog({ target, open, onOpenChange, onDone }) {
+  const { t } = useLang();
+  const [busy, setBusy] = useState(false);
+  const member = target?.member;
+  const promote = target?.role === "super_admin";
+
+  const submit = async () => {
+    if (!member) return;
+    setBusy(true);
+    try {
+      await setMemberRole({ data: { member_id: member.id, fund_role: target.role } });
+      toast.success(promote ? t("അഡ്മിൻ ആക്കി", "Made admin") : t("അഡ്മിൻ പദവി ഒഴിവാക്കി", "Admin role removed"));
+      onOpenChange(false);
+      onDone?.();
+    } catch (error) {
+      toast.error(error?.message || t("റോൾ മാറ്റാനായില്ല", "Could not change role"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="rounded-[1.4rem] border-border bg-background sm:max-w-sm">
+        <DialogHeader>
+          <DialogTitle className="font-mal text-[1.05rem] font-normal">
+            {promote ? t("അഡ്മിൻ ആക്കുക", "Make admin") : t("അഡ്മിൻ പദവി ഒഴിവാക്കുക", "Remove admin")}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-3.5">
+          <p
+            className={`rounded-xl border px-3 py-2.5 font-mal text-[12.5px] leading-relaxed ${
+              promote ? "border-primary/25 bg-primary/[0.04] text-primary/90" : "border-amber-500/30 bg-amber-500/[0.06] text-amber-800"
+            }`}
+          >
+            {promote
+              ? t(
+                  "ഈ അംഗത്തിന് അഡ്മിൻ അധികാരങ്ങൾ ലഭിക്കും — പേയ്‌മെന്റുകൾ സ്ഥിരീകരിക്കാനും അഭ്യർത്ഥനകൾ അനുവദിക്കാനും അംഗങ്ങളെ നിയന്ത്രിക്കാനും കഴിയും.",
+                  "This member will get admin rights — they can verify payments, approve requests and manage members."
+                )
+              : t(
+                  "ഈ അംഗത്തിന്റെ അഡ്മിൻ അധികാരങ്ങൾ ഒഴിവാക്കും. അവർ സാധാരണ അംഗമായി തുടരും.",
+                  "This member will lose admin rights and stay on as a regular member."
+                )}
+          </p>
+          {member && (
+            <div className="rounded-xl border border-border bg-card px-3 py-2.5">
+              <p className="truncate font-mal text-[14px]">{member.full_name}</p>
+              <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{member.user_email}</p>
+            </div>
+          )}
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy} className="w-full rounded-full py-5 text-[14px]">
+              {t("റദ്ദാക്കുക", "Cancel")}
+            </Button>
+            <Button onClick={submit} disabled={busy} className="w-full rounded-full bg-primary py-5 text-[14px] text-primary-foreground">
+              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : promote ? t("അഡ്മിൻ ആക്കുക", "Make admin") : t("ഒഴിവാക്കുക", "Remove")}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
