@@ -19,9 +19,18 @@ export const Route = createFileRoute("/_authed")({
 function AuthedShell() {
   return (
     <FundProvider>
+      <FundSync />
       <FundGate />
     </FundProvider>
   );
+}
+
+// Live updates for every signed-in user — including pending and removed members, so the
+// "awaiting approval" screen turns into the dashboard as soon as the last member approves.
+function FundSync() {
+  const fund = useFund();
+  if (!fund || fund.loading) return null;
+  return <LiveSync onChange={fund.reload} />;
 }
 
 function FundGate() {
@@ -54,7 +63,6 @@ function FundGate() {
 
   return (
     <AppLayout>
-      <LiveSync onChange={fund.reload} />
       <Outlet />
     </AppLayout>
   );
