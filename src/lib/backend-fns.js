@@ -55,7 +55,7 @@ export const getMyPrefs = createServerFn({ method: "POST" }).handler(async () =>
   const user = await sessionUser();
   if (!user) return null;
   const { rows } = await query("SELECT lang FROM app_user_prefs WHERE user_id = $1", [user.id]);
-  return { lang: rows[0]?.lang ?? "ml" };
+  return { lang: rows[0]?.lang ?? null };
 });
 
 export const saveMyLang = createServerFn({ method: "POST" })

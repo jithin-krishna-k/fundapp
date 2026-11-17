@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, LogOut, MoreHorizontal, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { Bell, ChevronDown, LogOut, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Settings2 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/fund/Logo";
 import LangToggle from "@/components/fund/LangToggle";
@@ -55,6 +56,7 @@ export default function AppLayout({ children }) {
   const rest = NAV.filter((item) => !MOBILE_NAV.includes(item.to));
   const initial = mounted ? (user?.full_name || user?.email || "F").trim().charAt(0).toUpperCase() : "F";
   const role = ROLE_LABEL[fund?.myMember?.fund_role] || ROLE_LABEL.member;
+  const hasUnread = (fund?.notifications || []).some((n) => !n.read);
 
   return (
     <div className="min-h-screen bg-background">
@@ -62,11 +64,11 @@ export default function AppLayout({ children }) {
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-30 hidden flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200 lg:flex",
-          collapsed ? "w-[4.75rem]" : "w-[16rem]"
+          collapsed ? "w-[4.75rem]" : "w-[14rem]"
         )}
       >
-        <div className={cn("flex items-start justify-between gap-2 pb-5 pt-6", collapsed ? "flex-col items-center px-3" : "px-5")}>
-          <Link to="/dashboard" className={cn(collapsed && "grid h-10 w-10 place-items-center")}>
+        <div className={cn("relative flex pb-5 pt-6", collapsed ? "flex-col items-center gap-2 px-3" : "px-5")}>
+          <Link to="/dashboard" className={cn(collapsed ? "grid h-10 w-10 place-items-center" : "min-w-0")}>
             {collapsed ? (
               <span
                 style={{ fontFamily: '"Archivo Black", "Plus Jakarta Sans", sans-serif' }}
@@ -83,7 +85,10 @@ export default function AppLayout({ children }) {
             onClick={toggleCollapsed}
             aria-label={collapsed ? t("സൈഡ്ബാർ തുറക്കുക", "Expand sidebar") : t("സൈഡ്ബാർ അടയ്ക്കുക", "Collapse sidebar")}
             title={collapsed ? t("സൈഡ്ബാർ തുറക്കുക", "Expand sidebar") : t("സൈഡ്ബാർ അടയ്ക്കുക", "Collapse sidebar")}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={cn(
+              "grid h-8 w-8 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              !collapsed && "absolute right-4 top-[1.3rem]"
+            )}
           >
             {collapsed ? (
               <PanelLeftOpen className="h-[17px] w-[17px]" strokeWidth={1.7} />
@@ -104,7 +109,7 @@ export default function AppLayout({ children }) {
                 title={collapsed ? label : undefined}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-3 rounded-xl py-2.5 transition-colors",
+                  "flex items-center gap-3 rounded-xl py-2 transition-colors",
                   collapsed ? "justify-center px-0" : "px-3",
                   active
                     ? "bg-primary/10 font-medium text-primary"
@@ -116,38 +121,12 @@ export default function AppLayout({ children }) {
                   strokeWidth={active ? 2 : 1.7}
                 />
                 {!collapsed && (
-                  <span className={cn("truncate text-[15px] leading-none", lang === "en" ? "" : "font-mal")}>{label}</span>
+                  <span className={cn("truncate py-0.5 text-[14.5px] leading-5", lang === "en" ? "" : "font-mal")}>{label}</span>
                 )}
               </Link>
             );
           })}
         </nav>
-        <div className="border-t border-sidebar-border p-3">
-          <div className={cn("flex items-center gap-3 rounded-xl py-2", collapsed ? "flex-col px-0" : "px-2")}>
-            <span
-              title={collapsed ? (mounted ? user?.full_name || "Member" : "Member") : undefined}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-secondary font-mal text-sm text-foreground"
-            >
-              {initial}
-            </span>
-            {!collapsed && (
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[14px] font-medium">{mounted ? user?.full_name || "Member" : "Member"}</p>
-                <p className={cn("truncate text-[12.5px] text-muted-foreground", lang === "en" ? "" : "font-mal")}>
-                  {t(role.ml, role.en)}
-                </p>
-              </div>
-            )}
-            <button
-              onClick={() => setLogoutOpen(true)}
-              aria-label="Sign out"
-              title="Sign out"
-              className="grid h-8 w-8 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              <LogOut className="h-4 w-4" strokeWidth={1.7} />
-            </button>
-          </div>
-        </div>
       </aside>
 
       {/* ── mobile top bar ── */}
@@ -164,15 +143,37 @@ export default function AppLayout({ children }) {
             <Bell className="h-[17px] w-[17px]" strokeWidth={1.7} />
           </Link>
           <LangToggle compact />
-          <Link to="/settings" className="grid h-9 w-9 place-items-center rounded-full bg-secondary text-[14.5px]
-            font-mal text-[14.5px]">
-            {initial}
-          </Link>
+          <ProfileMenu
+            initial={initial}
+            name={mounted ? user?.full_name || t("അംഗം", "Member") : ""}
+            email={mounted ? user?.email : ""}
+            role={t(role.ml, role.en)}
+            onSignOut={() => setLogoutOpen(true)}
+            compact
+          />
         </div>
       </header>
 
-      <main className={cn("transition-[padding] duration-200", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[16rem]")}>
-        <div className="w-full max-w-[120rem] px-4 pb-28 pt-5 sm:px-6 lg:px-10 xl:px-12 lg:pb-14 lg:pt-9">{children}</div>
+      <main className={cn("transition-[padding] duration-200", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[14rem]")}>
+        <div className="hidden items-center justify-end gap-3 px-10 pt-5 lg:flex xl:px-12">
+          <LangToggle />
+          <Link
+            to="/notifications"
+            aria-label={t("അറിയിപ്പുകൾ", "Notifications")}
+            className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-card text-foreground/75 transition-colors hover:border-primary/30 hover:text-primary"
+          >
+            <Bell className="h-[18px] w-[18px]" strokeWidth={1.7} />
+            {hasUnread && <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-primary ring-2 ring-card" />}
+          </Link>
+          <ProfileMenu
+            initial={initial}
+            name={mounted ? user?.full_name || t("അംഗം", "Member") : ""}
+            email={mounted ? user?.email : ""}
+            role={t(role.ml, role.en)}
+            onSignOut={() => setLogoutOpen(true)}
+          />
+        </div>
+        <div className="w-full max-w-[120rem] px-4 pb-28 pt-5 sm:px-6 lg:px-10 xl:px-12 lg:pb-14 lg:pt-2">{children}</div>
       </main>
 
       {/* ── mobile bottom nav ── */}
@@ -288,5 +289,55 @@ export default function AppLayout({ children }) {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+function ProfileMenu({ initial, name, email, role, onSignOut, compact = false }) {
+  const { t, lang } = useLang();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        aria-label={t("പ്രൊഫൈൽ മെനു", "Profile menu")}
+        className={cn(
+          "group flex items-center gap-1.5 rounded-full border border-border bg-card p-1 transition-colors hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:border-primary/30",
+          compact ? "" : "pr-2.5"
+        )}
+      >
+        <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-[14px] font-medium text-primary">{initial}</span>
+        {!compact && <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.8} />}
+      </PopoverTrigger>
+      <PopoverContent align="end" sideOffset={8} className="w-64 rounded-2xl p-0">
+        <div className="px-4 py-3.5">
+          <p className="truncate text-[14.5px] font-semibold">{name}</p>
+          {email && <p className="mt-0.5 truncate text-[13px] text-muted-foreground">{email}</p>}
+          <span className={cn("mt-2 inline-block rounded-full bg-accent px-2 py-0.5 text-[12px] text-primary", lang === "en" ? "" : "font-mal")}>
+            {role}
+          </span>
+        </div>
+        <div className="border-t border-border p-1.5">
+          <Link
+            to="/settings"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] text-foreground/85 transition-colors hover:bg-secondary"
+          >
+            <Settings2 className="h-4 w-4 text-muted-foreground" strokeWidth={1.7} />
+            {t("ക്രമീകരണങ്ങൾ", "Settings")}
+          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              onSignOut();
+            }}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[14px] text-destructive transition-colors hover:bg-destructive/10"
+          >
+            <LogOut className="h-4 w-4" strokeWidth={1.7} />
+            {t("സൈൻ ഔട്ട്", "Sign out")}
+          </button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }

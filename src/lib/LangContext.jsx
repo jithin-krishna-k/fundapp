@@ -6,11 +6,14 @@ const LanguageContext = createContext({
   lang: "ml",
   setLang: () => {},
   t: (ml, en) => ml || en,
+  ready: true,
 });
 
 export function LanguageProvider({ children }) {
   const { isAuthenticated, isLoadingAuth } = useAuth();
   const [lang, setLangState] = useState("ml");
+  // False until the saved choice (browser, then account) has been applied.
+  const [ready, setReady] = useState(false);
 
   const remember = (value) => {
     try {
@@ -18,26 +21,50 @@ export function LanguageProvider({ children }) {
     } catch {}
   };
 
-  // Apply the locally remembered choice right away so the UI doesn't flash the default.
-  useEffect(() => {
+  const readLocal = () => {
     try {
       const saved = localStorage.getItem("fund.lang");
-      if (saved === "ml" || saved === "en") setLangState(saved);
-    } catch {}
+      return saved === "ml" || saved === "en" ? saved : null;
+    } catch {
+      return null;
+    }
+  };
+
+  // Apply the locally remembered choice right away so the UI doesn't flash the default.
+  useEffect(() => {
+    const saved = readLocal();
+    if (saved) setLangState(saved);
   }, []);
 
-  // The signed-in user's choice lives in Neon (app_user_prefs) and wins once loaded.
+  // Signed in: the account's saved language wins. A first sign-in (nothing saved yet)
+  // stores the language the user picked on the login/register page.
   useEffect(() => {
     if (isLoadingAuth) return;
+    if (!isAuthenticated) {
+      setReady(true);
+      return;
+    }
+    let cancelled = false;
     getMyPrefs()
       .then((prefs) => {
+        if (cancelled) return;
         if (prefs?.lang === "ml" || prefs?.lang === "en") {
           setLangState(prefs.lang);
           remember(prefs.lang);
+        } else {
+          const picked = readLocal() || "ml";
+          setLangState(picked);
+          saveMyLang({ data: { lang: picked } }).catch(() => {});
         }
       })
-      .catch(() => {});
-  }, [isLoadingAuth]);
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoadingAuth, isAuthenticated]);
 
   useEffect(() => {
     if (typeof document !== "undefined") document.documentElement.lang = lang;
@@ -51,7 +78,7 @@ export function LanguageProvider({ children }) {
 
   const t = (ml, en) => (lang === "en" ? en || ml : ml || en);
 
-  return <LanguageContext.Provider value={{ lang, setLang, t }}>{children}</LanguageContext.Provider>;
+  return <LanguageContext.Provider value={{ lang, setLang, t, ready }}>{children}</LanguageContext.Provider>;
 }
 
 export function useLang() {

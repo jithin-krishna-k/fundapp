@@ -1,11 +1,10 @@
 ﻿import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Bell, ClipboardCheck, HandCoins, Siren } from "lucide-react";
+import { ArrowUpRight, ClipboardCheck, HandCoins, Siren } from "lucide-react";
 import StatCard from "@/components/fund/StatCard";
 import SectionHeading from "@/components/fund/SectionHeading";
 import WeeklyCard from "@/components/dashboard/WeeklyCard";
 import QuickActions from "@/components/dashboard/QuickActions";
-import LangToggle from "@/components/fund/LangToggle";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
 import EmptyState from "@/components/fund/EmptyState";
 import { useFund } from "@/lib/FundContext";
@@ -86,19 +85,6 @@ function DashboardPage() {
           >
             {fund.cycle?.name || "Fund group"} · {t("അംഗങ്ങൾക്ക് മാത്രം", "members only")}
           </p>
-        </div>
-        <div className="hidden items-center gap-2 lg:flex">
-        <LangToggle />
-        <Link
-          to="/notifications"
-          aria-label="Notifications"
-          className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-card text-foreground/75 transition-colors hover:border-primary/30 hover:text-primary"
-        >
-          <Bell className="h-[18px] w-[18px]" strokeWidth={1.7} />
-          {fund.notifications.some((n) => !n.read) && (
-            <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-primary" />
-          )}
-        </Link>
         </div>
       </header>
 

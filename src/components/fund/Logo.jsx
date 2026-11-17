@@ -17,8 +17,8 @@ export default function Logo({ compact = false, className }) {
       {!compact && (
         <p
           className={cn(
-            "mt-1.5 leading-none text-muted-foreground",
-            lang === "en" ? "text-[12px]" : "font-mal text-[12px]",
+            "mt-2 whitespace-nowrap leading-tight text-muted-foreground",
+            lang === "en" ? "text-[12px]" : "font-mal text-[11.5px]",
           )}
         >
           {lang === "en" ? "Fund group · Members only" : "ഫണ്ട് ഗ്രൂപ്പ് · അംഗങ്ങൾക്ക് മാത്രം"}

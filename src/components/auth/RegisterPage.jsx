@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { safeReturnTo } from "@/lib/authReturnTo";
+import { useLang } from "@/lib/LangContext";
 
 const isAlreadyVerified = (err) => err?.status === 400 && /already verified/i.test(err?.message ?? "");
 
@@ -19,6 +20,7 @@ const isAlreadyVerified = (err) => err?.status === 400 && /already verified/i.te
  * skipped and loginViaEmailPassword is never called right after register.
  */
 export function RegisterPage() {
+  const { t } = useLang();
   const returnTo = safeReturnTo();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +35,7 @@ export function RegisterPage() {
     e.preventDefault();
     setError("");
     if (password !== confirm) {
-      setError("Passwords do not match");
+      setError(t("പാസ്‌വേഡുകൾ ഒരുപോലെയല്ല", "Passwords do not match"));
       return;
     }
     setBusy(true);
@@ -46,7 +48,7 @@ export function RegisterPage() {
       }
       setStep("otp");
     } catch (err) {
-      setError(err.message || "Registration failed");
+      setError(err.message || t("രജിസ്ട്രേഷൻ പരാജയപ്പെട്ടു", "Registration failed"));
     } finally {
       setBusy(false);
     }
@@ -68,7 +70,7 @@ export function RegisterPage() {
       // Verified server-side but the answer never arrived: the code is spent and
       // there is no token, so the only way forward is a normal sign-in.
       if (isAlreadyVerified(err)) setStep("already_verified");
-      else setError(err.message || "Invalid verification code");
+      else setError(err.message || t("കോഡ് തെറ്റാണ്", "Invalid verification code"));
       setBusy(false);
     }
   }
@@ -77,10 +79,10 @@ export function RegisterPage() {
     setError("");
     try {
       await base44.auth.resendOtp(email);
-      toast("Code sent", { description: "Check your email for the new code." });
+      toast(t("കോഡ് അയച്ചു", "Code sent"), { description: t("പുതിയ കോഡിനായി ഇമെയിൽ പരിശോധിക്കുക.", "Check your email for the new code.") });
     } catch (err) {
       if (isAlreadyVerified(err)) setStep("already_verified");
-      else setError(err.message || "Failed to resend code");
+      else setError(err.message || t("കോഡ് വീണ്ടും അയക്കാനായില്ല", "Failed to resend code"));
     }
   }
 
@@ -89,12 +91,12 @@ export function RegisterPage() {
 
   if (step === "already_verified") {
     return (
-      <AuthLayout icon={UserPlus} title="Create your account" subtitle="Sign up to get started">
+      <AuthLayout icon={UserPlus} title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
         <p className="mb-4 text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">{email}</span> is already verified. Sign in to continue.
+          <span className="font-medium text-foreground">{email}</span> {t("ഇതിനകം സ്ഥിരീകരിച്ചതാണ്. തുടരാൻ പ്രവേശിക്കുക.", "is already verified. Sign in to continue.")}
         </p>
         <AuthLink to="/login" returnTo={returnTo} className="inline-flex h-12 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground hover:bg-primary/90">
-          Sign in
+          {t("പ്രവേശിക്കുക", "Sign in")}
         </AuthLink>
       </AuthLayout>
     );
@@ -102,10 +104,10 @@ export function RegisterPage() {
 
   if (step === "otp") {
     return (
-      <AuthLayout icon={UserPlus} title="Create your account" subtitle="Sign up to get started">
+      <AuthLayout icon={UserPlus} title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
         <form onSubmit={verify}>
           <p className="mb-4 text-sm text-muted-foreground">
-            We sent a 6-digit code to <span className="font-medium text-foreground">{email}</span>.
+            {t("6 അക്ക കോഡ് അയച്ചത്:", "We sent a 6-digit code to")} <span className="font-medium text-foreground">{email}</span>
           </p>
           <AuthError>{error}</AuthError>
           <div className="mb-6 flex justify-center">
@@ -117,13 +119,13 @@ export function RegisterPage() {
               </InputOTPGroup>
             </InputOTP>
           </div>
-          <SubmitButton busy={busy} busyLabel="Verifying..." disabled={busy || otpCode.length < 6}>
-            Verify
+          <SubmitButton busy={busy} busyLabel={t("സ്ഥിരീകരിക്കുന്നു…", "Verifying…")} disabled={busy || otpCode.length < 6}>
+            {t("സ്ഥിരീകരിക്കുക", "Verify")}
           </SubmitButton>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            Didn't receive the code?{" "}
+            {t("കോഡ് ലഭിച്ചില്ലേ?", "Didn't receive the code?")}{" "}
             <button type="button" onClick={resend} className="font-medium text-primary hover:underline">
-              Resend
+              {t("വീണ്ടും അയക്കുക", "Resend")}
             </button>
           </p>
         </form>
@@ -132,40 +134,40 @@ export function RegisterPage() {
   }
 
   return (
-    <AuthLayout icon={UserPlus} title="Create your account" subtitle="Sign up to get started">
+    <AuthLayout icon={UserPlus} title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
       <GoogleButton returnTo={returnTo} onError={setError} />
       <OrDivider />
       <AuthError>{error}</AuthError>
       <form onSubmit={register} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="register-email">Email</Label>
+          <Label htmlFor="register-email">{t("ഇമെയിൽ", "Email")}</Label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <Input id="register-email" type="email" autoComplete="email" autoFocus placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 pl-10" disabled={busy} required />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="register-password">Password</Label>
+          <Label htmlFor="register-password">{t("പാസ്‌വേഡ്", "Password")}</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <Input id="register-password" type="password" autoComplete="new-password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="h-12 pl-10" disabled={busy} required />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="register-confirm">Confirm password</Label>
+          <Label htmlFor="register-confirm">{t("പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക", "Confirm password")}</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <Input id="register-confirm" type="password" autoComplete="new-password" placeholder="••••••••" value={confirm} onChange={(e) => setConfirm(e.target.value)} className="h-12 pl-10" disabled={busy} required />
           </div>
         </div>
-        <SubmitButton busy={busy} busyLabel="Creating account...">
-          Create account
+        <SubmitButton busy={busy} busyLabel={t("അക്കൗണ്ട് സൃഷ്ടിക്കുന്നു…", "Creating account…")}>
+          {t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create account")}
         </SubmitButton>
       </form>
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        {t("ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?", "Already have an account?")}{" "}
         <AuthLink to="/login" returnTo={returnTo}>
-          Log in
+          {t("പ്രവേശിക്കുക", "Log in")}
         </AuthLink>
       </p>
     </AuthLayout>

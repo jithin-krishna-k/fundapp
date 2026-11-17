@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "./GoogleIcon";
 import { signInWithProvider } from "@/lib/authMfaFlow";
 import { returnToSearch } from "@/lib/authReturnTo";
+import { useLang } from "@/lib/LangContext";
 
 // Small pieces the auth pages share.
 
@@ -32,6 +33,7 @@ export function SubmitButton({ busy, busyLabel, children, ...props }) {
 }
 
 export function GoogleButton({ returnTo, onError }) {
+  const { t } = useLang();
   return (
     <Button
       type="button"
@@ -40,19 +42,20 @@ export function GoogleButton({ returnTo, onError }) {
       onClick={() => signInWithProvider("google", returnTo).catch((err) => onError(err.message || "Unable to sign in with Google"))}
     >
       <GoogleIcon className="mr-2 h-5 w-5" />
-      Continue with Google
+      {t("Google ഉപയോഗിച്ച് തുടരുക", "Continue with Google")}
     </Button>
   );
 }
 
 export function OrDivider() {
+  const { t } = useLang();
   return (
     <div className="relative mb-6">
       <div className="absolute inset-0 flex items-center">
         <div className="w-full border-t border-border" />
       </div>
       <div className="relative flex justify-center text-xs uppercase">
-        <span className="bg-card px-3 text-muted-foreground">or</span>
+        <span className="bg-card px-3 text-muted-foreground">{t("അല്ലെങ്കിൽ", "or")}</span>
       </div>
     </div>
   );
