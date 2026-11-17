@@ -118,6 +118,19 @@ export function FundProvider({ children }) {
     if (!isLoadingAuth && user?.email) load();
   }, [isLoadingAuth, user?.email, load]);
 
+  useEffect(() => {
+    if (!user?.email) return;
+    const refresh = () => {
+      if (document.visibilityState === "visible") load();
+    };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, [user?.email, load]);
+
   const value = useMemo(() => ({ ...data, reload: load }), [data, load]);
 
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;

@@ -38,11 +38,17 @@ function TransactionsPage() {
   const verify = async (id, action) => {
     setBusy(id + action);
     try {
-      await reviewTransaction({ data: { id, action, reason: action === "reject" ? "സ്ഥിരീകരിക്കാനായില്ല" : undefined } });
-      toast.success(action === "verify" ? tr("സ്ഥിരീകരിച്ചു", "Verified") : tr("നിരസിച്ചു", "Rejected"));
+      await reviewTransaction({ data: { id, action, reason: action === "reject" ? tr("കാരണം നൽകിയില്ല", "No reason provided") : undefined } });
+      toast.success(action === "verify" ? tr("പരിശോധിച്ചു", "Verified") : tr("നിരസിച്ചു", "Rejected"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || tr("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
+      const msg = String(error?.message || "");
+      if (error?.status === 400 || /already handled/i.test(msg)) {
+        toast.info(tr("ഈ എൻട്രി ഇതിനകം പരിഗണിച്ചു", "This entry is already handled"));
+        fund.reload();
+      } else {
+        toast.error(msg || tr("പ്രവർത്തനം പരാജയപ്പെട്ടു", "Action failed"));
+      }
     } finally {
       setBusy(null);
     }

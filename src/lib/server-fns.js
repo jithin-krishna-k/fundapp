@@ -124,10 +124,26 @@ export const ensureMember = createServerFn({ method: "POST" })
 
     const existing = await memberFor(b44, user);
     if (existing) {
-      if (!existing.user_id && user.id) {
-        await b44.entities.Member.update(existing.id, { user_id: user.id });
+      const basePatch = existing.user_id || !user.id ? {} : { user_id: user.id };
+      if (existing.status === "inactive") {
+        const reopened = await b44.entities.Member.update(existing.id, {
+          ...basePatch,
+          full_name: user.full_name || existing.full_name || user.email,
+          status: "pending",
+          fund_role: existing.fund_role === "super_admin" ? "member" : (existing.fund_role || "member"),
+          removed_date: null,
+          join_votes: [],
+          join_result: null,
+          requested_date: today(),
+          requested_by: "Self",
+        });
+        await announceMembershipRequest(b44, reopened.full_name);
+        return { member: reopened, settings, cycle, isFirst: false };
       }
-      return { member: existing, settings, cycle, isFirst: false };
+      if (Object.keys(basePatch).length) {
+        await b44.entities.Member.update(existing.id, basePatch);
+      }
+      return { member: { ...existing, ...basePatch }, settings, cycle, isFirst: false };
     }
 
     const count = await b44.entities.Member.count({});

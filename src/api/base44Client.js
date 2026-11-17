@@ -3,7 +3,7 @@
 // Data: server functions in src/lib/backend-fns.js over Lakebase Postgres.
 import { createAuthClient } from "@neon/auth";
 import {
-  authMe, createFileSignedUrl, entityCall, inviteUser, uploadPrivateFile,
+  authMe, createFileSignedUrl, entityCall, inviteUser, loginEmailStatus, uploadPrivateFile,
 } from "@/lib/backend-fns";
 
 // "" = this origin's /api/auth (the proxy in src/routes/api/auth/$.js).
@@ -73,8 +73,23 @@ export const base44 = {
     hasToken: () => typeof window !== "undefined",
     setToken: () => {},
     me: () => call(authMe),
-    loginViaEmailPassword: (email, password) =>
-      auth(authClient.signIn.email({ email, password }), "Invalid email or password"),
+    // Better Auth answers "Invalid email or password" for unknown emails too; on failure, ask the
+    // server which case it is and tag the error with a code the login page can translate.
+    loginViaEmailPassword: async (email, password) => {
+      try {
+        return await auth(authClient.signIn.email({ email, password }), "Invalid email or password");
+      } catch (err) {
+        if (err.status !== 401 && !/invalid email or password/i.test(err.message)) throw err;
+        const status = await call(loginEmailStatus, { email }).catch(() => null);
+        if (status && !status.registered) {
+          throw Object.assign(new Error("This email is not registered"), { status: err.status, code: "EMAIL_NOT_REGISTERED" });
+        }
+        if (status && !status.hasPassword) {
+          throw Object.assign(new Error("This account uses Google sign-in"), { status: err.status, code: "NO_PASSWORD" });
+        }
+        throw Object.assign(err, { code: err.code || "INVALID_CREDENTIALS" });
+      }
+    },
     // With "Verify email at signup" off (the branch default) sign-up signs the user straight in.
     register: async ({ email, password, full_name }) => {
       const data = await auth(
@@ -99,8 +114,15 @@ export const base44 = {
       if (returnTo) url.searchParams.set("returnTo", returnTo);
       window.location.href = url.href;
     },
-    loginWithProvider: (provider, returnTo) =>
-      auth(authClient.signIn.social({ provider, callbackURL: absolute(returnTo) }), `Unable to sign in with ${provider}`),
+    loginWithProvider: async (provider, returnTo) => {
+      const callbackURL = absolute(returnTo || "/dashboard");
+      const data = await auth(
+        authClient.signIn.social({ provider, callbackURL, newUserCallbackURL: callbackURL }),
+        `Unable to sign in with ${provider}`,
+      );
+      if (data?.url) window.location.href = data.url;
+      return data;
+    },
   },
   users: {
     inviteUser: (email, role) => call(inviteUser, { email, role }),

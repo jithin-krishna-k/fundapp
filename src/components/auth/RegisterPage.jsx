@@ -1,4 +1,4 @@
-import { Lock, Mail, UserPlus } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
@@ -13,6 +13,8 @@ import { safeReturnTo } from "@/lib/authReturnTo";
 import { useLang } from "@/lib/LangContext";
 
 const isAlreadyVerified = (err) => err?.status === 400 && /already verified/i.test(err?.message ?? "");
+const isAlreadyRegistered = (err) =>
+  err?.status === 422 || /already (registered|exists)|user .*exists|email .*exists/i.test(err?.message ?? "");
 
 /**
  * The /register page: register → OTP → verifyOtp → setToken. Registration alone
@@ -48,6 +50,10 @@ export function RegisterPage() {
       }
       setStep("otp");
     } catch (err) {
+      if (isAlreadyRegistered(err)) {
+        setStep("already_registered");
+        return;
+      }
       setError(err.message || t("രജിസ്ട്രേഷൻ പരാജയപ്പെട്ടു", "Registration failed"));
     } finally {
       setBusy(false);
@@ -91,7 +97,7 @@ export function RegisterPage() {
 
   if (step === "already_verified") {
     return (
-      <AuthLayout icon={UserPlus} title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
+      <AuthLayout title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
         <p className="mb-4 text-sm text-muted-foreground">
           <span className="font-medium text-foreground">{email}</span> {t("ഇതിനകം സ്ഥിരീകരിച്ചതാണ്. തുടരാൻ പ്രവേശിക്കുക.", "is already verified. Sign in to continue.")}
         </p>
@@ -102,9 +108,31 @@ export function RegisterPage() {
     );
   }
 
+  if (step === "already_registered") {
+    return (
+      <AuthLayout title={t("നിങ്ങൾക്ക് ഇതിനകം ഒരു അക്കൗണ്ട് ഉണ്ട്", "You already have an account")}>
+        <p className="mb-6 text-center text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">{email}</span>{" "}
+          {t(
+            "ഇതിനകം രജിസ്റ്റർ ചെയ്തിട്ടുണ്ട്. പ്രവേശിച്ച് തുടരുക. പാസ്‌വേഡ് ഓർമ്മയില്ലെങ്കിൽ, പുതിയത് സജ്ജമാക്കാം.",
+            "is already registered. Just log in to continue. Don't remember your password? You can set a new one.",
+          )}
+        </p>
+        <div className="space-y-3">
+          <AuthLink to="/login" returnTo={returnTo} className="inline-flex h-12 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground hover:bg-primary/90">
+            {t("പ്രവേശിക്കുക", "Log in")}
+          </AuthLink>
+          <AuthLink to="/forgot-password" returnTo={returnTo} className="inline-flex h-12 w-full items-center justify-center rounded-md border border-input bg-background text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+            {t("പാസ്‌വേഡ് മറന്നോ?", "Forgot password?")}
+          </AuthLink>
+        </div>
+      </AuthLayout>
+    );
+  }
+
   if (step === "otp") {
     return (
-      <AuthLayout icon={UserPlus} title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
+      <AuthLayout title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
         <form onSubmit={verify}>
           <p className="mb-4 text-sm text-muted-foreground">
             {t("6 അക്ക കോഡ് അയച്ചത്:", "We sent a 6-digit code to")} <span className="font-medium text-foreground">{email}</span>
@@ -134,7 +162,7 @@ export function RegisterPage() {
   }
 
   return (
-    <AuthLayout icon={UserPlus} title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
+    <AuthLayout title={t("അക്കൗണ്ട് സൃഷ്ടിക്കുക", "Create your account")} subtitle={t("ആരംഭിക്കാൻ രജിസ്റ്റർ ചെയ്യുക", "Sign up to get started")}>
       <GoogleButton returnTo={returnTo} onError={setError} />
       <OrDivider />
       <AuthError>{error}</AuthError>

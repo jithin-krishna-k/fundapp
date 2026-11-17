@@ -1,4 +1,4 @@
-import { Lock, LogIn, Mail } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { AuthError, AuthLink, GoogleButton, OrDivider, SubmitButton } from "@/components/auth/parts";
@@ -38,7 +38,18 @@ export function LoginPage() {
       // A hard redirect: the app re-initializes with the new session.
       window.location.href = returnTo;
     } catch (err) {
-      setError(err.message || t("ഇമെയിലോ പാസ്‌വേഡോ തെറ്റാണ്", "Invalid email or password"));
+      if (err?.code === "EMAIL_NOT_REGISTERED") {
+        setError(t("ഈ ഇമെയിൽ രജിസ്റ്റർ ചെയ്തിട്ടില്ല. ദയവായി ഒരു അക്കൗണ്ട് സൃഷ്ടിക്കുക.", "This email is not registered. Please create an account."));
+      } else if (err?.code === "NO_PASSWORD") {
+        setError(t(
+          "നിങ്ങൾ മുമ്പ് Google ഉപയോഗിച്ചാണ് പ്രവേശിച്ചത്. മുകളിലുള്ള Google ബട്ടൺ ടാപ്പ് ചെയ്യുക.",
+          "You signed up with Google. Tap the Google button above to log in.",
+        ));
+      } else if (err?.code === "INVALID_CREDENTIALS" || !err?.message) {
+        setError(t("ഇമെയിലോ പാസ്‌വേഡോ തെറ്റാണ്", "Invalid email or password"));
+      } else {
+        setError(err.message);
+      }
       setBusy(false);
     }
   }
@@ -47,7 +58,7 @@ export function LoginPage() {
   if (mfaChallenge) return <MfaScreen><MfaFlow challenge={mfaChallenge} returnTo={returnTo} /></MfaScreen>;
 
   return (
-    <AuthLayout icon={LogIn} title={t("വീണ്ടും സ്വാഗതം", "Welcome back")} subtitle={t("നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പ്രവേശിക്കുക", "Log in to your account")}>
+    <AuthLayout title={t("വീണ്ടും സ്വാഗതം", "Welcome back")} subtitle={t("നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പ്രവേശിക്കുക", "Log in to your account")}>
       <GoogleButton returnTo={returnTo} onError={setError} />
       <OrDivider />
       <AuthError>{error}</AuthError>

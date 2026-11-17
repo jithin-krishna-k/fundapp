@@ -54,6 +54,21 @@ export const entityCall = createServerFn({ method: "POST" })
 // Signed out is a normal answer here (every page load asks), not an error: return null.
 export const authMe = createServerFn({ method: "POST" }).handler(async () => (await sessionUser()) ?? null);
 
+// Asked only after an email + password sign-in fails, so the login page can say *why*:
+// no account with this email, or an account that signs in with Google and has no password.
+export const loginEmailStatus = createServerFn({ method: "POST" })
+  .validator(pass)
+  .handler(async ({ data }) => {
+    const email = String(data?.email || "").trim().toLowerCase();
+    if (!email) return { registered: false, hasPassword: false };
+    const { rows } = await query(
+      `SELECT EXISTS (SELECT 1 FROM neon_auth.account a WHERE a."userId" = u.id AND a."providerId" = 'credential') AS has_password
+         FROM neon_auth."user" u WHERE lower(u.email) = $1 LIMIT 1`,
+      [email],
+    );
+    return { registered: rows.length > 0, hasPassword: !!rows[0]?.has_password };
+  });
+
 /* ── preferences (stored in Neon, per user) ── */
 
 // The language cookie, so the server renders the first paint in the chosen language.

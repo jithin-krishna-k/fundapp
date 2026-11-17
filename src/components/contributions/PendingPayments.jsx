@@ -18,7 +18,13 @@ export default function PendingPayments({ items, onDone }) {
       toast.success(action === "verify" ? t("പേയ്‌മെന്റ് സ്ഥിരീകരിച്ചു", "Payment verified") : t("നിരസിച്ചു", "Rejected"));
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || t("പ്രവർത്തനം പരാജയപ്പെട്ടു", "Action failed"));
+      const msg = String(error?.message || "");
+      if (error?.status === 400 || /already handled/i.test(msg)) {
+        toast.info(t("ഈ എൻട്രി ഇതിനകം പരിഗണിച്ചു", "This entry is already handled"));
+        onDone?.();
+      } else {
+        toast.error(msg || t("പ്രവർത്തനം പരാജയപ്പെട്ടു", "Action failed"));
+      }
     } finally {
       setBusyId(null);
     }
