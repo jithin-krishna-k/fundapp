@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth-middleware";
 import { addDays, isoDate, parseDay, weeksBetween } from "@/lib/format";
+import { withEnglish } from "@/lib/notification-text";
 import { borrowingInterest } from "@/lib/finance";
 
 /* ── helpers ─────────────────────────────────────────────────────────── */
@@ -107,7 +108,7 @@ async function audit(b44, actor, action, entity, entity_id, details) {
 async function notifyAll(b44, members, payload) {
   const rows = (members || [])
     .filter((m) => m?.user_email)
-    .map((m) => ({ ...payload, user_email: m.user_email, member_name: m.full_name, read: false }));
+    .map((m) => ({ ...withEnglish(payload), user_email: m.user_email, member_name: m.full_name, read: false }));
   if (rows.length) await b44.entities.Notification.bulkCreate(rows);
 }
 
@@ -1146,7 +1147,7 @@ export const sendContributionReminders = createServerFn({ method: "POST" })
     const pending = rows.filter((r) => r.status !== "paid");
     if (pending.length) {
       await b44.entities.Notification.bulkCreate(
-        pending.map((r) => ({
+        pending.map((r) => withEnglish({
           user_email: r.member_email,
           member_name: r.member_name,
           title: "ആഴ്ച സംഭാവന ബാക്കി",

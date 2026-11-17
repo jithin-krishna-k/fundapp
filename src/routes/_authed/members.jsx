@@ -16,6 +16,7 @@ import { formatDate, inr, isoDate } from "@/lib/format";
 import { loanSummary } from "@/lib/finance";
 import { recordHandover, removeMember, setMemberRole } from "@/lib/server-fns";
 import { useLang } from "@/lib/LangContext";
+import { withEnglish } from "@/lib/notification-text";
 
 export const Route = createFileRoute("/_authed/members")({
   component: MembersPage,
@@ -52,7 +53,7 @@ function MembersPage() {
   const approve = async (member) => {
     try {
       await base44.entities.Member.update(member.id, { status: "active", join_date: isoDate(new Date()), removed_date: null });
-      await base44.entities.Notification.create({
+      await base44.entities.Notification.create(withEnglish({
         user_email: member.user_email,
         member_name: member.full_name,
         title: "അംഗത്വം അനുവദിച്ചു",
@@ -60,7 +61,7 @@ function MembersPage() {
         type: "new_member",
         link: "/",
         read: false,
-      });
+      }));
       toast.success(t("അംഗത്വം അനുവദിച്ചു", "Membership approved"));
       fund.reload();
     } catch (error) {

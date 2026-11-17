@@ -6,6 +6,7 @@ import EmptyState from "@/components/fund/EmptyState";
 import { useFund } from "@/lib/FundContext";
 import { useLang } from "@/lib/LangContext";
 import { formatDateTime } from "@/lib/format";
+import { notificationEnglish } from "@/lib/notification-text";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authed/notifications")({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/_authed/notifications")({
 });
 
 function NotificationsPage() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const fund = useFund();
   const { notifications } = fund;
 
@@ -67,8 +68,12 @@ function NotificationsPage() {
               <div className="flex items-start gap-2">
                 {!item.read && <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />}
                 <div className="min-w-0">
-                  <p className="font-mal text-[14px] leading-tight">{item.title}</p>
-                  <p className="mt-1 font-mal text-[13px] leading-relaxed text-muted-foreground">{item.body}</p>
+                  <p className={cn("text-[14.5px] font-medium leading-snug", lang === "en" ? "" : "font-mal")}>
+                    {lang === "en" ? notificationEnglish(item).title_en : item.title}
+                  </p>
+                  <p className={cn("mt-1 text-[13.5px] leading-relaxed text-muted-foreground", lang === "en" ? "" : "font-mal")}>
+                    {lang === "en" ? notificationEnglish(item).body_en : item.body}
+                  </p>
                   <p className="mt-1 text-[11.5px] text-muted-foreground/80">{formatDateTime(item.created_date)}</p>
                 </div>
               </div>
