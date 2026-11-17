@@ -1,2 +1,168 @@
 [    7207ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ http://localhost:3001/favicon.ico:1
 [    9600ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:15803
+[ 1194989ms] [ERROR] %o
+
+%s
+
+%s
+ ReferenceError: useNavigate is not defined
+    at LandingPage (http://localhost:3001/src/components/landing/LandingPage.jsx?t=1794907383779:550:19)
+    at Object.react_stack_bottom_frame (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:14140:12)
+    at renderWithHooks (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:4398:19)
+    at updateFunctionComponent (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:5773:16)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:6389:20)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:942:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9146:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9042:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9026:6)
+    at performWorkOnRoot (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:8713:27) The above error occurred in the <LandingPage> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:5465
+[ 1194990ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=ffd905c6:60
+[ 1274959ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:15803
+[ 1275156ms] [ERROR] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <StartClient>
+      <Await promise={Promise}>
+        <AwaitInner promise={Promise}>
+          <RouterProvider router={{...}}>
+            <RouterContextProvider router={{...}}>
+              <QueryClientProvider client={{}}>
+                <Matches>
+                  <Transitioner>
+                  <MatchesInner>
+                    <CatchBoundary getResetKey={function getResetKey} onCatch={function}>
+                      <MatchImpl routeId="__root__">
+                        <RootDocument>
+                          <html
++                           lang="ml"
+-                           lang="en"
+-                           className="translated-ltr"
+                          >
+ @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:3238
+[ 1275220ms] Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <MatchImpl routeId="/">
+      <CatchBoundary getResetKey={function getResetKey} errorComponent={function DefaultCatchBoundary} ...>
+        <MatchInnerImpl match={{id:"//",ssr:true, ...}}>
+          <Lazy>
+            <LandingPage>
+              <div className="land-paper...">
+                <header className="sticky top...">
+                  <div className="mx-auto fl...">
+                    <a aria-label="FUND home" ref={{current:null}} onClick={function handleClick} ...>
+                      <Logo>
+                        <div className="flex flex-col">
+                          <p style={{...}} className="flex items...">
+                            <Send>
++                           FUND
+-                           <font dir="auto" style={{vertical-align:"inherit"}}>
+                          ...
+                    ...
+                ...
+
+    at throwOnHydrationMismatch (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:3121:51)
+    at beginWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:6450:748)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:942:66)
+    at performUnitOfWork (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9146:92)
+    at workLoopSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9042:37)
+    at renderRootSync (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9026:6)
+    at performWorkOnRoot (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:8676:181)
+    at performSyncWorkOnRoot (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9840:4)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9757:302)
+    at flushPassiveEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:9589:5)
+[ 1320220ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:11402:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:942:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7706:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7666:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7750:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7827:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:5465
+[ 1320253ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=ffd905c6:60
+[ 1320254ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:11402:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:942:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7706:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7666:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7750:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7827:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:5465
+[ 1320254ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=ffd905c6:60
+[ 1320254ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:11402:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:942:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7706:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7666:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7750:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7827:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:5465
+[ 1320255ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=ffd905c6:60
+[ 1320255ms] [ERROR] %o
+
+%s
+
+%s
+ NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at removeChild (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:11402:19)
+    at runWithFiberInDEV (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:942:66)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7706:7)
+    at recursivelyTraverseDeletionEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7666:50)
+    at commitDeletionEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7750:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7827:5)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103)
+    at commitMutationEffectsOnFiber (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7923:6)
+    at recursivelyTraverseMutationEffects (http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:7837:103) The above error occurred in the <Text> component. React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary. @ http://localhost:3001/node_modules/.vite/deps/react-dom_client.js?v=ffd905c6:5465
+[ 1320256ms] [WARNING] Warning: Error in route match: // @ http://localhost:3001/node_modules/@tanstack/react-router/dist/esm/Match.js?v=ffd905c6:60
+[ 1551886ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/src/components/auth/AuthLayout.jsx?t=1794907740949:1
+[ 1551886ms] [ERROR] [vite] Failed to reload /src/components/auth/AuthLayout.jsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3001/@vite/client:1011
+[ 1567007ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3001/@vite/client:1078
+[ 1632214ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@tanstack-start/styles.css?routes=__root__%2C%2F:1
+[ 1632215ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/src/index.css:1
+[ 1632215ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@id/virtual:tanstack-start-dev-client-entry:1
+[ 1632569ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/@id/virtual:tanstack-start-dev-client-entry:1

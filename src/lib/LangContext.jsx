@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getMyPrefs, saveMyLang } from "@/lib/backend-fns";
 import { useAuth } from "@/lib/AuthContext";
+import { writeLangCookie } from "@/lib/lang-cookie";
 
 const LanguageContext = createContext({
   lang: "ml",
@@ -9,9 +10,11 @@ const LanguageContext = createContext({
   ready: true,
 });
 
-export function LanguageProvider({ children }) {
+// initialLang comes from the fund_lang cookie on the server, so the first paint
+// is already in the chosen language.
+export function LanguageProvider({ children, initialLang }) {
   const { isAuthenticated, isLoadingAuth } = useAuth();
-  const [lang, setLangState] = useState("ml");
+  const [lang, setLangState] = useState(initialLang === "en" ? "en" : "ml");
   // False until the saved choice (browser, then account) has been applied.
   const [ready, setReady] = useState(false);
 
@@ -19,6 +22,7 @@ export function LanguageProvider({ children }) {
     try {
       localStorage.setItem("fund.lang", value);
     } catch {}
+    writeLangCookie(value);
   };
 
   const readLocal = () => {
@@ -31,9 +35,13 @@ export function LanguageProvider({ children }) {
   };
 
   // Apply the locally remembered choice right away so the UI doesn't flash the default.
+  // (Older visits only stored localStorage; copy that into the cookie for next time.)
   useEffect(() => {
     const saved = readLocal();
-    if (saved) setLangState(saved);
+    if (saved) {
+      setLangState(saved);
+      if (saved !== initialLang) writeLangCookie(saved);
+    }
   }, []);
 
   // Signed in: the account's saved language wins. A first sign-in (nothing saved yet)

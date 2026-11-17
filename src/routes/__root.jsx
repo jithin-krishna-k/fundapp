@@ -3,7 +3,8 @@ import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { NotFound } from "@/components/NotFound";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/AuthContext";
-import { LanguageProvider, useLang } from "@/lib/LangContext";
+import { LanguageProvider } from "@/lib/LangContext";
+import { getLangCookie } from "@/lib/backend-fns";
 import appCss from "@/index.css?url";
 
 export const Route = createRootRoute({
@@ -26,6 +27,9 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  // The fund_lang cookie, read on the server so the first paint is in the chosen language.
+  loader: async () => ({ lang: (await getLangCookie().catch(() => null)) || "ml" }),
+  staleTime: Infinity,
   errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
   shellComponent: RootDocument,
@@ -33,9 +37,10 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  const { lang } = Route.useLoaderData();
   return (
     <AuthProvider>
-      <LanguageProvider>
+      <LanguageProvider initialLang={lang}>
         <Outlet />
         <Toaster />
       </LanguageProvider>
@@ -45,7 +50,7 @@ function RootComponent() {
 
 // The document. There is no index.html: the server renders <html> from here.
 function RootDocument({ children }) {
-  const { lang } = useLang();
+  const { lang } = Route.useLoaderData() ?? { lang: "ml" };
   return (
     <html lang={lang}>
       <head>

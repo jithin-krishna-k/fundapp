@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -333,13 +333,6 @@ function LedgerPanel() {
 
 export default function LandingPage() {
   const { user } = useAuth();
-  const navigate = useNavigate();
-
-  // Signed-in members belong in the app, not on the marketing page.
-  useEffect(() => {
-    if (user) navigate({ to: "/dashboard", replace: true });
-  }, [user, navigate]);
-
   const primaryTo = user ? "/dashboard" : "/login";
   const primaryLabel = user ? "Open dashboard" : "Sign in";
 

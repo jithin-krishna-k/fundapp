@@ -7,14 +7,18 @@ import { Label } from "@/components/ui/label";
 import { MfaFlow } from "@/components/auth/MfaFlow";
 import { MfaScreen } from "@/components/auth/MfaParts";
 import { loginWithMfa } from "@/lib/authMfa";
-import { safeReturnTo } from "@/lib/authReturnTo";
+import { sanitizeReturnTo } from "@/lib/authReturnTo";
 import { useLang } from "@/lib/LangContext";
 
 // The /login page. ?returnTo= (or the platform's ?from_url=) is where the visitor
 // goes after signing in — the login gate and the MCP consent page send people here with it.
 export function LoginPage() {
   const { t } = useLang();
-  const returnTo = safeReturnTo();
+  const rawReturnTo = sanitizeReturnTo(
+    new URLSearchParams(typeof window !== "undefined" ? window.location.search : "").get("returnTo") ||
+      new URLSearchParams(typeof window !== "undefined" ? window.location.search : "").get("from_url")
+  );
+  const returnTo = rawReturnTo === "/" ? "/dashboard" : rawReturnTo;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

@@ -4,6 +4,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { entityStore, newId } from "@/lib/db.server";
 import { signFileToken } from "@/lib/file-links.server";
 import { sessionUser } from "@/lib/neon-auth.server";
+import { readLangCookie } from "@/lib/lang-cookie.server";
 import { query } from "@/lib/pg.server";
 import { getRealtime, recordChangesQuery } from "@/lib/realtime.server";
 
@@ -50,6 +51,9 @@ export const entityCall = createServerFn({ method: "POST" })
 export const authMe = createServerFn({ method: "POST" }).handler(async () => (await sessionUser()) ?? null);
 
 /* ── preferences (stored in Neon, per user) ── */
+
+// The language cookie, so the server renders the first paint in the chosen language.
+export const getLangCookie = createServerFn({ method: "GET" }).handler(async () => readLangCookie());
 
 export const getMyPrefs = createServerFn({ method: "POST" }).handler(async () => {
   const user = await sessionUser();

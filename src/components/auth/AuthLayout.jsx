@@ -1,24 +1,14 @@
 import LangToggle from "@/components/fund/LangToggle";
-import { useLang } from "@/lib/LangContext";
+import Logo from "@/components/fund/Logo";
 
 // Full-screen card shared by the auth pages. The language picked here is remembered
 // and saved to the account on first sign-in.
 export function AuthLayout({ icon: Icon, title, subtitle, footer, children }) {
-  const { t } = useLang();
-
   return (
     <div className="flex min-h-screen flex-col bg-background px-4 py-6 text-foreground">
-      <div className="mx-auto flex w-full max-w-md items-center justify-between">
-        <span
-          style={{ fontFamily: '"Archivo Black", "Plus Jakarta Sans", sans-serif' }}
-          className="text-[1.3rem] leading-none"
-        >
-          FUND
-        </span>
-        <div className="flex items-center gap-2">
-          <span className="hidden text-[13px] text-muted-foreground sm:inline">{t("ഭാഷ", "Language")}</span>
-          <LangToggle />
-        </div>
+      <div className="mx-auto flex w-full max-w-md items-center justify-between gap-4">
+        <Logo />
+        <LangToggle />
       </div>
 
       <div className="flex flex-1 items-center justify-center py-8">
