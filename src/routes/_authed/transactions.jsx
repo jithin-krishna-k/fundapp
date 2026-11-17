@@ -39,10 +39,10 @@ function TransactionsPage() {
     setBusy(id + action);
     try {
       await reviewTransaction({ data: { id, action, reason: action === "reject" ? "സ്ഥിരീകരിക്കാനായില്ല" : undefined } });
-      toast.success(action === "verify" ? "സ്ഥിരീകരിച്ചു" : "നിരസിച്ചു");
+      toast.success(action === "verify" ? tr("സ്ഥിരീകരിച്ചു", "Verified") : tr("നിരസിച്ചു", "Rejected"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "നടപടി പരാജയപ്പെട്ടു");
+      toast.error(error?.message || tr("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
     } finally {
       setBusy(null);
     }
@@ -95,7 +95,7 @@ function TransactionsPage() {
           <option value="all">{tr("എല്ലാ വിഭാഗങ്ങളും", "All categories")}</option>
           {Object.entries(CATEGORY).map(([key, value]) => (
             <option key={key} value={key}>
-              {value.ml}
+              {tr(value.ml, value.en)}
             </option>
           ))}
         </select>
@@ -119,7 +119,8 @@ function TransactionsPage() {
             <div key={t.id} className={`flex flex-wrap items-center gap-3 px-4 py-3 ${index ? "border-t border-border/70" : ""}`}>
               <div className="min-w-0 flex-1">
                 <p className="font-mal text-[14px] leading-tight">
-                  {CATEGORY[t.category]?.ml || t.category} · {t.member_name || "ഫണ്ട്"}
+                  {CATEGORY[t.category] ? tr(CATEGORY[t.category].ml, CATEGORY[t.category].en) : t.category} ·{" "}
+                  {t.member_name || tr("ഫണ്ട്", "Fund")}
                 </p>
                 <p className="mt-1 text-[12px] text-muted-foreground">
                   {t.ref} · {formatDate(t.txn_date || t.created_date)} ·{" "}

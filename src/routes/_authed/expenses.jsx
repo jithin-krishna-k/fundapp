@@ -43,10 +43,10 @@ function ExpensesPage() {
     setBusy(id + action);
     try {
       await decideExpense({ data: { id, action } });
-      toast.success(action === "approve" ? "അനുമതി നൽകി" : "നിരസിച്ചു");
+      toast.success(action === "approve" ? t("അനുമതി നൽകി", "Approved") : t("നിരസിച്ചു", "Rejected"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "നടപടി പരാജയപ്പെട്ടു");
+      toast.error(error?.message || t("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
     } finally {
       setBusy(null);
     }
@@ -144,20 +144,20 @@ function AddExpenseDialog({ open, onOpenChange, onDone }) {
 
   const submit = async () => {
     const amount = Number(form.amount);
-    if (!amount || amount <= 0) return toast.error("തുക നൽകുക");
-    if (form.description.trim().length < 2) return toast.error("വിവരണം നൽകുക");
+    if (!amount || amount <= 0) return toast.error(t("തുക നൽകുക", "Enter an amount"));
+    if (form.description.trim().length < 2) return toast.error(t("വിവരണം നൽകുക", "Enter a description"));
     setBusy(true);
     try {
       let receipt_url;
       if (file) receipt_url = await uploadPrivate(file);
       await createExpense({ data: { ...form, amount, receipt_url } });
-      toast.success("ചെലവ് രേഖപ്പെടുത്തി — അനുമതിക്കായി അയച്ചു");
+      toast.success(t("ചെലവ് രേഖപ്പെടുത്തി — അനുമതിക്കായി അയച്ചു", "Expense recorded — sent for approval"));
       onOpenChange(false);
       setForm({ category: "stationery", amount: "", expense_date: isoDate(new Date()), description: "" });
       setFile(null);
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || "രേഖപ്പെടുത്താനായില്ല");
+      toast.error(error?.message || t("രേഖപ്പെടുത്താനായില്ല", "Couldn't record it"));
     } finally {
       setBusy(false);
     }

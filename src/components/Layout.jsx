@@ -1,6 +1,8 @@
 ﻿import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, ChevronDown, LogOut, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Settings2 } from "lucide-react";
+import { Bell, ChevronDown, LogOut, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Search, Settings2, Users } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { inr } from "@/lib/format";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/fund/Logo";
@@ -54,9 +56,16 @@ export default function AppLayout({ children }) {
 
   const primary = NAV.filter((item) => MOBILE_NAV.includes(item.to));
   const rest = NAV.filter((item) => !MOBILE_NAV.includes(item.to));
-  const initial = mounted ? (user?.full_name || user?.email || "F").trim().charAt(0).toUpperCase() : "F";
+  const fullName = (user?.full_name || user?.email || "F").trim();
+  const nameParts = fullName.split(/\s+/).filter(Boolean);
+  const initial = mounted
+    ? (nameParts.length > 1 ? nameParts[0][0] + nameParts[nameParts.length - 1][0] : fullName.slice(0, 2)).toUpperCase()
+    : "";
   const role = ROLE_LABEL[fund?.myMember?.fund_role] || ROLE_LABEL.member;
-  const hasUnread = (fund?.notifications || []).some((n) => !n.read);
+  const unreadCount = (fund?.notifications || []).filter((n) => !n.read).length;
+  const adminEmail = (fund?.members || []).find(
+    (m) => m.fund_role === "super_admin" && m.user_email && m.user_email !== user?.email
+  )?.user_email;
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,24 +118,45 @@ export default function AppLayout({ children }) {
                 title={collapsed ? label : undefined}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-3 rounded-xl py-2 transition-colors",
-                  collapsed ? "justify-center px-0" : "px-3",
+                  "flex items-center gap-3 rounded-xl py-2.5 transition-colors",
+                  collapsed ? "justify-center px-0" : "px-3.5",
                   active
-                    ? "bg-primary/10 font-medium text-primary"
+                    ? "bg-accent font-semibold text-primary"
                     : "text-foreground/80 hover:bg-secondary hover:text-foreground"
                 )}
               >
                 <Icon
-                  className={cn("h-[17px] w-[17px] shrink-0", active ? "text-primary" : "text-muted-foreground")}
-                  strokeWidth={active ? 2 : 1.7}
+                  className={cn("h-5 w-5 shrink-0", active ? "text-primary" : "text-foreground/70")}
+                  strokeWidth={active ? 2.1 : 1.8}
                 />
                 {!collapsed && (
-                  <span className={cn("truncate py-0.5 text-[14.5px] leading-5", lang === "en" ? "" : "font-mal")}>{label}</span>
+                  <span className={cn("truncate py-0.5 text-[15px] leading-5", lang === "en" ? "" : "font-mal")}>{label}</span>
                 )}
               </Link>
             );
           })}
         </nav>
+        {!collapsed && (
+          <div className="p-4">
+            <div className="rounded-2xl bg-accent/70 px-4 py-5 text-center">
+              <Users className="mx-auto h-7 w-7 text-primary" strokeWidth={1.9} />
+              <p className={cn("mt-2 text-[14px] font-medium leading-snug", lang === "en" ? "" : "font-mal")}>
+                {t("ഒരുമിച്ച് നമ്മൾ വളരുന്നു", "Together we grow stronger")}
+              </p>
+              {adminEmail && (
+                <a
+                  href={`mailto:${adminEmail}`}
+                  className={cn(
+                    "mt-3 inline-flex w-full items-center justify-center rounded-lg border border-primary/40 bg-card px-3 py-2 text-[13.5px] font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground",
+                    lang === "en" ? "" : "font-mal"
+                  )}
+                >
+                  {t("അഡ്മിനെ ബന്ധപ്പെടുക", "Contact admin")}
+                </a>
+              )}
+            </div>
+          </div>
+        )}
       </aside>
 
       {/* ── mobile top bar ── */}
@@ -138,9 +168,14 @@ export default function AppLayout({ children }) {
           <Link
             to="/notifications"
             aria-label="Notifications"
-            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-foreground/80"
+            className="relative grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-foreground/80"
           >
             <Bell className="h-[17px] w-[17px]" strokeWidth={1.7} />
+            {unreadCount > 0 && (
+              <span className="tnum absolute -right-1 -top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-red-500 px-1 text-[11px] font-semibold leading-none text-white ring-2 ring-card">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
           </Link>
           <LangToggle compact />
           <ProfileMenu
@@ -155,25 +190,32 @@ export default function AppLayout({ children }) {
       </header>
 
       <main className={cn("transition-[padding] duration-200", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-[14rem]")}>
-        <div className="hidden items-center justify-end gap-3 px-10 pt-5 lg:flex xl:px-12">
-          <LangToggle />
-          <Link
-            to="/notifications"
-            aria-label={t("അറിയിപ്പുകൾ", "Notifications")}
-            className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-card text-foreground/75 transition-colors hover:border-primary/30 hover:text-primary"
-          >
-            <Bell className="h-[18px] w-[18px]" strokeWidth={1.7} />
-            {hasUnread && <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-primary ring-2 ring-card" />}
-          </Link>
-          <ProfileMenu
-            initial={initial}
-            name={mounted ? user?.full_name || t("അംഗം", "Member") : ""}
-            email={mounted ? user?.email : ""}
-            role={t(role.ml, role.en)}
-            onSignOut={() => setLogoutOpen(true)}
-          />
+        <div className="sticky top-0 z-20 hidden h-[4.5rem] items-center gap-4 border-b border-border bg-card/95 px-8 backdrop-blur-md lg:flex xl:px-10">
+          <GlobalSearch />
+          <div className="ml-auto flex items-center gap-3">
+            <LangToggle />
+            <Link
+              to="/notifications"
+              aria-label={t("അറിയിപ്പുകൾ", "Notifications")}
+              className="relative grid h-10 w-10 place-items-center rounded-full text-foreground/75 transition-colors hover:bg-secondary hover:text-primary"
+            >
+              <Bell className="h-[22px] w-[22px]" strokeWidth={1.8} />
+              {unreadCount > 0 && (
+                <span className="tnum absolute right-0.5 top-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-red-500 px-1 text-[11px] font-semibold leading-none text-white ring-2 ring-card">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
+            </Link>
+            <ProfileMenu
+              initial={initial}
+              name={mounted ? user?.full_name || t("അംഗം", "Member") : ""}
+              email={mounted ? user?.email : ""}
+              role={t(role.ml, role.en)}
+              onSignOut={() => setLogoutOpen(true)}
+            />
+          </div>
         </div>
-        <div className="w-full max-w-[120rem] px-4 pb-28 pt-5 sm:px-6 lg:px-10 xl:px-12 lg:pb-14 lg:pt-2">{children}</div>
+        <div className="w-full max-w-[120rem] px-4 pb-28 pt-5 sm:px-6 lg:px-8 lg:pb-12 lg:pt-6 xl:px-10">{children}</div>
       </main>
 
       {/* ── mobile bottom nav ── */}
@@ -301,11 +343,11 @@ function ProfileMenu({ initial, name, email, role, onSignOut, compact = false })
       <PopoverTrigger
         aria-label={t("പ്രൊഫൈൽ മെനു", "Profile menu")}
         className={cn(
-          "group flex items-center gap-1.5 rounded-full border border-border bg-card p-1 transition-colors hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:border-primary/30",
-          compact ? "" : "pr-2.5"
+          "group flex items-center gap-2 rounded-full p-0.5 transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-secondary",
+          compact ? "" : "pr-2"
         )}
       >
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-[14px] font-medium text-primary">{initial}</span>
+        <span className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-[14.5px] font-bold text-foreground">{initial}</span>
         {!compact && <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.8} />}
       </PopoverTrigger>
       <PopoverContent align="end" sideOffset={8} className="w-64 rounded-2xl p-0">
@@ -339,5 +381,113 @@ function ProfileMenu({ initial, name, email, role, onSignOut, compact = false })
         </div>
       </PopoverContent>
     </Popover>
+  );
+}
+
+// Top-bar search across pages, members and transactions. Enter opens the highlighted result.
+function GlobalSearch() {
+  const fund = useFund();
+  const { t, lang } = useLang();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+
+  const q = query.trim().toLowerCase();
+  const results = [];
+  if (q) {
+    for (const item of NAV) {
+      if (item.en.toLowerCase().includes(q) || item.ml.includes(query.trim())) {
+        results.push({ key: `p${item.to}`, to: item.to, icon: item.icon, title: lang === "en" ? item.en : item.ml, hint: t("പേജ്", "Page") });
+      }
+    }
+    for (const m of fund?.members || []) {
+      if ((m.full_name || "").toLowerCase().includes(q) || (m.user_email || "").toLowerCase().includes(q)) {
+        results.push({ key: `m${m.id}`, to: "/members", icon: Users, title: m.full_name || m.user_email, hint: t("അംഗം", "Member") });
+      }
+    }
+    for (const row of fund?.transactions || []) {
+      if ((row.ref || "").toLowerCase().includes(q) || (row.member_name || "").toLowerCase().includes(q)) {
+        results.push({
+          key: `t${row.id}`,
+          to: "/transactions",
+          icon: NAV.find((n) => n.to === "/transactions")?.icon,
+          title: `${row.ref || "—"} · ${row.member_name || "FUND"}`,
+          hint: inr(row.amount),
+        });
+      }
+    }
+  }
+  const shown = results.slice(0, 8);
+
+  const go = (result) => {
+    if (!result) return;
+    setOpen(false);
+    setQuery("");
+    navigate({ to: result.to });
+  };
+
+  return (
+    <div className="relative w-full max-w-md">
+      <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" strokeWidth={1.9} />
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setActive(0);
+          setOpen(true);
+        }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 120)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setActive((i) => Math.min(i + 1, shown.length - 1));
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setActive((i) => Math.max(i - 1, 0));
+          } else if (e.key === "Enter") {
+            go(shown[active]);
+          } else if (e.key === "Escape") {
+            setOpen(false);
+          }
+        }}
+        placeholder={t("പേജുകൾ, അംഗങ്ങൾ, ഇടപാടുകൾ തിരയുക…", "Search pages, members, transactions…")}
+        aria-label={t("തിരയുക", "Search")}
+        className={cn(
+          "h-11 w-full rounded-full border border-border bg-background pl-11 pr-4 text-[14.5px] outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/50 focus:bg-card focus:ring-4 focus:ring-primary/10",
+          lang === "en" ? "" : "font-mal"
+        )}
+      />
+      {open && q && (
+        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-2xl border border-border bg-popover p-1.5 shadow-lg">
+          {shown.length === 0 ? (
+            <p className="px-3 py-3 text-[14px] text-muted-foreground">{t("ഒന്നും കണ്ടെത്തിയില്ല", "No matches found")}</p>
+          ) : (
+            shown.map((result, index) => {
+              const Icon = result.icon;
+              return (
+                <button
+                  key={result.key}
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseEnter={() => setActive(index)}
+                  onClick={() => go(result)}
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[14px]",
+                    index === active ? "bg-accent text-primary" : "text-foreground/85"
+                  )}
+                >
+                  {Icon && <Icon className="h-4 w-4 shrink-0" strokeWidth={1.8} />}
+                  <span className="min-w-0 flex-1 truncate">{result.title}</span>
+                  <span className="tnum shrink-0 text-[12.5px] text-muted-foreground">{result.hint}</span>
+                </button>
+              );
+            })
+          )}
+        </div>
+      )}
+    </div>
   );
 }

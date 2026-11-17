@@ -33,10 +33,10 @@ function EmergencyPage() {
     setBusy(id + decision);
     try {
       await voteEmergency({ data: { id, decision } });
-      toast.success(decision === "approve" ? "അനുമതി രേഖപ്പെടുത്തി" : "നിരസിച്ചു");
+      toast.success(decision === "approve" ? t("അനുമതി രേഖപ്പെടുത്തി", "Approval recorded") : t("നിരസിച്ചു", "Rejected"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "നടപടി പരാജയപ്പെട്ടു");
+      toast.error(error?.message || t("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
     } finally {
       setBusy(null);
     }

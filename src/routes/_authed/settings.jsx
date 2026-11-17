@@ -57,10 +57,10 @@ function SettingsPage() {
           emergency_requires_all: form.emergency_requires_all,
         },
       });
-      toast.success("ക്രമീകരണങ്ങൾ സേവ് ചെയ്തു");
+      toast.success(t("ക്രമീകരണങ്ങൾ സേവ് ചെയ്തു", "Settings saved"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "സേവ് ചെയ്യാനായില്ല");
+      toast.error(error?.message || t("സേവ് ചെയ്യാനായില്ല", "Couldn't save"));
     } finally {
       setBusy(false);
     }
@@ -70,10 +70,10 @@ function SettingsPage() {
     setBusy(true);
     try {
       const result = await closeCycle({ data: {} });
-      toast.success(`സൈക്കിൾ അവസാനിപ്പിച്ചു · അവസാന ബാലൻസ് ${inr(result.balance)}`);
+      toast.success(t(`സൈക്കിൾ അവസാനിപ്പിച്ചു · അവസാന ബാലൻസ് ${inr(result.balance)}`, `Cycle closed · final balance ${inr(result.balance)}`));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "അവസാനിപ്പിക്കാനായില്ല");
+      toast.error(error?.message || t("അവസാനിപ്പിക്കാനായില്ല", "Couldn't close the cycle"));
     } finally {
       setBusy(false);
     }
@@ -234,7 +234,7 @@ function SettingsPage() {
           </div>
         )}
         <p className="mt-2 font-mal text-[12px] leading-relaxed text-muted-foreground">
-          ഓണം / വിഷു / ന്യൂ ഇയർ സമയത്ത് ഫണ്ട് പിരിഞ്ഞ് പുനരാരംഭിക്കുന്നു (നിയമം 15). പഴയ രേഖകൾ ഒരിക്കലും നീക്കം ചെയ്യില്ല.
+          {t("ഓണം / വിഷു / ന്യൂ ഇയർ സമയത്ത് ഫണ്ട് പിരിഞ്ഞ് പുനരാരംഭിക്കുന്നു (നിയമം 15). പഴയ രേഖകൾ ഒരിക്കലും നീക്കം ചെയ്യില്ല.", "The fund is settled and restarted at Onam / Vishu / New Year (rule 15). Old records are never deleted.")}
         </p>
       </section>
 
@@ -296,8 +296,7 @@ function SettingsPage() {
         <div className="mt-4 flex items-start gap-2 rounded-xl border border-dashed border-border bg-background/60 px-3 py-2.5">
           <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" strokeWidth={1.8} />
           <p className="font-mal text-[12px] leading-relaxed text-muted-foreground">
-            ഈ ആപ്പ് അംഗങ്ങൾക്ക് മാത്രമുള്ളതാണ് (നിയമം 8). ഫണ്ട് വിവരങ്ങൾ പുറത്ത് പങ്കുവയ്ക്കരുത്. എല്ലാ സാമ്പത്തിക
-            മാറ്റങ്ങളും ഓഡിറ്റ് ലോഗിൽ രേഖപ്പെടുത്തുന്നു.
+            {t("ഈ ആപ്പ് അംഗങ്ങൾക്ക് മാത്രമുള്ളതാണ് (നിയമം 8). ഫണ്ട് വിവരങ്ങൾ പുറത്ത് പങ്കുവയ്ക്കരുത്. എല്ലാ സാമ്പത്തിക മാറ്റങ്ങളും ഓഡിറ്റ് ലോഗിൽ രേഖപ്പെടുത്തുന്നു.", "This app is for members only (rule 8). Don't share fund details outside the group. Every financial change is written to the audit log.")}
           </p>
         </div>
       </section>
@@ -317,7 +316,7 @@ function StartCycleDialog({ open, onOpenChange, onDone }) {
   const [busy, setBusy] = useState(false);
 
   const submit = async () => {
-    if (form.name.trim().length < 2) return toast.error("സൈക്കിളിന് പേര് നൽകുക");
+    if (form.name.trim().length < 2) return toast.error(t("സൈക്കിളിന് പേര് നൽകുക", "Give the cycle a name"));
     setBusy(true);
     try {
       await startCycle({
@@ -327,11 +326,11 @@ function StartCycleDialog({ open, onOpenChange, onDone }) {
           proposed_close_date: form.proposed_close_date,
         },
       });
-      toast.success("പുതിയ സൈക്കിൾ ആരംഭിച്ചു");
+      toast.success(t("പുതിയ സൈക്കിൾ ആരംഭിച്ചു", "New cycle started"));
       onOpenChange(false);
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || "ആരംഭിക്കാനായില്ല");
+      toast.error(error?.message || t("ആരംഭിക്കാനായില്ല", "Couldn't start the cycle"));
     } finally {
       setBusy(false);
     }

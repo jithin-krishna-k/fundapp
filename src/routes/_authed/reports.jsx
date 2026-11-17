@@ -82,11 +82,10 @@ function ReportsPage() {
         <div className="flex items-end justify-between gap-3 border-b border-border/70 px-4 py-3">
           <div>
             <h2 className="font-mal text-[15px]">{lang === "en" ? report.en : report.title}</h2>
-            <p className="mt-0.5 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
-              {lang === "en" ? report.title : report.en}
-            </p>
           </div>
-          <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">{report.rows.length} rows</p>
+          <p className="text-[11.5px] uppercase tracking-[0.14em] text-muted-foreground">
+            {report.rows.length} {tr("വരികൾ", "rows")}
+          </p>
         </div>
 
         {report.rows.length === 0 ? (

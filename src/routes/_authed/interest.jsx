@@ -51,12 +51,12 @@ function InterestPage() {
     setBusy(true);
     try {
       await distributeInterest({ data: { notes: notes || undefined } });
-      toast.success("പലിശ വിതരണം രേഖപ്പെടുത്തി");
+      toast.success(t("പലിശ വിതരണം രേഖപ്പെടുത്തി", "Interest distribution recorded"));
       setOpen(false);
       setNotes("");
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "വിതരണം നടത്താനായില്ല");
+      toast.error(error?.message || t("വിതരണം നടത്താനായില്ല", "Couldn't distribute interest"));
     } finally {
       setBusy(false);
     }

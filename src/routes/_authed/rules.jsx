@@ -37,11 +37,11 @@ function RulesPage() {
     try {
       const result = await voteRuleChange({ data: { id, decision } });
       toast.success(
-        result.status === "approved" ? "എല്ലാവരുടെയും അനുമതിയോടെ നിയമം പ്രാബല്യത്തിൽ വന്നു" : decision === "approve" ? "അനുമതി രേഖപ്പെടുത്തി" : "നിരസിച്ചു"
+        result.status === "approved" ? t("എല്ലാവരുടെയും അനുമതിയോടെ നിയമം പ്രാബല്യത്തിൽ വന്നു", "Approved by everyone — the rule is now in effect") : decision === "approve" ? t("അനുമതി രേഖപ്പെടുത്തി", "Approval recorded") : t("നിരസിച്ചു", "Rejected")
       );
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "നടപടി പരാജയപ്പെട്ടു");
+      toast.error(error?.message || t("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
     } finally {
       setBusy(null);
     }
@@ -52,7 +52,7 @@ function RulesPage() {
       <PageHeader
         ml="ഫണ്ട് നിയമങ്ങൾ ⚖️"
         en="Fund rules"
-        description="നിയമങ്ങൾ മാറ്റുന്നത് എല്ലാ അംഗങ്ങളുടെയും അറിവോടെ മാത്രം (നിയമം 11). ഏതൊരു മാറ്റത്തിനും എല്ലാവരുടെയും അനുമതി ആവശ്യമാണ്."
+        description={t("നിയമങ്ങൾ മാറ്റുന്നത് എല്ലാ അംഗങ്ങളുടെയും അറിവോടെ മാത്രം (നിയമം 11). ഏതൊരു മാറ്റത്തിനും എല്ലാവരുടെയും അനുമതി ആവശ്യമാണ്.", "Rules change only with every member's knowledge (rule 11). Any change needs everyone's approval.")}
         action={
           <button
             onClick={() => setOpen(true)}
@@ -129,10 +129,9 @@ function RulesPage() {
                   <span className="grid h-6 w-6 place-items-center rounded-full bg-primary/10 text-[12.5px] text-primary">
                     {rule.number}
                   </span>
-                  <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Rule {rule.number}</span>
+                  <span className="text-[12.5px] font-medium text-muted-foreground">{t("നിയമം", "Rule")} {rule.number}</span>
                 </div>
-                <p className="mt-2.5 font-mal text-[14px] leading-relaxed">{rule.text_ml}</p>
-                {rule.text_en && <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">{rule.text_en}</p>}
+                <p className="mt-2.5 text-[15px] leading-relaxed">{t(rule.text_ml, rule.text_en)}</p>
               </article>
             ))}
           </div>
@@ -191,17 +190,17 @@ function ProposeDialog({ open, onOpenChange, rules, onDone }) {
   const [busy, setBusy] = useState(false);
 
   const submit = async () => {
-    if (proposed.trim().length < 4 || reason.trim().length < 4) return toast.error("പുതിയ നിയമവും കാരണവും നൽകുക");
+    if (proposed.trim().length < 4 || reason.trim().length < 4) return toast.error(t("പുതിയ നിയമവും കാരണവും നൽകുക", "Enter the new rule and a reason"));
     setBusy(true);
     try {
       await proposeRuleChange({ data: { rule_number: Number(number), proposed_text: proposed.trim(), reason: reason.trim() } });
-      toast.success("നിർദ്ദേശം സമർപ്പിച്ചു — എല്ലാ അംഗങ്ങളുടെയും അനുമതി ആവശ്യമാണ്");
+      toast.success(t("നിർദ്ദേശം സമർപ്പിച്ചു — എല്ലാ അംഗങ്ങളുടെയും അനുമതി ആവശ്യമാണ്", "Proposal submitted — every member must approve"));
       onOpenChange(false);
       setProposed("");
       setReason("");
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || "സമർപ്പിക്കാനായില്ല");
+      toast.error(error?.message || t("സമർപ്പിക്കാനായില്ല", "Couldn't submit"));
     } finally {
       setBusy(false);
     }

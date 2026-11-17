@@ -1,44 +1,51 @@
-import { HandCoins, Banknote, Siren, ArrowLeftRight, Percent, FileText } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowLeftRight, ArrowRight, Banknote, Clock3, FileText, HandCoins, Percent, Siren } from "lucide-react";
 import { inr } from "@/lib/format";
-import { useLangPair, useLang } from "@/lib/LangContext";
+import { useLangPair } from "@/lib/LangContext";
 import { cn } from "@/lib/utils";
 
-const ICONS = {
-  contribution: HandCoins,
-  withdrawal: Banknote,
-  repayment: ArrowLeftRight,
-  interest: Percent,
-  request: FileText,
-  emergency: Siren,
+// Icon and tint per activity type; money coming in reads green, going out reads violet.
+const TYPES = {
+  contribution: { icon: HandCoins, chip: "bg-emerald-50 text-emerald-600", amount: "text-emerald-600" },
+  repayment: { icon: ArrowLeftRight, chip: "bg-emerald-50 text-emerald-600", amount: "text-emerald-600" },
+  interest: { icon: Percent, chip: "bg-accent text-primary", amount: "text-emerald-600" },
+  withdrawal: { icon: Banknote, chip: "bg-violet-50 text-violet-600", amount: "text-violet-600" },
+  request: { icon: FileText, chip: "bg-accent text-primary", amount: "text-foreground" },
+  emergency: { icon: Siren, chip: "bg-red-50 text-red-600", amount: "text-red-600" },
 };
 
 export default function ActivityFeed({ items }) {
   const { primary, leadFont } = useLangPair();
-  const { lang } = useLang();
 
   return (
-    <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
-      <div className="flex items-end justify-between">
-        <div>
-          <h2 className={cn("text-[16px] leading-tight", leadFont)}>{primary("സമീപകാല ഇടപാടുകൾ", "Recent activity")}</h2>
-        </div>
+    <section className="card-soft rounded-2xl border border-border bg-card p-6">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className={cn("flex items-center gap-2.5 text-[17px] font-semibold", leadFont)}>
+          <Clock3 className="h-5 w-5 text-primary" strokeWidth={2.1} />
+          {primary("സമീപകാല ഇടപാടുകൾ", "Recent activity")}
+        </h2>
+        <Link to="/transactions" className={cn("flex items-center gap-1 text-[14px] font-medium text-primary hover:underline", leadFont)}>
+          {primary("എല്ലാം കാണുക", "View all")}
+          <ArrowRight className="h-4 w-4" strokeWidth={2} />
+        </Link>
       </div>
 
-      <ul className="mt-5 divide-y divide-border/70">
+      <ul className="mt-4 divide-y divide-border">
         {items.map((item, index) => {
-          const Icon = ICONS[item.type] || FileText;
+          const type = TYPES[item.type] || TYPES.request;
+          const Icon = type.icon;
           return (
-            <li key={index} className="flex items-center gap-3 py-3.5 first:pt-0 last:pb-0">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border/70 bg-background text-muted-foreground">
-                <Icon className="h-4 w-4" strokeWidth={1.7} />
+            <li key={index} className="flex items-center gap-4 py-3.5 last:pb-0">
+              <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full", type.chip)}>
+                <Icon className="h-5 w-5" strokeWidth={1.9} />
               </span>
               <div className="min-w-0 flex-1">
-                <p className={cn("truncate", lang === "en" ? "text-[14px] leading-tight" : "font-mal text-[14px] leading-tight")}>{item.title || primary(item.ml, item.en)}</p>
-                <p className="mt-1 truncate text-[12px] text-muted-foreground">
-                  {item.meta} <span className="mx-1 text-border">·</span> {item.when}
+                <p className={cn("truncate text-[14.5px] font-medium", leadFont)}>{item.title}</p>
+                <p className="mt-0.5 truncate text-[13px] text-muted-foreground">
+                  {item.meta} · {item.when}
                 </p>
               </div>
-              <p className="tnum shrink-0 text-[14px] font-medium">{inr(item.amount)}</p>
+              <p className={cn("tnum shrink-0 text-[15px] font-semibold", type.amount)}>{inr(item.amount)}</p>
             </li>
           );
         })}

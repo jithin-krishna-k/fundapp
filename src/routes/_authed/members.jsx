@@ -60,10 +60,10 @@ function MembersPage() {
         link: "/",
         read: false,
       });
-      toast.success("അംഗത്വം അനുവദിച്ചു");
+      toast.success(t("അംഗത്വം അനുവദിച്ചു", "Membership approved"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "അനുവദിക്കാനായില്ല");
+      toast.error(error?.message || t("അനുവദിക്കാനായില്ല", "Couldn't approve"));
     }
   };
 
@@ -86,7 +86,7 @@ function MembersPage() {
       <PageHeader
         ml="അംഗങ്ങൾ"
         en="Members"
-        description={`${active.length} സജീവ അംഗങ്ങൾ · ആകെ ${inr(summary.contributionsTotal)} സംഭാവന ലഭിച്ചു.`}
+        description={t(`${active.length} സജീവ അംഗങ്ങൾ · ആകെ ${inr(summary.contributionsTotal)} സംഭാവന ലഭിച്ചു.`, `${active.length} active members · ${inr(summary.contributionsTotal)} contributed in total.`)}
         action={
           isAdmin ? (
             <div className="flex gap-2">
@@ -221,7 +221,7 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
   const [busy, setBusy] = useState(false);
 
   const submit = async () => {
-    if (!form.email.trim() || !form.full_name.trim()) return toast.error("പേരും ഇമെയിലും നൽകുക");
+    if (!form.email.trim() || !form.full_name.trim()) return toast.error(t("പേരും ഇമെയിലും നൽകുക", "Enter a name and email"));
     const email = form.email.trim().toLowerCase();
     const name = form.full_name.trim();
     const existing = members.find((m) => String(m.user_email || "").trim().toLowerCase() === email);
@@ -248,12 +248,12 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
           fund_role: "member",
         });
       }
-      toast.success("ക്ഷണം അയച്ചു — എല്ലാ അംഗങ്ങളുടെയും അനുമതിക്ക് ശേഷം പ്രവേശനം");
+      toast.success(t("ക്ഷണം അയച്ചു — എല്ലാ അംഗങ്ങളുടെയും അനുമതിക്ക് ശേഷം പ്രവേശനം", "Invite sent — access starts once every member approves"));
       setForm({ email: "", full_name: "" });
       onOpenChange(false);
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || "ക്ഷണം അയക്കാനായില്ല");
+      toast.error(error?.message || t("ക്ഷണം അയക്കാനായില്ല", "Couldn't send the invite"));
     } finally {
       setBusy(false);
     }
@@ -267,7 +267,7 @@ function InviteDialog({ open, onOpenChange, members = [], onDone }) {
         </DialogHeader>
         <div className="space-y-3.5">
           <p className="rounded-xl border border-dashed border-primary/25 bg-primary/[0.04] px-3 py-2.5 font-mal text-[12.5px] leading-relaxed text-primary/90">
-            നിയമം 9 — പുതിയ അംഗത്തെ ഉൾപ്പെടുത്താൻ എല്ലാ അംഗങ്ങളുടെയും അനുവാദം ആവശ്യമാണ്. അനുമതി വരെ പ്രവേശനം ഉണ്ടാകില്ല.
+            {t("നിയമം 9 — പുതിയ അംഗത്തെ ഉൾപ്പെടുത്താൻ എല്ലാ അംഗങ്ങളുടെയും അനുവാദം ആവശ്യമാണ്. അനുമതി വരെ പ്രവേശനം ഉണ്ടാകില്ല.", "Rule 9 — adding a new member needs every member's approval. No access until then.")}
           </p>
           <Field label={t("പേര്", "Name")}>
             <Input value={form.full_name} onChange={(event) => setForm((p) => ({ ...p, full_name: event.target.value }))} />
@@ -346,20 +346,20 @@ function HandoverDialog({ open, onOpenChange, members, cashBalance, onDone }) {
   const [busy, setBusy] = useState(false);
 
   const submit = async () => {
-    if (!target) return toast.error("പുതിയ ക്യാഷ് ഹാൻഡ്ലറെ തിരഞ്ഞെടുക്കുക");
+    if (!target) return toast.error(t("പുതിയ ക്യാഷ് ഹാൻഡ്ലറെ തിരഞ്ഞെടുക്കുക", "Choose the new cash handler"));
     setBusy(true);
     try {
       await recordHandover({
         data: { to_member_id: target, cash_balance: Number(balance) || 0, notes: notes || undefined },
       });
-      toast.success("ക്യാഷ് ഹാൻഡ്ലർ മാറ്റി");
+      toast.success(t("ക്യാഷ് ഹാൻഡ്ലർ മാറ്റി", "Cash handler changed"));
       onOpenChange(false);
       setTarget("");
       setBalance("");
       setNotes("");
       onDone?.();
     } catch (error) {
-      toast.error(error?.message || "മാറ്റാനായില്ല");
+      toast.error(error?.message || t("മാറ്റാനായില്ല", "Couldn't change it"));
     } finally {
       setBusy(false);
     }

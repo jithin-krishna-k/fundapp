@@ -4,44 +4,44 @@
 
 @layer base {
   :root {
-    --background: 150 12% 97%;
-    --foreground: 165 18% 12%;
+    --background: 220 33% 98%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 165 18% 12%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 165 18% 12%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 164 58% 26%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 155 14% 93%;
-    --secondary-foreground: 165 18% 12%;
+    --secondary: 220 27% 95%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 155 12% 94%;
-    --muted-foreground: 165 6% 40%;
+    --muted: 220 27% 95%;
+    --muted-foreground: 220 9% 44%;
 
-    --accent: 158 22% 92%;
-    --accent-foreground: 165 18% 12%;
+    --accent: 218 100% 96%;
+    --accent-foreground: 221 83% 45%;
 
     --destructive: 2 60% 44%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 155 10% 89%;
-    --input: 155 10% 85%;
-    --ring: 164 58% 26%;
+    --border: 220 22% 91%;
+    --input: 220 20% 87%;
+    --ring: 221 83% 53%;
 
-    --radius: 0.875rem;
+    --radius: 1rem;
 
-    --chart-1: 164 58% 26%;
-    --chart-2: 205 40% 45%;
+    --chart-1: 221 83% 53%;
+    --chart-2: 160 70% 38%;
     --chart-3: 40 45% 58%;
     --chart-4: 214 26% 46%;
     --chart-5: 340 32% 52%;
 
-    --cream: 150 12% 97%;
-    --clay: 164 58% 26%;
+    --cream: 220 33% 98%;
+    --clay: 221 83% 53%;
 
     --font-display: "Plus Jakarta Sans", "Noto Sans Malayalam", system-ui, -apple-system, sans-serif;
     --font-body: "Plus Jakarta Sans", "Noto Sans Malayalam", system-ui, -apple-system, sans-serif;
@@ -51,13 +51,13 @@
     --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 165 18% 12%;
-    --sidebar-primary: 164 58% 26%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 158 22% 94%;
-    --sidebar-accent-foreground: 165 18% 12%;
-    --sidebar-border: 155 10% 90%;
-    --sidebar-ring: 164 58% 26%;
+    --sidebar-accent: 218 100% 96%;
+    --sidebar-accent-foreground: 221 83% 45%;
+    --sidebar-border: 220 22% 92%;
+    --sidebar-ring: 221 83% 53%;
   }
 }
 
@@ -97,6 +97,12 @@
     font-family: var(--font-mal);
   }
 
+  /* In English mode, text marked font-mal is English too: use the regular UI font
+     (Malayalam glyphs still fall back to Noto Sans Malayalam through the stack). */
+  html[lang="en"] .font-mal {
+    font-family: var(--font-body);
+  }
+
   /* Letter-spacing breaks Malayalam conjuncts, so drop it for Malayalam text. */
   .font-mal,
   html[lang="ml"] [class*="tracking-"] {
@@ -125,12 +131,19 @@
     animation: pageEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /* Light lift for white cards on the pale background. */
+  .card-soft {
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 0.04),
+      0 6px 20px -12px rgb(15 23 42 / 0.1);
+  }
+
   /* Soft background for the public landing page. */
   .land-paper {
     background-color: hsl(var(--background));
     background-image:
       radial-gradient(1100px 520px at 82% -8%, hsl(var(--primary) / 0.1), transparent 65%),
-      radial-gradient(760px 420px at -6% 32%, hsl(205 40% 45% / 0.06), transparent 70%);
+      radial-gradient(760px 420px at -6% 32%, hsl(160 70% 38% / 0.05), transparent 70%);
   }
 
   .land-ledger-lines {

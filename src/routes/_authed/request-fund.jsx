@@ -56,10 +56,10 @@ function RequestFundPage() {
     setBusy(id + action);
     try {
       await decideWithdrawal({ data: { id, action } });
-      toast.success(action === "disburse" ? "തുക നൽകി രേഖപ്പെടുത്തി" : action === "approve" ? "അനുമതി നൽകി" : action === "reject" ? "നിരസിച്ചു" : "പരിശോധനയിലേക്ക് മാറ്റി");
+      toast.success(action === "disburse" ? t("തുക നൽകി രേഖപ്പെടുത്തി", "Payout recorded") : action === "approve" ? t("അനുമതി നൽകി", "Approved") : action === "reject" ? t("നിരസിച്ചു", "Rejected") : t("പരിശോധനയിലേക്ക് മാറ്റി", "Moved to review"));
       fund.reload();
     } catch (error) {
-      toast.error(error?.message || "നടപടി പരാജയപ്പെട്ടു");
+      toast.error(error?.message || t("നടപടി പരാജയപ്പെട്ടു", "Action failed"));
     } finally {
       setBusy(null);
     }
