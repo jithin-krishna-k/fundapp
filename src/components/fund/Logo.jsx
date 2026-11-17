@@ -1,4 +1,5 @@
-﻿import { cn } from "@/lib/utils";
+﻿import { Send } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useLang } from "@/lib/LangContext";
 
 export default function Logo({ compact = false, className }) {
@@ -8,10 +9,15 @@ export default function Logo({ compact = false, className }) {
       <p
         style={{ fontFamily: '"Archivo Black", "Plus Jakarta Sans", sans-serif', fontWeight: 400 }}
         className={cn(
-          "leading-none tracking-[-0.01em] text-foreground",
+          "flex items-center gap-1.5 leading-none tracking-[-0.01em] text-foreground",
           compact ? "text-[1.25rem]" : "text-[1.55rem]",
         )}
       >
+        <Send
+          aria-hidden="true"
+          className={cn("shrink-0 -rotate-12 text-primary", compact ? "h-[18px] w-[18px]" : "h-[22px] w-[22px]")}
+          strokeWidth={2.4}
+        />
         FUND
       </p>
       {!compact && (

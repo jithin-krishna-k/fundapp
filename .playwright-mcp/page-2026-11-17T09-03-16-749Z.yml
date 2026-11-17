@@ -1,0 +1,174 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "FUND home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]:
+            - paragraph [ref=e7]: FUND
+            - paragraph [ref=e11]: ഫണ്ട് ഗ്രൂപ്പ് · അംഗങ്ങൾക്ക് മാത്രം
+        - generic [ref=e12]:
+          - link "Request access" [ref=e13] [cursor=pointer]:
+            - /url: /register
+          - link "Sign in" [ref=e14] [cursor=pointer]:
+            - /url: /login
+    - main [ref=e18]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - generic [ref=e23]: Members only
+            - generic [ref=e24]: Private weekly fund, fully tracked
+          - heading "Your group's money, counted clearly." [level=1] [ref=e25]: Your group's money,counted clearly.
+          - paragraph [ref=e26]: FUND keeps weekly contributions, loans, interest and repayments in one shared ledger — so every member sees the same truth, every week.
+          - generic [ref=e27]:
+            - link "Sign in" [ref=e28] [cursor=pointer]:
+              - /url: /login
+            - link "Request membership" [ref=e31] [cursor=pointer]:
+              - /url: /register
+          - generic [ref=e32]:
+            - generic [ref=e33]:
+              - paragraph [ref=e34]: ₹250
+              - paragraph [ref=e35]: Every week
+            - generic [ref=e36]:
+              - paragraph [ref=e37]: "1"
+              - paragraph [ref=e38]: Shared ledger
+            - generic [ref=e39]:
+              - paragraph [ref=e40]: 100%
+              - paragraph [ref=e41]: Member-visible
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - generic [ref=e47]: ₹
+              - generic [ref=e48]:
+                - paragraph [ref=e49]: Shared ledger
+                - paragraph [ref=e50]: FUND cycle 2026
+            - generic [ref=e51]:
+              - generic [ref=e52]: ₹500 this week
+              - generic [ref=e53]: Live
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - paragraph [ref=e59]: Balance
+              - paragraph [ref=e60]: ₹48,500
+            - generic [ref=e61]:
+              - paragraph [ref=e62]: Members
+              - paragraph [ref=e63]: "12"
+            - generic [ref=e64]:
+              - paragraph [ref=e65]: Weekly
+              - paragraph [ref=e66]: ₹250
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - generic [ref=e72]:
+                - paragraph [ref=e73]: A. Rahman
+                - paragraph [ref=e74]: Week 24 · contribution
+              - generic [ref=e75]:
+                - paragraph [ref=e76]: ₹250
+                - paragraph [ref=e77]: Paid
+            - listitem [ref=e78]:
+              - generic [ref=e82]:
+                - paragraph [ref=e83]: Jithin K.
+                - paragraph [ref=e84]: Week 24 · contribution
+              - generic [ref=e85]:
+                - paragraph [ref=e86]: ₹250
+                - paragraph [ref=e87]: Paid
+            - listitem [ref=e88]:
+              - generic [ref=e91]:
+                - paragraph [ref=e92]: Niya T.
+                - paragraph [ref=e93]: Week 24 · contribution
+              - generic [ref=e94]:
+                - paragraph [ref=e95]: ₹250
+                - paragraph [ref=e96]: Due
+          - generic [ref=e97]:
+            - generic [ref=e98]: Every entry visible to every member
+            - generic [ref=e102]: 2 of 12 paid · Rule 9 protected
+      - generic [ref=e104]:
+        - generic [ref=e105]: ₹250 weekly
+        - generic [ref=e107]: One shared ledger
+        - generic [ref=e109]: Members only
+      - generic [ref=e111]:
+        - article [ref=e112]:
+          - paragraph [ref=e114]: "01"
+          - heading "The same amount, every week" [level=2] [ref=e115]
+          - paragraph [ref=e116]: A fixed contribution on a fixed date. Everyone sees the same week, the same row.
+        - article [ref=e117]:
+          - paragraph [ref=e119]: "02"
+          - heading "Interest returns to the fund" [level=2] [ref=e120]
+          - paragraph [ref=e121]: Borrowing interest belongs to the group, not to an outside lender.
+        - article [ref=e122]:
+          - paragraph [ref=e124]: "03"
+          - heading "One ledger, open to all" [level=2] [ref=e125]
+          - paragraph [ref=e126]: Contributions, loans and repayments are visible to every member, always.
+      - generic [ref=e128]:
+        - generic [ref=e129]:
+          - paragraph [ref=e130]: What is inside
+          - heading "The whole fund, in one place." [level=2] [ref=e132]: The whole fund,in one place.
+        - generic [ref=e133]:
+          - article [ref=e134]:
+            - heading "Weekly contributions" [level=3] [ref=e142]
+            - paragraph [ref=e143]: Generate the week in one tap and see exactly who has paid and who is pending.
+          - article [ref=e144]:
+            - heading "Loans and interest" [level=3] [ref=e150]
+            - paragraph [ref=e151]: Loan amounts, borrowing interest and repayments are calculated for you.
+          - article [ref=e152]:
+            - heading "Emergency pool" [level=3] [ref=e157]
+            - paragraph [ref=e158]: A separate pool for emergencies, released only when every member agrees.
+          - article [ref=e159]:
+            - heading "Rules, written down" [level=3] [ref=e165]
+            - paragraph [ref=e166]: The group's rules live in the app, with proposals and approvals on record.
+          - article [ref=e167]:
+            - heading "Reports that add up" [level=3] [ref=e172]
+            - paragraph [ref=e173]: Weekly, monthly and per-member statements, ready to read or print.
+          - article [ref=e174]:
+            - heading "Membership by approval" [level=3] [ref=e181]
+            - paragraph [ref=e182]: New members join only when the group agrees. No silent additions.
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - paragraph [ref=e186]: How it works
+          - heading "Three steps." [level=2] [ref=e188]
+          - paragraph [ref=e189]: From the first week to the closing balance, without a single loose end.
+        - list [ref=e190]:
+          - listitem [ref=e191]:
+            - generic [ref=e192]: "01"
+            - generic [ref=e193]:
+              - heading "Accept the invite" [level=3] [ref=e194]
+              - paragraph [ref=e195]: The group admin invites you by email. You join once the members approve.
+          - listitem [ref=e196]:
+            - generic [ref=e197]: "02"
+            - generic [ref=e198]:
+              - heading "Contribute each week" [level=3] [ref=e199]
+              - paragraph [ref=e200]: Pay your week's amount and keep the receipt and verification in one place.
+          - listitem [ref=e201]:
+            - generic [ref=e202]: "03"
+            - generic [ref=e203]:
+              - heading "Borrow, repay, close" [level=3] [ref=e204]
+              - paragraph [ref=e205]: Borrow from the pool when needed, with interest and balances tracked to the rupee.
+      - generic [ref=e207]:
+        - paragraph [ref=e208]: “No new member without everyone's consent.”
+        - paragraph [ref=e209]: FUND rule 9
+      - generic [ref=e211]:
+        - generic [ref=e212]:
+          - heading "Already part of the circle?" [level=2] [ref=e213]
+          - paragraph [ref=e214]: Sign in with your email. The rest of the ledger will be waiting.
+        - generic [ref=e215]:
+          - link "Sign in" [ref=e216] [cursor=pointer]:
+            - /url: /login
+          - link "Register" [ref=e220] [cursor=pointer]:
+            - /url: /register
+    - contentinfo [ref=e221]:
+      - generic [ref=e222]:
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - text: FUND
+            - paragraph [ref=e225]: A private savings group for friends. Weekly contributions, fair loans and an open ledger every member can see.
+          - navigation "Footer" [ref=e226]:
+            - link "Log in" [ref=e227] [cursor=pointer]:
+              - /url: /login
+            - link "Register" [ref=e228] [cursor=pointer]:
+              - /url: /register
+            - link "WhatsApp group" [ref=e229] [cursor=pointer]:
+              - /url: https://chat.whatsapp.com/G3eiyehyWr6JKNsy8qVtvv
+        - generic [ref=e232]:
+          - paragraph [ref=e233]: © 2026 FUND · Members only
+          - paragraph [ref=e234]: Created by Jithin Krishna
+    - link "Join WhatsApp group" [ref=e235] [cursor=pointer]:
+      - /url: https://chat.whatsapp.com/G3eiyehyWr6JKNsy8qVtvv
+  - region "Notifications alt+T"
