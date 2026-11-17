@@ -567,13 +567,8 @@ export default function LandingPage() {
         <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8 sm:pb-10">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div className="max-w-sm">
-              <span
-                style={{ fontFamily: '"Archivo Black", "Plus Jakarta Sans", sans-serif' }}
-                className="text-[1.4rem] leading-none text-foreground"
-              >
-                FUND
-              </span>
-              <p className="mt-3 text-[14.5px] leading-relaxed text-muted-foreground">
+              <Logo />
+              <p className="mt-4 text-[14.5px] leading-relaxed text-muted-foreground">
                 A private savings group for friends. Weekly contributions, fair loans and an open ledger every member can see.
               </p>
             </div>
