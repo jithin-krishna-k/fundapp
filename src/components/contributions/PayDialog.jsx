@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Upload } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -22,7 +22,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
 
   const submit = async () => {
     if (method === "online" && !file) {
-      toast.error(t("ഓൺലൈൻ പേയ്‌മെന്റിന് സ്ക്രീൻഷോട്ട് ആവശ്യമാണ്", "A screenshot is required for online payments"));
+      toast.error(t("ഓൺലൈൻ പേയ്‌മെന്റിന് സ്ക്രീൻഷോട്ട് വേണം", "A screenshot is required for online payments"));
       return;
     }
     setBusy(true);
@@ -34,8 +34,8 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
       });
       toast.success(
         method === "cash"
-          ? t("ക്യാഷ് രേഖപ്പെടുത്തി", "Cash payment recorded")
-          : t("പേയ്‌മെന്റ് പരിശോധനയ്ക്ക് അയച്ചു", "Payment sent for verification")
+          ? t("പണമടവ് രേഖപ്പെടുത്തി", "Cash payment recorded")
+          : t("പേയ്‌മെന്റ് പരിശോധിപ്പിക്കാൻ അയച്ചു", "Payment sent for verification")
       );
       setFile(null);
       setNote("");
@@ -50,25 +50,25 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
 
   const options = [
     { value: "online", label: t("ഓൺലൈൻ", "Online") },
-    ...(allowCash ? [{ value: "cash", label: t("ക്യാഷ്", "Cash") }] : []),
+    ...(allowCash ? [{ value: "cash", label: t("പണം", "Cash") }] : []),
   ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-[1.4rem] border-border bg-background sm:max-w-md">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[1.4rem] border-border bg-background sm:max-w-md">
         <DialogHeader>
           <DialogTitle className={cn("text-[1.05rem] font-normal", lang === "en" ? "" : "font-mal")}>
-            {t("സംഭാവന അടയ്ക്കുക", "Pay contribution")}
+            {t("വരവ് അടയ്ക്കുക", "Pay contribution")}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="rounded-xl border border-border bg-card px-4 py-3">
             <p className="text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
-              {t("അടയ്ക്കാനുള്ളത്", "Amount due")}
+              {t("അടയ്‌ക്കേണ്ട തുക", "Amount due")}
             </p>
             <p className="mt-1 font-display tnum text-[1.5rem] leading-none">{inr(remaining)}</p>
-            <p className="mt-1 font-mal text-[12.5px] text-muted-foreground">
+            <p className="mt-1 break-words font-mal text-[12.5px] text-muted-foreground">
               {contribution?.member_name} · {contribution?.week_start}
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
             <Field label={t("പേയ്‌മെന്റ് സ്ക്രീൻഷോട്ട്", "Payment screenshot")}>
               <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-3 py-2.5 text-[13px] text-muted-foreground transition-colors hover:border-primary/40">
                 <Upload className="h-3.5 w-3.5 shrink-0" strokeWidth={1.8} />
-                <span className="truncate">{file ? file.name : t("സ്ക്രീൻഷോട്ട് തിരഞ്ഞെടുക്കുക", "Choose a screenshot")}</span>
+                <span className="min-w-0 truncate">{file ? file.name : t("സ്ക്രീൻഷോട്ട് തിരഞ്ഞെടുക്കുക", "Choose a screenshot")}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -117,7 +117,7 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
               value={note}
               onChange={(event) => setNote(event.target.value)}
               rows={2}
-              placeholder={t("ഓപ്ഷണൽ", "Optional")}
+              placeholder={t("ഐച്ഛികം", "Optional")}
             />
           </Field>
 
@@ -129,9 +129,9 @@ export default function PayDialog({ contribution, allowCash, onDone, open, onOpe
             {busy ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : method === "cash" ? (
-              t("ക്യാഷ് രേഖപ്പെടുത്തുക", "Record cash")
+              t("പണം രേഖപ്പെടുത്തുക", "Record cash")
             ) : (
-              t("പേയ്‌മെന്റ് അയക്കുക", "Send payment")
+              t("പേയ്‌മെന്റ് അയയ്ക്കുക", "Send payment")
             )}
           </Button>
         </div>
